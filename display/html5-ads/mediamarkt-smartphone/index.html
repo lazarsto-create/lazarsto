@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCO Banner Loader</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+    .sidebar {
+      width: 250px;
+      padding: 20px;
+      background: #fff;
+      border-right: 1px solid #ddd;
+      box-sizing: border-box;
+      float: left;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="text"], button {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    .banners {
+      margin-left: 270px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .banner-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .banner-frame {
+      border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="sidebar" id="controls"></div>
+<div class="banners" id="banners-container"></div>
+
+<script type="module">
+import { project } from './manifest.js';
+
+const bannersContainer = document.getElementById('banners-container');
+const controls = document.getElementById('controls');
+
+// Updated allowed fields
+const allowedTextFields = ["s1_CTA", "s1_copy"];
+const allowedImageFields = ["s1_elem1", "s1_elem2", "s1_emoji"];
+
+const textFields = {};
+const imageFields = {};
+const fixedParams = {};
+
+// Map for custom label names
+const labelMap = {
+  "s1_CTA": "CTA",
+  "s1_copy": "Copy",
+  "s1_elem1": "Element 1",
+  "s1_elem2": "Element 2",
+  "s1_emoji": "Element 3"
+};
+
+// --- Prepare fields ---
+project.dynamic.forEach(field => {
+
+  // Editable text fields
+  if (field.type === "text" && allowedTextFields.includes(field.id)) {
+    const label = document.createElement('label');
+    label.textContent = labelMap[field.id] || field.name;
+    label.setAttribute('for', field.id);
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = field.id;
+    input.value = field.value;
+
+    controls.appendChild(label);
+    controls.appendChild(input);
+
+    textFields[field.id] = input;
+  }
+
+  // Editable image fields
+  if (field.type === "image" && allowedImageFields.includes(field.id)) {
+    const label = document.createElement('label');
+    label.textContent = labelMap[field.id] || field.name;
+    label.setAttribute('for', field.id);
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = field.id;
+    input.value = field.value;
+
+    controls.appendChild(label);
+    controls.appendChild(input);
+
+    imageFields[field.id] = input;
+  }
+
+  // Preload all other images automatically
+  if (field.type === "image" && !allowedImageFields.includes(field.id)) {
+    if (Array.isArray(field.value)) {
+      field.value.forEach(v => {
+        imageFields[`${field.id}_${v.size}`] = v.value;
+      });
+    } else {
+      imageFields[field.id] = field.value;
+    }
+  }
+
+  // Fixed params (non-text/image, not hidden)
+  if (!field.hidden && field.type !== "text" && field.type !== "image") {
+    fixedParams[field.id] = field.value;
+  }
+
+});
+
+// --- Build query string for iframe ---
+function buildQueryParams(size) {
+  const params = { ...fixedParams };
+
+  // Add editable text fields
+  Object.keys(textFields).forEach(id => {
+    params[id] = textFields[id].value;
+  });
+
+  // Add editable and automatic image fields
+  Object.keys(imageFields).forEach(key => {
+    if (key.endsWith(`_${size}`) || allowedImageFields.includes(key) || !key.includes('_')) {
+      params[key.replace(`_${size}`, '')] = (imageFields[key].value ?? imageFields[key]);
+    }
+  });
+
+  return Object.entries(params)
+    .map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v))
+    .join('&');
+}
+
+// --- Create banner iframes with refresh buttons ---
+const iframes = {};
+project.sizes.forEach(size => {
+  const [width, height] = size.split('x');
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'banner-wrapper';
+
+  const sizeLabel = document.createElement('div');
+  sizeLabel.textContent = size;
+  wrapper.appendChild(sizeLabel);
+
+  const refreshButton = document.createElement('button');
+  refreshButton.textContent = `Refresh ${size}`;
+  wrapper.appendChild(refreshButton);
+
+  const iframe = document.createElement('iframe');
+  iframe.className = 'banner-frame';
+  iframe.width = width;
+  iframe.height = height;
+  iframe.src = `sizes/${size}/index.html?${buildQueryParams(size)}`;
+  wrapper.appendChild(iframe);
+
+  bannersContainer.appendChild(wrapper);
+  iframes[size] = iframe;
+
+  refreshButton.addEventListener('click', () => {
+    iframe.src = `sizes/${size}/index.html?${buildQueryParams(size)}&t=${Date.now()}`;
+  });
+});
+
+// --- Update all banners when inputs change ---
+function updateAllBanners() {
+  project.sizes.forEach(size => {
+    iframes[size].src = `sizes/${size}/index.html?${buildQueryParams(size)}&t=${Date.now()}`;
+  });
+}
+
+Object.values(textFields).forEach(input => input.addEventListener('input', updateAllBanners));
+Object.values(imageFields).forEach(input => input.addEventListener('input', updateAllBanners));
+
+</script>
+</body>
+</html>
