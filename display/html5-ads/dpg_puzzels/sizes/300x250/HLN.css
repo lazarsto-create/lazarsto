@@ -1,0 +1,119 @@
+.logo {
+    content:"";
+    background-image: url("HLN.svg");
+    width:100%;
+    height:48px; 
+    position:absolute;
+ /*   right: 0;
+    bottom: 0;*/
+    background-repeat: no-repeat;
+    background-size: auto 48px;
+    background-position: 242px 192px;
+}
+.red,  .black {
+/*    padding: 0.2em 0.2em 0.1em 0.2em;*/
+      padding: 3px 5px 3px 5px;
+/*    margin: 0 -0.2em 0.1em 0;*/
+    left: 50%;
+    transform: translate(-50%, 0) !important;
+/*    clip-path: inset(0 0 0 0);*/
+    background-color: #FF0000;
+    width: fit-content;
+    white-space: nowrap;
+ }
+ 
+ .img1 {
+    top: 104px;
+ }
+ .puzzel {
+    transform: scale(1.22);
+    top: 19px;
+ }
+ .black {
+    background-color: #0A0A95;
+ }
+.btn_left, .arrinR {
+     content:"";
+    background-image: url("btnLHLN.png");
+    width:100%;
+    height:24px; 
+    position:absolute;
+    background-repeat: no-repeat;
+    background-size: auto 32px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+/*    border: 5px solid rgba(41, 41, 41, 0.15);*/
+}
+.btn_left {left:-69px; top:34px}
+.btn_right {left:-64px; top:34px}
+.arrinR {
+    transform: scaleX(-1) !important;
+}
+ /*#grid8-background{
+    background-color: #FF0000!important;
+ }*/
+
+ /*CTA BUTTON*/
+.cta {
+    border-radius: 5px;
+    background-color: #FF0000;
+    width: max-content !important;
+    height: auto !important;
+    padding: 0.8em 0.8em 0.5em 1em;
+    /*left: 50%;
+    transform: translate(-50%, 0) !important;*/
+}
+
+.ctaFrame2 {
+    background-color: #D10A10;
+}
+.btn {
+    top: 34px;
+}
+.btnRight>.cta {
+    right: 0;
+}
+
+.cta::after {
+    content: "";
+    height: 0.7em;
+    width: 0.7em;
+    background-image: url("cta-hln.svg");
+    display: inline-block;
+    margin-left: 7px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+@font-face {
+    font-family: 'flama';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/StagSans-Semibold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+@font-face {
+    font-family: 'semi';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/StagSans-Medium.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+@font-face {
+    font-family: 'rama';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/RamaGothicEW01SemiBold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+.title1, .title2 {
+    font-family: 'flama' !important;
+    font-weight:unset!important;
+}
+.subtitle1, .subtitle2 {
+    text-transform: uppercase!important;
+    font-family: 'rama' !important;
+    font-weight:unset!important;
+}
+.cta{
+    font-family: 'semi' !important;
+    font-weight:unset!important;
+}
