@@ -75,7 +75,7 @@
         "title": "UNIIVE DCO",
 		"skills": "DCO, HTML5, ANIMATION",
         "description": "Dynamic Creative Optimization (DCO) ad campaigns use external data feeds to automatically update creative elements—such as images, text, and calls-to-action—in real time. This allows each user to see the most relevant and personalized ad content, improving engagement and performance while reducing manual production effort.",
-        "url": "display/html5-ads/300x600_ccv/",
+        "url": "lazarsto.com/display/html5-ads/unive_auto/",
 		"urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--univedco",
@@ -99,7 +99,7 @@
         "title": "DPG DCO Ads Campaign",
 		"skills": "DCO, HTML5, ANIMATION",
         "description": "This campaign was built for GPD Media’s 9 distinct brands, with each ad dynamically loading brand-specific content—including text, images, logos, and links—from a single, centralized feed, ensuring consistent branding across all brands, faster content updates without manual edits, and personalized messaging tailored to each audience and platform.",
-        "url": "display/html5-ads/300x600_dpg/",
+        "url": "lazarsto.com/display/html5-ads/dpg_puzzels/",
 		"urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--puzzels",
@@ -120,10 +120,10 @@
         ]
     },
     {
-        "title": "MediaMarkt",
+        "title": "DPG",
 		"skills": "HTML5 ANIMATION",
-        "description": "The HEMA HPTO campaign on Weborama delivers a full homepage takeover, ensuring maximum visibility and brand impact. The format combines rich visuals and interactive elements to capture user attention in a high-traffic environment.",
-        "url": "https://previewer.weborama.nl/preview/06ZG",
+        "description": "DPG campaign",
+        "url": "lazarsto.com/display/html5-ads/300x600_dpg/",
 		"urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--dpg2",
@@ -144,7 +144,7 @@
         "title": "Noble Oak Digital Ads Campaign",
 		"skills": "Animation, HTML5, Ideation",
         "description": "Set of animated dynamic ads for a whiskey.",
-        "url": "display/html5-ads/300x600_dpg/",
+        "url": "lazarsto.com/display/html5-ads/300x600_NobleOak/",
 		"urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--na",
@@ -166,7 +166,7 @@
         "title": "HUBO Digital Ads Campaign",
         "skills": "Animation, HTML5, Ideation",
         "description": "Set of animated ads for a HUBO store chain.",
-        "url": "previewer.weborama.nl/preview/zQM7",
+        "url": "lazarsto.com/display/html5-ads/300x600_hubo/",
         "urlshort": "HPTO Ad Preview",
         "images": {
             "thumb": "thumb--hubo",
@@ -188,7 +188,7 @@
         "title": "HEMA Digital Ads Campaign",
         "skills": "Animation, HTML5",
         "description": "Set of animated 'Homepage Take-Over' ads for a well-known Dutch retail chain.",
-        "url": "clients.weborama.nl/files/campaigns2/2920016257/189055/default.htm",
+        "url": "lazarsto.com/display/html5-ads/300x600_Hema/",
         "urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--hema1",
@@ -209,7 +209,7 @@
         "title": "HOMANN Digital Ads Campaign",
         "skills": "Animation, HTML5",
         "description": "Set of animated 'Homepage Take-Over' ads for a trusted European brand under Signature Foods Nederland.",
-        "url": "clients.weborama.nl/files/campaigns2/2920016257/189055/default.htm",
+        "url": "lazarsto.com/display/html5-ads/300x600_Homan/",
         "urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--homann",
@@ -230,7 +230,7 @@
         "title": "KFC Digital Ads Campaign",
 		"skills": "Animation, HTML5",
         "description": "Ad campaigns for global brand KFC, delivering engaging and effective web banners tailored for large-scale marketing initiatives.",
-		"url": "clients.weborama.nl/files/campaigns2/2920016257/189055/default.htm",
+		"url": "lazarsto.com/display/html5-ads/300x600_KFC/",
 		"urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--kfc",
@@ -251,7 +251,7 @@
         "title": "CCV",
         "skills": "Animation, HTML5",
         "description": "Ad campaigns for CCV Netherlands, a leading provider of payment and transaction solutions, delivering impactful web banners that highlight their services and boost brand visibility.",
-        "url": "display/html5-ads/300x600_ccv/",
+        "url": "lazarsto.com/display/html5-ads/300x600_CCV/",
         "urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--ccv",
@@ -273,7 +273,7 @@
         "title": "Allianz Ads Campaign",
         "skills": "Animation, HTML5",
         "description": "Set of animated dynamic ads for Allianz insurance branch campaign, promoted by none other than fastest man on Earth - Usain Bolt.",
-        "url": "localhost:3000/lazarsto/display/html5-ads/300x600_Allianz/index.html",
+        "url": "lazarsto.com/display/html5-ads/300x600_Allianz/",
         "urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--allianz",
