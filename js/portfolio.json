@@ -3,7 +3,7 @@
         "title": "DPG DCO Ads Campaign",
         "skills": "DCO, HTML5, ANIMATION",
         "description": "This campaign was built for GPD Media’s 9 distinct brands, with each ad dynamically loading brand-specific content—including text, images, logos, and links—from a single, centralized feed, ensuring consistent branding across all brands, faster content updates without manual edits, and personalized messaging tailored to each audience and platform.",
-        "url": "localhost:3000/lazarsto/display/html5-ads/300x600_Allianz/index.html",
+        "url": "lazarsto.com/display/html5-ads/vtp_fluister/",
         "urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--dpg3",
@@ -27,7 +27,7 @@
         "title": "DPG DCO Ads Campaign",
         "skills": "DCO, HTML5, ANIMATION",
         "description": "This campaign was built for GPD Media’s 8 distinct brands, with each ad dynamically loading brand-specific content—including text, images, logos, and links—from a single, centralized feed, ensuring consistent branding across all brands, faster content updates without manual edits, and personalized messaging tailored to each audience and platform.",
-        "url": "localhost:3000/lazarsto/display/html5-ads/300x600_Allianz/index.html",
+        "url": "lazarsto.com/display/html5-ads/dpg_puzzelfit/",
         "urlshort": "Ad Preview",
         "images": {
             "thumb": "thumb--puzzelfit",
