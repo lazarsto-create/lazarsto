@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCO Banner Loader - Univé</title>
+<style>
+body, html {margin:0; padding:0; font-family:Arial,sans-serif; background:#f0f0f0;}
+.sidebar {width:280px; padding:20px; background:#fff; border-right:1px solid #ddd; float:left; height:100vh; overflow-y:auto;}
+label {display:block; margin-top:15px; font-weight:bold;}
+input[type="text"], button {width:100%; padding:8px; font-size:14px; margin-top:5px; box-sizing:border-box;}
+.banners {margin-left:300px; padding:20px; display:flex; flex-wrap:wrap; gap:20px;}
+.banner-wrapper {display:flex; flex-direction:column; align-items:center;}
+.banner-frame {border:1px solid #ccc; margin-top:5px;}
+</style>
+</head>
+<body>
+
+<div class="sidebar" id="controls">
+  <div class="dynamic-fields"></div>
+</div>
+
+<div class="banners" id="banners-container"></div>
+
+<script type="module">
+import { project } from './manifest.js';
+
+const bannersContainer = document.getElementById('banners-container');
+const dynamicFieldsContainer = document.querySelector('.dynamic-fields');
+
+const textFields = {};
+const imageFields = {};
+const fixedParams = {};
+
+// --- Define friendly labels for images ---
+const imageLabels = {
+  "s0_i1":"I1","s0_i2":"I2","s0_i3":"I3","s0_i4":"I4","s0_i5":"I5",
+  "s0_usp1":"USP1","s0_usp2":"USP2","s0_usp3":"USP3","s0_usp4":"USP4",
+  "s0_sticker1":"Sticker1","s0_sticker2":"Sticker2"
+};
+
+// --- Populate sidebar inputs ---
+project.dynamic.forEach(field=>{
+  if(field.type==="text"){
+    const label = document.createElement('label'); label.textContent=field.name; label.setAttribute('for',field.id);
+    const input = document.createElement('input'); input.type="text"; input.id=field.id; input.value=field.value;
+    dynamicFieldsContainer.appendChild(label); dynamicFieldsContainer.appendChild(input);
+    textFields[field.id]=input;
+  }
+
+  if(field.type==="image"){
+    const label = document.createElement('label'); label.textContent=imageLabels[field.id] + " URL"; label.setAttribute('for',field.id);
+    const input = document.createElement('input'); input.type="text"; input.id=field.id;
+    if(Array.isArray(field.value)) input.value=field.value[0].value; else input.value=field.value;
+    dynamicFieldsContainer.appendChild(label); dynamicFieldsContainer.appendChild(input);
+    imageFields[field.id]=field.value;
+  }
+});
+
+// --- Build query params for iframe ---
+function buildQueryParams(size){
+  const params = {};
+  Object.keys(textFields).forEach(id=>params[id]=textFields[id].value);
+
+  Object.keys(imageFields).forEach(id=>{
+    const val = imageFields[id];
+    if(Array.isArray(val)){
+      // select image for this size
+      const imgObj = val.find(i=>i.size===size) || val[0];
+      params[id]=imgObj.value;
+    }else{
+      params[id]=val;
+    }
+  });
+
+  return Object.entries(params).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
+}
+
+// --- Create iframes with refresh buttons ---
+const iframes = {};
+project.sizes.forEach(size=>{
+  const [width,height]=size.split('x');
+  const wrapper = document.createElement('div'); wrapper.className='banner-wrapper';
+  const sizeLabel = document.createElement('div'); sizeLabel.textContent=size; wrapper.appendChild(sizeLabel);
+
+  const refreshButton = document.createElement('button'); refreshButton.textContent=`Refresh ${size}`; wrapper.appendChild(refreshButton);
+
+  const iframe = document.createElement('iframe'); iframe.className='banner-frame'; iframe.width=width; iframe.height=height;
+  iframe.src=`sizes/${size}/index.html?${buildQueryParams(size)}`;
+  wrapper.appendChild(iframe);
+
+  bannersContainer.appendChild(wrapper);
+  iframes[size]=iframe;
+
+  refreshButton.addEventListener('click',()=>{ iframe.src=`sizes/${size}/index.html?${buildQueryParams(size)}&t=${Date.now()}`; });
+});
+
+// --- Update all banners when inputs change ---
+function updateAllBanners(){
+  project.sizes.forEach(size=>{
+    iframes[size].src=`sizes/${size}/index.html?${buildQueryParams(size)}&t=${Date.now()}`;
+  });
+}
+
+Object.values(textFields).forEach(input=>input.addEventListener('input', updateAllBanners));
+Object.keys(imageFields).forEach(id=>{
+  const input = document.getElementById(id);
+  input.addEventListener('input', ()=>{
+    const val = input.value;
+    if(Array.isArray(imageFields[id])){
+      imageFields[id].forEach(obj=>obj.value=val); // update all sizes if edited manually
+    }else{
+      imageFields[id]=val;
+    }
+    updateAllBanners();
+  });
+});
+
+</script>
+</body>
+</html>
