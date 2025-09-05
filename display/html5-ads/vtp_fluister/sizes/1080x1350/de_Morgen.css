@@ -1,0 +1,142 @@
+.tr, .fl, .vk, .lib, .mar, .hp,  .hln, .bg_article1 {display: none!important;}
+/*.logo {
+    content:"";
+    background-image: url("dm.svg");
+    width:100%;
+    height:57px; 
+    position:absolute;
+    background-repeat: no-repeat;
+    background-size: auto 57px;
+}*/
+.bg_logo {
+    background-color: #FFFFFF;
+}
+.hand {
+    transform: translate(159px, 31px)!important;
+}
+.image1 {
+    transform: translate(133px, 8px)!important;
+}
+/*.title::after{
+    content:'';
+    width: 100%;
+    height:4px;
+    background-color: #000000;
+    position:absolute;
+    top:-5px;
+    left:0;
+}*/
+
+.red,  .black {
+    /*width: fit-content;
+    white-space: nowrap;*/
+ }
+ .black {
+
+ }
+ .label {
+    background-color:#ED1B2F;
+    width: max-content !important;
+    height: auto !important;
+    padding: 8px 5px 5px 5px;
+ }
+ .ad1080x1350  { --cp: 690px;}
+.bg_article {clip-path: inset( var(--cp) 0 0 0);}
+
+.bg_color{
+    background-color: #FEF1E0;
+}
+/*.btn_right {
+  background-image: url("btnLNu.png");
+  
+}*/
+.arrinR {
+    transform: scaleX(-1) !important;
+}
+ /*#grid8-background{
+    background-color: #FF0000!important;
+ }*/
+
+ /*CTA BUTTON*/
+ /*.btn {
+    top:-70px;
+ }*/
+.cta {
+    background-color: #ED1B2F;
+    width: max-content !important;
+    height: auto !important;
+    padding: 0.5em 1.2em 0.5em 1.4em;
+    left: 50%;
+    transform: translate(-50%, 0) !important;
+}
+
+.ctaFrame2 {
+    background-color: #D10A10;
+}
+
+.btnRight>.cta {
+    right: 0;
+}
+
+.cta::after {
+     content: "";
+    height: 0.8em;
+    width: 0.8em;
+    background-image: url("vk_arrow.svg");
+    display: inline-block;
+    margin-left: 7px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+@font-face {
+    font-family: 'capitol';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/PublicoHeadline-Extrabold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+/*@font-face {
+    font-family: 'bmedium';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-BentonSans-Medium.woff2') format('woff2');
+    font-weight:unset!important;
+}*/
+
+@font-face {
+    font-family: 'bregular';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-MuseoSans-500.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+@font-face {
+    font-family: 'benton';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-MuseoSansCyrl-900.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+
+
+
+.title {
+    font-family: 'capitol' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+}
+
+/*.artTitle {
+    font-family: 'bmedium' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+    line-height: 1.133 em!important;
+}*/
+
+.artSub {
+    font-family: 'bregular' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+}
+
+.cta, .label, .artTitle{
+    font-family: 'benton' !important;
+    font-weight:unset!important;
+}
