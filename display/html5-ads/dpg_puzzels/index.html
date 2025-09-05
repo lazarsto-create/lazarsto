@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCO Banner Loader</title>
+<style>
+body, html {margin:0; padding:0; background:#f0f0f0; font-family:Arial,sans-serif;}
+.sidebar {width:250px; padding:20px; background:#fff; border-right:1px solid #ddd; box-sizing:border-box; float:left; height:100vh; overflow-y:auto;}
+label {display:block; margin-top:15px; font-weight:bold;}
+select, input[type="text"], button {width:100%; padding:8px; font-size:14px; margin-top:5px; box-sizing:border-box;}
+.banners {margin-left:270px; padding:20px; display:flex; flex-wrap:wrap; gap:20px;}
+.banner-wrapper {display:flex; flex-direction:column; align-items:center;}
+.banner-frame {border:1px solid #ccc; margin-top:5px;}
+</style>
+</head>
+<body>
+
+<div class="sidebar" id="controls">
+  <label for="brand-select">Select Brand:</label>
+  <select id="brand-select"></select>
+  <div class="dynamic-fields"></div>
+</div>
+
+<div class="banners" id="banners-container"></div>
+
+<script type="module">
+import { project } from './manifest.js';
+
+const brandSelect = document.getElementById('brand-select');
+const bannersContainer = document.getElementById('banners-container');
+const dynamicFieldsContainer = document.querySelector('.dynamic-fields');
+
+const allowedTextFields = [
+  "s0_bg_color",
+  "s0_CTA",
+  "s0_heading_1_copy",
+  "s0_heading_2_copy",
+  "s0_image_show",
+  "s0_subheading_1",
+  "s0_subheading_2",
+  "social_shade"
+];
+
+const allowedImageFields = [
+  "s0_bg_image",
+  "s0_card_1",
+  "s0_card_2",
+  "s0_card_3",
+  "s0_image"
+];
+
+const imageLabels = {
+  "s0_bg_image": "Background",
+  "s0_card_1": "Card 1",
+  "s0_card_2": "Card 2",
+  "s0_card_3": "Card 3",
+  "s0_image": "Overlay Image"
+};
+
+const textFields = {};
+const imageFields = {};
+const fixedParams = {};
+
+// --- Populate brand dropdown ---
+const brandField = project.dynamic.find(d=>d.id==="s0_brand");
+brandField.options.forEach(brand=>{
+  const option = document.createElement('option');
+  option.value = brand;
+  option.textContent = brand.replace(/_/g," ");
+  brandSelect.appendChild(option);
+});
+brandSelect.value = brandField.value;
+
+// --- Create inputs for text + image fields ---
+project.dynamic.forEach(field=>{
+  // Editable text fields
+  if(field.type==="text" && allowedTextFields.includes(field.id)){
+    const label = document.createElement('label');
+    label.textContent = field.name;
+    label.setAttribute('for', field.id);
+
+    const input = document.createElement('input');
+    input.type="text"; input.id=field.id; input.value=field.value;
+
+    dynamicFieldsContainer.appendChild(label);
+    dynamicFieldsContainer.appendChild(input);
+
+    textFields[field.id]=input;
+  }
+
+  // Editable hidden image fields
+  if(field.type==="image" && allowedImageFields.includes(field.id)){
+    const label = document.createElement('label');
+    label.textContent = imageLabels[field.id] + " URL";
+    label.setAttribute('for', field.id);
+
+    const input = document.createElement('input');
+    input.type="text"; input.id=field.id; input.value=field.value;
+
+    dynamicFieldsContainer.appendChild(label);
+    dynamicFieldsContainer.appendChild(input);
+
+    imageFields[field.id]=input;
+  }
+
+  // Preload other images automatically
+  if(field.type==="image" && !allowedImageFields.includes(field.id)){
+    imageFields[field.id]=field.value;
+  }
+
+  // Fixed params (non-text/image, not hidden)
+  if(!field.hidden && field.type!=="text" && field.type!=="image" && field.id!=="s0_brand"){
+    fixedParams[field.id]=field.value;
+  }
+});
+
+// --- Build query string ---
+function buildQueryParams(size){
+  const params = {...fixedParams, s0_brand:brandSelect.value};
+
+  Object.keys(textFields).forEach(id=>{
+    params[id]=textFields[id].value;
+  });
+
+  Object.keys(imageFields).forEach(id=>{
+    params[id]=imageFields[id].value ?? imageFields[id];
+  });
+
+  return Object.entries(params)
+    .map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v))
+    .join('&');
+}
+
+// --- Create banner iframes with refresh buttons ---
+const iframes = {};
+project.sizes.forEach(size=>{
+  const [width,height]=size.split('x');
+  const wrapper = document.createElement('div'); wrapper.className='banner-wrapper';
+
+  const sizeLabel = document.createElement('div'); sizeLabel.textContent=size; wrapper.appendChild(sizeLabel);
+
+  const refreshButton = document.createElement('button'); refreshButton.textContent=`Refresh ${size}`; wrapper.appendChild(refreshButton);
+
+  const iframe = document.createElement('iframe'); iframe.className='banner-frame'; iframe.width=width; iframe.height=height;
+  iframe.src=`sizes/${size}/index.html?${buildQueryParams(size)}`;
+  wrapper.appendChild(iframe);
+
+  bannersContainer.appendChild(wrapper);
+  iframes[size]=iframe;
+
+  refreshButton.addEventListener('click',()=>{
+    iframe.src=`sizes/${size}/index.html?${buildQueryParams(size)}&t=${Date.now()}`;
+  });
+});
+
+// --- Update banners when inputs change ---
+function updateAllBanners(){
+  project.sizes.forEach(size=>{
+    iframes[size].src=`sizes/${size}/index.html?${buildQueryParams(size)}&t=${Date.now()}`;
+  });
+}
+
+brandSelect.addEventListener('change', updateAllBanners);
+Object.values(textFields).forEach(input=>input.addEventListener('input', updateAllBanners));
+Object.values(imageFields).forEach(input=>input.addEventListener('input', updateAllBanners));
+
+</script>
+</body>
+</html>
