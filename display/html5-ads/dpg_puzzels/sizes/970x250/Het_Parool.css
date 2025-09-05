@@ -1,0 +1,113 @@
+.logo {
+    content:"";
+    background-image: url("HP.svg");
+    width:100%;
+    height:25px; 
+    position:absolute;
+ /*   right: 0;
+    bottom: 0;*/
+    background-repeat: no-repeat;
+    background-size: auto 25px;
+    background-position: 412px 217px;
+}
+.bg_logo {
+    background-color: #FFFFFF;
+}
+.subtitle1, .subtitle2 {
+    top: 10px;
+}
+.red,  .black {
+
+ }
+ .black {
+
+ }
+ /*.puzzel {
+    top: -48px;
+ }*/
+.btn_left, .arrinR {
+     content:"";
+    background-image: url("btnLVK.png");
+    width:100%;
+    height:32px; 
+    position:absolute;
+/*    top: -48px;*/
+    background-repeat: no-repeat;
+    background-size: auto 32px;
+    /*border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2);*/
+}
+.bg_color{
+    background-color: #FCF1EF;
+}
+/*.btn_right {
+  background-image: url("btnLNu.png");
+  
+}*/
+.arrinR {
+    transform: scaleX(-1) !important;
+}
+ /*#grid8-background{
+    background-color: #FF0000!important;
+ }*/
+
+ /*CTA BUTTON*/
+ .btn {
+    top: -12px;
+    left: -58px;
+ }
+.cta {
+/*    border-radius: 20px;*/
+    background-color: #D72236;
+    width: max-content !important;
+    height: auto !important;
+    padding: 0.7em 0.8em 0.7em 1em;
+    /*left: 50%;
+    transform: translate(-50%, 0) !important;*/
+}
+
+.ctaFrame2 {
+    background-color: #D10A10;
+}
+
+.btnRight>.cta {
+    right: 0;
+}
+
+.cta::after {
+     content: "";
+    height: 0.7em;
+    width: 0.7em;
+    background-image: url("cta-hln.svg");
+    display: inline-block;
+    margin-left: 7px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+@font-face {
+    font-family: 'qautro';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/Quarto-Black.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+@font-face {
+    font-family: 'balto';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/Balto-Bold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+
+.title1-2, .title2-2 {
+    font-family: 'qautro' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+}
+
+.subtitle1-2, .subtitle2-2, .cta {
+    font-family: 'balto' !important;
+    font-weight:unset!important;
+}
+
+
