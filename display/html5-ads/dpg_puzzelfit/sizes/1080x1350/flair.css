@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'acumin';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-AcuminProCond-Black.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'miamo';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/Miamo-Regular.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'acumin-light';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-AcuminPro-Regular.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+.logo {
+    background-image: url("FLAIR.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top;
+}
+.bgr_flair { display: block; }
+.ad300x600 .logo { width: 96px !important; }
+.ad320x400 .logo { width: 92px !important; }
+.ad970x250 .logo { width: 100px !important; }
+.header { font-family: 'miamo' !important; color: #000000 !important; text-transform: uppercase !important; text-align: left !important; }
+.subtitle1, .subtitle2 { font-family: 'acumin-light' !important; color: #000000 !important; }
+.cta { color: #ffffff !important; background: #000000; border-radius: 0; }
+.cta_copy { padding-top: 11px !important; font-family: 'acumin' !important; color: #ffffff !important; text-transform: uppercase !important; }
+.cta_arrow svg .a { fill: #ffffff; }
+.ad970x250 .cta { left: auto !important; right: 0px !important; bottom: 0px; transform-origin: 100% 100% !important; }
+.ad970x250 .header { width: 350px !important; }
