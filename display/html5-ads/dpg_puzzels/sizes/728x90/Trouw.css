@@ -1,0 +1,118 @@
+.logo {
+    content:"";
+    background-image: url("TR.svg");
+     width:100%;
+    height:15px; 
+    position:absolute;
+ /*   right: 0;
+    bottom: 0;*/
+    background-repeat: no-repeat;
+    background-size: auto 15px;
+    background-position: 321px 70px;
+/*    z-index: 150!important;*/
+}
+.bg_logo {
+    background-color: #FFFFFF;
+}
+.subtitle1, .subtitle2 {
+    top: 10px;
+}
+.red,  .black {
+
+ }
+ .black {
+
+ }
+ /*.puzzel {
+    top: -48px;
+ }*/
+.btn_left, .arrinR {
+     content:"";
+    background-image: url("btnLVK.png");
+    width:100%;
+    height:38px; 
+    position:absolute;
+    background-repeat: no-repeat;
+    background-size: auto 38px;
+    /*border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2);*/
+/*    z-index: 200!important;*/
+}
+.btn_left {
+    top: -6px;
+}
+.btn_right {
+    top: -14px;
+}
+.bg_color{
+    background-color: #D7E4E9;
+}
+/*.btn_right {
+  background-image: url("btnLNu.png");
+  
+}*/
+/*.arrinR {
+    transform: scaleX(-1) !important;
+}*/
+ /*#grid8-background{
+    background-color: #FF0000!important;
+ }*/
+
+ /*CTA BUTTON*/
+ /*.btn {
+    top:-70px;
+ }*/
+.cta {
+    border-radius: 20px;
+    background-color: #005693;
+    width: max-content !important;
+    height: auto !important;
+    padding: 0.6em 1em 0.6em 1.2em;
+    /*left: 50%;
+    transform: translate(-50%, 0) !important;*/
+}
+
+.ctaFrame2 {
+    background-color: #D10A10;
+}
+
+.btnRight>.cta {
+    right: 0;
+}
+
+.cta::after {
+     content: "";
+    height: 0.7em;
+    width: 0.7em;
+    background-image: url("cta-hln.svg");
+    display: inline-block;
+    margin-left: 7px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+@font-face {
+    font-family: 'qautro';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/PublicoHeadline-Extrabold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+@font-face {
+    font-family: 'balto';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-Graphik-Semibold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+
+
+.title1-2, .title2-2 {
+    font-family: 'qautro' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+}
+
+.subtitle1-2, .subtitle2-2, .cta {
+    font-family: 'balto' !important;
+    font-weight:unset!important;
+}
