@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'tungsten-bold';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/tungsten-bold.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'bentonsans-reg';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/BentonSans-Book.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'bentonsans-bold';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/BentonSans-Bold.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+.logo { 
+    background-image: url("HUMO.svg"); 
+    background-repeat: no-repeat; 
+    background-size: contain; 
+    background-position: bottom; 
+    right: 0;
+    bottom: 0;
+}
+.ad300x600 .logo { width: 145px !important; }
+.ad320x400 .logo { width: 108px !important; }
+.ad970x250 .logo { width: 145px !important; }
+#grid8-background { background-color: #F2E8B0 !important }
+#level-background { display: none; }
+.header { font-family: 'tungsten-bold' !important; text-shadow: 2px 2px #000000; color: #EE090D !important; text-transform: uppercase !important; text-align: left !important; }
+.cta_copy { font-family: 'bentonsans-bold' !important; }
+.subtitle1, .subtitle2 { font-family: 'bentonsans-reg' !important; color: #000000 !important; }
+.ad300x600 .subtitle1, .ad300x600 .subtitle2 { font-size: 15px !important; }
+.cta { background: #FF0000; border-radius: 20px; }
+.cta_copy { color: #ffffff !important; }
+.cta_arrow svg .a { fill: #ffffff; }
+.ad970x250 .cta { left: 20px !important; bottom: 20px; transform-origin: 0% 100% !important; }
+.ad1080x1920 .header, .ad1080x1350 .header { text-shadow: 9px 9px #000000; }

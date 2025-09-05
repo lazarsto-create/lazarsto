@@ -1,0 +1,28 @@
+ @font-face {
+    font-family: 'nexa-regular';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-NexaRegular.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'nexa';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/NexaHeavy.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+.logo {
+    background-image: url("Libelle.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top;
+}
+.bgr_libelle, .libelle_line { display: block; }
+.ad300x600 .logo, .ad320x400 .logo, .ad970x250 .logo { width: 80px !important; }
+.header { font-family: 'nexa' !important; color: #000000 !important; }
+.subtitle1, .subtitle2 { font-family: 'nexa-regular' !important; color: #000000 !important; }
+.cta { color: #000000 !important; background: #ffffff; border-radius: 0; border: 1px solid #000000; }
+.cta_copy { font-family: 'nexa' !important; color: #000000 !important; text-transform: uppercase !important; }
+.ad970x250 .cta { left: auto !important; right: 20px !important; bottom: 10px; transform-origin: 100% 100% !important; }
+.ad970x250 .header { width: 370px !important; }
