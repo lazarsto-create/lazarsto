@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'stagsans';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/StagSans-Medium.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'stagsans-semibold';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/StagSans-Semibold.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'rama';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/RamaGothicEW01SemiBold.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+.logo { 
+    background-image: url("HLN.svg"); 
+    background-repeat: no-repeat; 
+    background-size: contain; 
+    background-position: center; 
+}
+.header { font-family: 'stagsans-semibold' !important; }
+.cta_copy { font-family: 'stagsans' !important; }
+.subtitle1, .subtitle2 { font-family: 'rama' !important; }
+.ad300x600 .subtitle1, .ad300x600 .subtitle2 { font-size: 18px !important; }
+.ad320x400 .subtitle1, .ad320x400 .subtitle2 { font-size: 16px !important; }
+.ad300x600 .header { width: 280px !important; }
+.cta { background: #FF0000; }
+.cta_copy { color: #ffffff !important; }
+.cta_arrow svg .a { fill: #ffffff; }
+.header .red { background: #FF0000; position: absolute; transform-origin: 0 0; left: -5px; top: 0; width: calc(100% + 10px); height: 100%; z-index: -1; }
+.bgr_hln { display: block; }
+
+/* SOCIAL STATICS */
+.ad1080x1920 .red, .ad1080x1350 .red { left: -10px; width: calc(100% + 20px) }
