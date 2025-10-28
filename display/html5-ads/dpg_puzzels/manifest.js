@@ -30,28 +30,28 @@ export const project = {
             "id": "s0_bg_image",
             "name": "image",
             "type": "image",
-            "hidden": true, // we don't want to show this
-            "value": "https://app.grid8.com/images/no.png"
+            "hidden": false, // we don't want to show this
+            "value": "images/no.png"
         }, {
             "id": "s0_card_1",
             "name": "image",
             "type": "image",
-            "hidden": true, // we don't want to show this
-            "value": "https://dco3.s3.eu-central-1.amazonaws.com/87d215865f3d6471925de94ff22105ecbf318e9c.jpeg"
+            "hidden": false, // we don't want to show this
+            "value": "images/img1.jpeg"
         },
         {
             "id": "s0_card_2",
             "name": "image",
             "type": "image",
-            "hidden": true, // we don't want to show this
-            "value": "https://dco3.s3.eu-central-1.amazonaws.com/6e8712a745ede7de6c903605d023b1c1ccef3599.jpeg"
+            "hidden": false, // we don't want to show this
+            "value": "images/img2.jpeg"
         },
         {
             "id": "s0_card_3",
             "name": "image",
             "type": "image",
-            "hidden": true, // we don't want to show this
-            "value": "https://dco3.s3.eu-central-1.amazonaws.com/5931156720077f49a9d9b21873f6c3fc27aa7d55.jpeg"
+            "hidden": false, // we don't want to show this
+            "value": "images/img3.jpeg"
         },
         {
              "id": "s0_heading_1_copy",
@@ -70,7 +70,7 @@ export const project = {
             "name": "image",
             "type": "image",
             "hidden": true, // we don't want to show this
-            "value": "https://dco3.s3.eu-central-1.amazonaws.com/167bb0c654b37332151449a8a576292a2bc435d4.png"
+            "value": "images/front.png"
         },
         {
              "id": "s0_image_show",
