@@ -31,13 +31,13 @@ export const project = {
             "name": "image",
             "type": "image",
             "hidden": false, // we don't want to show this
-            "value": "https://dco3.s3.eu-central-1.amazonaws.com/e47e47ed0551e9809f1d2294c281edc8a5a2fc5c.jpg"
+            "value": "images/img1.jpg"
         }, {
             "id": "s0_articleImage2",
             "name": "image",
             "type": "image",
             "hidden": true, // we don't want to show this
-            "value": "https://dco3.s3.eu-central-1.amazonaws.com/3d2056c9730cd4d9b2e73774f170f3f7f59d6cdd.jpg"
+            "value": "images/img1.jpg"
         },
         {
              "id": "s0_articleTtitle1",
