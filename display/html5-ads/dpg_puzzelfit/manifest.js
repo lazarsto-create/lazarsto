@@ -30,7 +30,7 @@ export const project = {
             "id": "s0_screen_image",
             "name": "image",
             "type": "image",
-            "hidden": true, // we don't want to show this
+            "hidden": false, // we don't want to show this
             "value": "images/mobile_screen.jpg"
         },
         {
