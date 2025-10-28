@@ -31,7 +31,7 @@ export const project = {
             "name": "image",
             "type": "image",
             "hidden": true, // we don't want to show this
-            "value": "https://dco3.s3.eu-central-1.amazonaws.com/328c624ed73dfbfc4aa199269d1d2bd8d660b14a.jpg"
+            "value": "images/mobile_screen.jpg"
         },
         {
             "id": "s0_subtitle1",
