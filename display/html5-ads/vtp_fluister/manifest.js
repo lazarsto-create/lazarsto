@@ -36,8 +36,8 @@ export const project = {
             "id": "s0_articleImage2",
             "name": "image",
             "type": "image",
-            "hidden": true, // we don't want to show this
-            "value": "images/img1.jpg"
+            "hidden": false, // we don't want to show this
+            "value": "images/img2.jpg"
         },
         {
              "id": "s0_articleTtitle1",
