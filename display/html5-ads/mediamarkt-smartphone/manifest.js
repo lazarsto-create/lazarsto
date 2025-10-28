@@ -199,14 +199,14 @@ export const project = {
             "id": "s1_elem1",
             "name": "image",
             "type": "image",
-            "hidden": true, // we don't want to show this
+            "hidden": false, // we don't want to show this
             "value": "images/bf6b4a85c5ab056de62479a4f551e935eb5255e4.png"
         },
         {
             "id": "s1_elem2",
             "name": "image",
             "type": "image",
-            "hidden": true, // we don't want to show this
+            "hidden": false, // we don't want to show this
             "value": "images/77beda469db5e8ded624a218165c70f3e44a8816.png"
         },
         {
@@ -214,7 +214,7 @@ export const project = {
             "id": "s1_emoji",
             "name": "image",
             "type": "image",
-            "hidden": true, // we don't want to show this
+            "hidden": false, // we don't want to show this
             "value": "images/c18b0b441c4b07bd417b3e87075c3c342a490cc9.png"
         }]
 
