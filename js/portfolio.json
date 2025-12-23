@@ -1,420 +1,110 @@
 [
     {
-        "title": "DPG DCO Ads Campaign",
+        "title": "Allianz Crowbar Campaign",
         "skills": "HTML5, ANIMATION",
-        "description": "This campaign was built for GPD Media’s 9 distinct brands, with each ad dynamically loading brand-specific content—including text, images, logos, and links—from a single, centralized feed, ensuring consistent branding across all brands, faster content updates without manual edits, and personalized messaging tailored to each audience and platform.",
-        "url": "lazarsto.com/display/html5-ads/Allianz_Power/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--dpg3",
-            "full": "allianz_crowbar.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated HTML5 Ads",
-                "points": [
-                    "Animated HTML5 Ads: From concept to execution",
-                    "Storyboard Ideation: Planning sequences and flows for engagement",
-                    "Animation and Ad Design: Bringing visuals to life",
-                    "HTML5 Ad Development: Coding and optimizing banners",
-                    "Custom JS Components: Dynamic interactions and creative logic",
-                    "Feed Implementation: Connecting the centralized content feed to ads"
-                ]
-            }
-        ]
+        "url": "lazarsto.com/display/html5-ads/Allianz_crowbar/",
+        "images": "allianz_crowbar.jpg"
     },
     {
         "title": "DPG DCO Ads Campaign",
         "skills": "DCO, HTML5, ANIMATION",
-        "description": "This campaign was built for GPD Media’s 8 distinct brands, with each ad dynamically loading brand-specific content—including text, images, logos, and links—from a single, centralized feed, ensuring consistent branding across all brands, faster content updates without manual edits, and personalized messaging tailored to each audience and platform.",
+        "url": "lazarsto.com/display/html5-ads/vtp_fluister/",
+        "images": "fluister.jpg"
+    },
+    {
+        "title": "DPG DCO Ads Campaign",
+        "skills": "DCO, HTML5, ANIMATION",
         "url": "lazarsto.com/display/html5-ads/dpg_puzzelfit/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--puzzelfit",
-            "full": "puzzelfit.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated dynamic ads",
-                "points": [
-                    "Animated HTML5 Ads: From concept to execution",
-                    "Storyboard Ideation: Planning sequences and flows for engagement",
-                    "Animation and Ad Design: Bringing visuals to life",
-                    "HTML5 Ad Development: Coding and optimizing banners",
-                    "Custom JS Components: Dynamic interactions and creative logic",
-                    "Feed Implementation: Connecting the centralized content feed to ads"
-                ]
-            }
-        ]
+        "images": "puzzelfit.jpg"
     },
     {
         "title": "MediaMarkt DCO Ads Campaign",
         "skills": "DCO, HTML5, ANIMATION",
-        "description": "Dynamic Creative Optimization (DCO) ad campaigns use external data feeds to automatically update creative elements—such as images, text, and calls-to-action—in real time. This allows each user to see the most relevant and personalized ad content, improving engagement and performance while reducing manual production effort.",
         "url": "lazarsto.com/display/html5-ads/mediamarkt-smartphone/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--mmdco",
-            "full": "mm_smartphone.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated dynamic ads",
-                "points": [
-                    "Animated HTML5 Ads: From concept to execution",
-                    "Storyboard Ideation: Planning sequences and flows for engagement",
-                    "Animation and Ad Design: Bringing visuals to life",
-                    "HTML5 Ad Development: Coding and optimizing banners",
-                    "Custom JS Components: Dynamic interactions and creative logic",
-                    "Feed Implementation: Connecting the centralized content feed to ads"
-                ]
-            }
-        ]
+        "images": "mm_smartphone.jpg"
     },
     {
         "title": "UNIIVE DCO",
         "skills": "DCO, HTML5, ANIMATION",
-        "description": "Dynamic Creative Optimization (DCO) ad campaigns use external data feeds to automatically update creative elements—such as images, text, and calls-to-action—in real time. This allows each user to see the most relevant and personalized ad content, improving engagement and performance while reducing manual production effort.",
         "url": "lazarsto.com/display/html5-ads/unive_auto/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--univedco",
-            "full": "univedco.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated dynamic ads",
-                "points": [
-                    "Animated HTML5 Ads: From concept to execution",
-                    "Storyboard Ideation: Planning sequences and flows for engagement",
-                    "Animation and Ad Design: Bringing visuals to life",
-                    "HTML5 Ad Development: Coding and optimizing banners",
-                    "Custom JS Components: Dynamic interactions and creative logic",
-                    "Feed Implementation: Connecting the centralized content feed to ads"
-                ]
-            }
-        ]
+        "images": "univedco.jpg"
     },
     {
         "title": "DPG DCO Ads Campaign",
         "skills": "DCO, HTML5, ANIMATION",
-        "description": "This campaign was built for GPD Media’s 9 distinct brands, with each ad dynamically loading brand-specific content—including text, images, logos, and links—from a single, centralized feed, ensuring consistent branding across all brands, faster content updates without manual edits, and personalized messaging tailored to each audience and platform.",
         "url": "lazarsto.com/display/html5-ads/dpg_puzzels/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--puzzels",
-            "full": "puzzels.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated ads",
-                "points": [
-                    "Animated HTML5 Ads: From concept to execution",
-                    "Storyboard Ideation: Planning sequences and flows for engagement",
-                    "Animation and Ad Design: Bringing visuals to life",
-                    "HTML5 Ad Development: Coding and optimizing banners",
-                    "Custom JS Components: Dynamic interactions and creative logic",
-                    "Feed Implementation: Connecting the centralized content feed to ads"
-                ]
-            }
-        ]
-    },
-    {
-        "title": "DPG",
-        "skills": "HTML5 ANIMATION",
-        "description": "DPG campaign",
-        "url": "lazarsto.com/display/html5-ads/300x600_dpg/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--dpg2",
-            "full": "dpg2.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated dynamic ads",
-                "points": [
-                    "Animation design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "puzzels.jpg"
     },
     {
         "title": "Noble Oak Digital Ads Campaign",
         "skills": "Animation, HTML5, Ideation",
-        "description": "Set of animated dynamic ads for a whiskey.",
         "url": "lazarsto.com/display/html5-ads/300x600_NobleOak/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--na",
-            "full": "na.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated dynamic ads",
-                "points": [
-                    "Storyboard ideation",
-                    "Animation and ad design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "na.jpg"
     },
     {
         "title": "HUBO Digital Ads Campaign",
         "skills": "Animation, HTML5, Ideation",
-        "description": "Set of animated ads for a HUBO store chain.",
         "url": "lazarsto.com/display/html5-ads/300x600_hubo/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--hubo",
-            "full": "hubo.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated Ads",
-                "points": [
-                    "Storyboard ideation",
-                    "Animation and ad design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "hubo.jpg"
     },
     {
         "title": "HEMA Digital Ads Campaign",
         "skills": "Animation, HTML5",
-        "description": "Set of animated 'Homepage Take-Over' ads for a well-known Dutch retail chain.",
         "url": "lazarsto.com/display/html5-ads/300x600_Hema/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--hema1",
-            "full": "hema1.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated HPTO (Homepage Take-Over) Ads",
-                "points": [
-                    "Animation design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "hema1.jpg"
     },
     {
         "title": "HOMANN Digital Ads Campaign",
         "skills": "Animation, HTML5",
-        "description": "Set of animated 'Homepage Take-Over' ads for a trusted European brand under Signature Foods Nederland.",
         "url": "lazarsto.com/display/html5-ads/300x600_Homan/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--homann",
-            "full": "homann.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated HPTO (Homepage Take-Over) Ads",
-                "points": [
-                    "Animation design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "homann.jpg"
     },
     {
         "title": "KFC Digital Ads Campaign",
         "skills": "Animation, HTML5",
-        "description": "Ad campaigns for global brand KFC, delivering engaging and effective web banners tailored for large-scale marketing initiatives.",
         "url": "lazarsto.com/display/html5-ads/300x600_KFC/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--kfc",
-            "full": "kfc.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated HPTO (Homepage Take-Over) Ads",
-                "points": [
-                    "Animation design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "kfc.jpg"
     },
      {
         "title": "CCV",
         "skills": "Animation, HTML5",
-        "description": "Ad campaigns for CCV Netherlands, a leading provider of payment and transaction solutions, delivering impactful web banners that highlight their services and boost brand visibility.",
         "url": "lazarsto.com/display/html5-ads/300x600_CCV/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--ccv",
-            "full": "ccv.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated ads",
-                "points": [
-                    "Storyboard ideation",
-                    "Ad and animation design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "ccv.jpg"
     },
     {
         "title": "Allianz Ads Campaign",
         "skills": "Animation, HTML5",
-        "description": "Set of animated dynamic ads for Allianz insurance branch campaign, promoted by none other than fastest man on Earth - Usain Bolt.",
         "url": "lazarsto.com/display/html5-ads/300x600_Allianz/",
-        "urlshort": "Ad Preview",
-        "images": {
-            "thumb": "thumb--allianz",
-            "full": "allianz.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated dynamic ads",
-                "points": [
-                    "Animation design",
-                    "HTML5 ad development",
-                    "Custom JS components",
-                    "Ad optimized to 150kb"
-                ]
-            }
-        ]
+        "images": "allianz.jpg"
     },
     {
         "title": "UNIVE HPTO Ads Campaign",
         "skills": "Weborama HPTO",
-        "description": "UNIVE HPTO campaign on Weborama delivers a full homepage takeover, ensuring maximum visibility and brand impact. The format combines rich visuals and interactive elements to capture user attention in a high-traffic environment.",
         "url": "previewer.weborama.nl/preview/55kR",
-        "urlshort": "HPTO Ad Preview",
-        "images": {
-            "thumb": "thumb--unive",
-            "full": "unive.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated HPTO (Homepage Take-Over) Ads",
-                "points": [
-                    "Storyboard ideation",
-                    "Animation and ad design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "unive.jpg"
     },
     {
          "title": "Ziggo Weborama",
         "skills": "Weborama APTO",
-        "description": "Ziggo weborama campaign on Weborama delivers a full homepage takeover, ensuring maximum visibility and brand impact. The format combines rich visuals and interactive elements to capture user attention in a high-traffic environment.",
         "url": "previewer.weborama.nl/preview/jlj5",
-        "url2": "previewer.weborama.nl/preview/ggO6",
-        "url3": "previewer.weborama.nl/preview/06NX",
-        "urlshort": "HPTO Ad Preview",
-        "urlshort2": "APTO Ad Preview",
-        "urlshort3": "HPTO2 Ad Preview",
-        "images": {
-            "thumb": "thumb--ziggo",
-            "full": "ziggo.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated HPTO (Homepage Take-Over) Ads",
-                "points": [
-                    "Storyboard ideation",
-                    "Animation and ad design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "ziggo.jpg"
     },
     {
          "title": "MediaMarkt Weborama",
         "skills": "Weborama APTO",
-        "description": "MediaMarkt weborama campaign on Weborama delivers a full homepage takeover, ensuring maximum visibility and brand impact. The format combines rich visuals and interactive elements to capture user attention in a high-traffic environment.",
         "url": "previewer.weborama.nl/preview/jlmW",
-        "url2": "previewer.weborama.nl/preview/kmnx",
-        "url3": "previewer.weborama.nl/preview/lnol",
-        "url4": "previewer.weborama.nl/preview/mopp",
-        "url5": "previewer.weborama.nl/preview/npq4",
-        "url6": "previewer.weborama.nl/preview/oqrz",
-        "url7": "previewer.weborama.nl/preview/p0v1",
-        "urlshort": "HPTO Ad Preview",
-        "urlshort2": "APTO Ad Preview",
-        "urlshort3": "HPTO2 Ad Preview",
-        "urlshort4": "HPTO3 Ad Preview",
-        "urlshort5": "Expand Ad Preview",
-        "urlshort6": "Header Ad Preview",
-        "urlshort7": "HPTO4 Ad Preview",
-        "images": {
-            "thumb": "thumb--mmweborama",
-            "full": "mm_weborama.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated HPTO (Homepage Take-Over) Ads",
-                "points": [
-                    "Storyboard ideation",
-                    "Animation and ad design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "mm_weborama.jpg"
     },
     {
          "title": "Centraal Beheer Ads Campaign",
         "skills": "Weborama APTO",
-        "description": "The Centraal Beheer APTO campaign on Weborama delivers a full homepage takeover, ensuring maximum visibility and brand impact. The format combines rich visuals and interactive elements to capture user attention in a high-traffic environment.",
         "url": "previewer.weborama.nl/preview/lnwJ",
-        "urlshort": "HPTO Ad Preview",
-        "images": {
-            "thumb": "thumb--cbapto",
-            "full": "cbapto.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated HPTO (Homepage Take-Over) Ads",
-                "points": [
-                    "Storyboard ideation",
-                    "Animation and ad design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "cbapto.jpg"
     },
     {
         "title": "HEMA HPTO Ads Campaign",
         "skills": "Weborama HPTO",
-        "description": "The HEMA HPTO campaign on Weborama delivers a full homepage takeover, ensuring maximum visibility and brand impact. The format combines rich visuals and interactive elements to capture user attention in a high-traffic environment.",
         "url": "previewer.weborama.nl/preview/v6gr",
-        "urlshort": "HPTO Ad Preview",
-        "images": {
-            "thumb": "thumb--hema",
-            "full": "hema.jpg"
-        },
-        "responsibilities": [
-            {
-                "title": "Animated HPTO (Homepage Take-Over) Ads",
-                "points": [
-                    "Storyboard ideation",
-                    "Animation and ad design",
-                    "HTML5 ad development",
-                    "Custom JS components"
-                ]
-            }
-        ]
+        "images": "hema.jpg"
     }
 ]

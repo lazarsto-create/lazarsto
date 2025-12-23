@@ -40,8 +40,8 @@ $(function () {
 
         var map = {};
         for (var i = 0; i < items.length; i++) {
-            if (items[i].images && items[i].images.full) {
-                map[items[i].images.full] = items[i];
+            if (items[i].images) {
+                map[items[i].images] = items[i];
             }
         }
 
