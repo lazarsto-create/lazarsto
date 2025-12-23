@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'coco-bold';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-CocoGothic-Bold.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'coco-regular';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-CocoGothic.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'eckhart';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-Eckhart-TextRegular.woff') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'eckhart-bold';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/Eckhart-TextBold.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+.logo {
+    background-image: url("Margriet.svg");
+    background-repeat: no-repeat;
+    /*background-size: contain;*/
+    background-position: center;
+}
+.cta { background: #FFE500; }
+.ad300x600 .logo { width: 276px !important; }
+.ad320x400 .logo { width: 294px !important; }
+.ad970x250 .logo { background-color: #ffffff; width: inherit !important; height: 52px !important; bottom: 0; background-position: 20px center; }
+.bgr_margriet { display: block; }
+.header { font-family: 'eckhart' !important; color: #000000 !important; text-align: left !important; }
+.header span { font-family: 'eckhart-bold' !important; }
+.cta_copy { font-family: 'coco-bold' !important; }
+.subtitle1, .subtitle2 { font-family: 'coco-regular' !important; color: #000000 !important; }
+.ad970x250 .cta { left: auto !important; right: 20px !important; bottom: 10px; transform-origin: 100% 50% !important; }

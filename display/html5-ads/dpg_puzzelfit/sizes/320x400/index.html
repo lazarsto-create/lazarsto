@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="ad.size" content="width=320,height=400">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+        
+            <script src="https://s0.2mdn.net/ads/studio/cached_libs/gsap_3.11.5_min.js"></script>
+            <script src="manifest.js"></script>
+            
+                <!-- VARIABLES -->
+                <script type="text/javascript">
+                    var clickTag = "https://google.com";
+                    var clickTag1 = "https://google.com/1";
+                    var clickTag2 = "https://google.com/2";
+                    var clickTag3 = "https://google.com/3";
+                    var clickTag4 = "https://google.com/4";
+                    var clickTag5 = "https://google.com/5";
+
+                    var WIDTH = manifest.settings.width;
+                    var HEIGHT = manifest.settings.height;
+                    var adID = manifest.settings.adID;
+                </script>
+                <script src="grid8player.min.js"></script>
+                <script src="animate.js"></script>
+                
+
+
+                    <!-- ANIMATIONS -->
+                    <script>
+                        function mouseOver(e, t) {
+
+                            grid8player.onMouseOver(e, t);
+
+                        }
+
+                        function mouseOut(e, t) {
+                            grid8player.onMouseOut(e, t);
+
+                        }
+
+                        function onClick() {
+                            console.log('click')
+                            let clickUrl = grid8player.getExitUrl();
+                            let shot = manifest.shots[grid8player.currentShot];
+                            if (shot.autoExitURL === false) {
+                                if (grid8player.currentShot == 0) window.open(clickTag1);
+                                if (grid8player.currentShot == 1) window.open(clickTag2);
+                                if (grid8player.currentShot == 2) window.open(clickTag3);
+                                if (grid8player.currentShot == 3) window.open(clickTag4);
+                                if (grid8player.currentShot == 4) window.open(clickTag5);
+                            } else {
+                                window.open(clickTag);
+                            }
+                        }
+                    </script>
+                    <style>
+
+
+                        /* css */
+.cta { /*width: auto !important;*/ height: auto !important; border-radius: 5px; left: 50%; overflow: hidden; }
+.cta_copy { position: relative; padding: 9px 30px 9px 14px; height: auto !important; margin: 0 !important; width: max-content !important; }
+.cta_arrow { right: 14px; }
+.margin0 { margin: 0 !important; }
+.header > div, .header span { display: inline-block !important; }
+#level-overlay { perspective: 500px; }
+.bgr_ed, .bgr_hln, .bgr_libelle, .bgr_margriet, .bgr_flair { display: none; }
+.cta_arrow svg { position: absolute; top: 0; left: 0; }
+.libelle_line { display: none; }
+
+/* 970 x250 */
+.ad970x250 .cta { left: 250px !important; }
+.ad1080x1920 #level-overlay, .ad1080x1350 #level-overlay { perspective: 1000px; }
+
+
+                    </style>
+
+</head>
+
+<body>
+<div id="ad" onmouseenter="mouseOver(event,this)" onmouseleave="mouseOut(event,this)">
+
+
+</div>
+<!--<div id="clickLayer" onclick="onClick()"></div>-->
+<div id="border"></div>
+
+
+<div class='resizable'>
+    <div class='resizers'>
+        <div class='rotator-wrapper'>
+            <div class='rotator'></div>
+        </div>
+        <div class='resizer top-left'></div>
+        <div class='resizer top-right'></div>
+        <div class='resizer bottom-left'></div>
+        <div class='resizer bottom-right'></div>
+    </div>
+</div>
+
+<div id="debug-panel">
+    <div id="slider-wrapper">
+        <input id="debug-slider" type="range" min="0" max="100" value="0" class="slider">
+    </div>
+    <div id="debug-label">0:00/0:00</div>
+    <div id="debug-control-bar">
+
+        <button id="debug-back">
+            <svg style="rotate:180deg;" xmlns="http://www.w3.org/2000/svg" width="7.678"
+                 height="9.709" viewBox="0 0 7.678 9.709">
+                <path id="Icon_metro-next" data-name="Icon metro-next"
+                      d="M7.678,0V9.709H5.484V5.259L0,9.3V.4L5.484,4.45V0Z"
+                      fill="#00004c"/>
+            </svg>
+        </button>
+        <button id="debug-play">
+            <svg xmlns="http://www.w3.org/2000/svg" id="play-debug-icon" width="8.511" height="10.851"
+                 viewBox="0 0 8.511 10.851">
+                <path id="Icon_ionic-md-play" data-name="Icon ionic-md-play" d="M6.75,3.656V14.507l8.511-5.425Z"
+                      transform="translate(-6.75 -3.656)" fill="#00004c"/>
+            </svg>
+
+            <svg xmlns="http://www.w3.org/2000/svg" id="pause-debug-icon" style="display:none" width="8.678"
+                 height="10.124" viewBox="0 0 8.678 10.124">
+                <path id="Icon_material-pause" data-name="Icon material-pause"
+                      d="M0,10.124H2.893V0H0ZM5.785,0V10.124H8.678V0Z" fill="#00004c"/>
+            </svg>
+        </button>
+
+        <button id="debug-forward">
+            <svg xmlns="http://www.w3.org/2000/svg" width="7.678" height="9.709"
+                 viewBox="0 0 7.678 9.709">
+                <path id="Icon_metro-next" data-name="Icon metro-next"
+                      d="M19.889,5.784v9.709H17.695v-4.45l-5.484,4.046v-8.9l5.484,4.046V5.784Z"
+                      transform="translate(-12.211 -5.784)" fill="#00004c"/>
+            </svg>
+        </button>
+    </div>
+
+</div>
+<script type="text/javascript">
+    function replaceZ(str) {
+        str = str.replace(/\^([\p{L}\p{N}\-,@!?.:;*#€$&%\-==\(\)\[\]{}]+)/gmu, '<span>$1</span>');
+        str = str.replace('\n', '<br>');
+        return str;
+    }
+    $('#ad').style.width = $('#border').style.width = WIDTH + "px";
+    $('#ad').style.height = $('#border').style.height = HEIGHT + "px";
+
+    var queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    let dynamicData = {};
+    urlParams.forEach((value, key) => {
+        if (key.indexOf("title") != -1) {
+            value = replaceZ(value);
+        }
+        dynamicData[key] = value;
+    })
+    grid8player.dynamicData = dynamicData;
+brand = dynamicData.s0_brand ? dynamicData.s0_brand.toLowerCase() : "ad";
+var W = WIDTH;
+var H = HEIGHT;
+// BRAND BASED VISUAL DIFFERENCES BEGIN
+if (brand == "de_morgen" || brand == "libelle" || brand == "margriet") {
+    if (W == 300) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+        resp.properties["maxSize"] = fs1.fontSize = 31;
+        fs1.originalLineSpacing = fs1.lineSpacing = 34;
+    } else if (W == 1080) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+        var fontsize = 111,
+            linespace = 121;
+        if (brand == "margriet" && H == 1350) {
+            fontsize = 84;
+            linespace = 98;
+        } else if (brand == "libelle" && H == 1350) {
+            fontsize = 61;
+            linespace = 79;
+            fs1.shots[0].size.h = fs1.shots[0].size.initH = 160;
+        } else if (brand == "libelle" && H == 1920) {
+            fontsize = 77;
+            linespace = 100;
+            fs1.shots[0].size.h = fs1.shots[0].size.initH = 300;
+        }
+        resp.properties["maxSize"] = fs1.fontSize = fontsize;
+        fs1.originalLineSpacing = fs1.lineSpacing = linespace;
+    } else if (W == 320) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+        //resp.properties["vertical-aligning"] = 0;
+    } else if (W == 970) {
+        if (brand == "libelle") {
+            var fs1 = manifest.layers.find(x => x.name == "header");
+            var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+            resp.properties["vertical-aligning"] = 1;
+            fs1.shots[0].size.h = fs1.shots[0].size.initH = 120;
+        }
+    }
+} else if (brand == "humo") {
+    if (W == 300) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+        resp.properties["maxSize"] = fs1.fontSize = 52;
+        fs1.originalLineSpacing = fs1.lineSpacing = 48;
+        resp.properties["vertical-aligning"] = 0;
+        fs1.shots[0].size.h = fs1.shots[0].size.initH = 150;
+    } else if (W == 320) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+        resp.properties["maxSize"] = fs1.fontSize = 36;
+        fs1.originalLineSpacing = fs1.lineSpacing = 34;
+        resp.properties["vertical-aligning"] = 0;
+    } else if (W == 970) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+        resp.properties["maxSize"] = fs1.fontSize = 57;
+        fs1.originalLineSpacing = fs1.lineSpacing = 54;
+        resp.properties["vertical-aligning"] = 0;
+        fs1.shots[0].size.h = fs1.shots[0].size.initH = 120;
+    } else if (H == 1920) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+        resp.properties["maxSize"] = fs1.fontSize = 150;
+        fs1.originalLineSpacing = fs1.lineSpacing = 138;
+    } else if (H == 1350) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+        resp.properties["maxSize"] = fs1.fontSize = 133;
+        fs1.originalLineSpacing = fs1.lineSpacing = 122;
+    }
+} else if (brand == "flair") {
+    if (W == 970) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        fs1.shots[0].size.h = fs1.shots[0].size.initH = 140;
+    } else if (H == 1920) {
+        var fs1 = manifest.layers.find(x => x.name == "header");
+        var resp = fs1.effects.find(y => y.id == "responsive-fontSize");
+        resp.properties["maxSize"] = fs1.fontSize = 105;
+        fs1.originalLineSpacing = fs1.lineSpacing = 113;
+    }
+}
+// BRAND BASED VISUAL DIFFERENCES END
+    if (dynamicData['showDebug'] == "true" || dynamicData['grid8'] == "true") {
+        grid8player.debug(true);
+    } else {
+        grid8player.init();
+    }
+
+    function scaleDebugPanel() {
+        const params = new URLSearchParams(window.location.search);
+        if (grid8player.bDebugMode != true) return;
+
+        let scale = parseFloat(params.get('scale'));
+        console.log('scaling', scale)
+
+        // Calculate scale
+        if (scale > 1) scale = 1;
+        let s = 1 / scale;
+
+        if (scale == 0 || scale == undefined || scale == 1) {
+
+        } else {
+            gsap.set('#debug-panel', {"height": `${50 * s}px`});
+
+            gsap.set('.slider', {"height": `${20 * s}px`});
+            // document.querySelector('input[type="range"]::-webkit-slider-runnable-track').style.height = 2*s+"px";
+            // gsap.set('input[type="range"]::-webkit-slider-runnable-track', {"height": `${2 * s}px`});
+            // gsap.set('input[type="range"]::-webkit-slider-thumb', {"width": `${15 * s}px`, "height": `${15 * s}px`});
+            gsap.set('#debug-control-bar>button', {"width": `${22 * s}px`, "height": `${22 * s}px`});
+            gsap.set('#debug-control-bar>button>svg', {"scale": `${s}`});
+
+            const cssRule = `
+            #debug-label{
+            font-size:${12 * s}px !important
+            }
+                input[type="range"]::-webkit-slider-runnable-track {
+                  height: ${2 * s}px
+                }
+                 input[type="range"]::-webkit-slider-thumb {
+                  width: ${15 * s}px;
+                  height: ${15 * s}px;
+                    margin-top: -${7 * s}px;
+                }
+                `;
+
+            const styleElement = document.createElement('style');
+            styleElement.innerHTML = cssRule;
+            document.head.appendChild(styleElement);
+        }
+
+
+    }
+
+    scaleDebugPanel();
+    setTimeout(() => {
+        scaleDebugPanel()
+    }, 500);
+
+
+</script>
+
+<!-- SCRIPTS -->
+<script>
+grid8player.globalScripts=function(){
+
+/* asfsf */
+var W = manifest.settings.width,
+    H = manifest.settings.height,
+    g = grid8player,
+    tls = g.shotTimelines,
+    tl = tls[0],
+    d,
+    brand = g.dynamicData.s0_brand ? g.dynamicData.s0_brand.toLowerCase() : false,
+    ad = document.querySelector("#ad"),
+    ct = document.querySelector(".cta"),
+    head = document.querySelector(".header") ? Array.from(document.querySelector(".header").children) : [],
+    FRAME2 = g.dynamicData.s0_FRAME2 ? g.dynamicData.s0_FRAME2.toLowerCase() : true,
+    phoneToY = gsap.getProperty(".phone", "y"),
+    STATICS = false; // W == 1080;
+
+ad.addEventListener("mouseenter", hover, false);
+ad.addEventListener("mouseleave", hout, false);
+function hover(e) {
+    if (gsap.getProperty(".cta_arrow", "x") >= -1) {
+        gsap.killTweensOf([ct, ".cta_copy", ".cta_arrow"]);
+        gsap.to(ct, {duration: 0.7, scale: 1.15, ease: "elastic.out(1.2, 0.8)"});
+        gsap.to(".cta_copy", {duration: 0.8, x: - 3, ease: "expo"});
+        gsap.to([".cta_arrow"], {duration: 0.9, x: + 3, ease: "expo"});
+    }
+}
+function hout(e) {
+    if (gsap.getProperty(".cta_arrow", "x") >= -1) {
+        gsap.killTweensOf([ct, ".cta_copy", ".cta_arrow"]);
+        gsap.to(ct, {duration: 0.6, scale: 1.0, ease: "elastic.out(1.0, 1.0)"});
+        gsap.to(".cta_copy", {duration: 0.8, x: 0, ease: "expo"});
+        gsap.to([".cta_arrow"], {duration: 0.7, x: 0, ease: "expo"});
+    }
+}
+
+if (W == 300) {
+    phoneToY += 90;
+} else if (W == 320) {
+    phoneToY += 50;
+}
+
+gsap.set(".cta", {x: "-50%"});
+gsap.set(".cta_copy", {x: 0, y: 0});
+gsap.set(".cta_arrow", {x: 0});
+
+// BRAND-RELATED VISUAL DIFFERENCES BEGIN
+var diff = gsap.getProperty(".subtitle1", "y") - gsap.getProperty(".puzz", "y");
+if (brand == "de_morgen" || brand == "humo" || brand == "libelle" || brand == "flair") {
+    gsap.set(".logo", {x: 0, y: 0});
+    if (W == 970) gsap.set(".cta", {x: 0, y: 0});
+    if (brand == "humo") {
+        if (W != 1080) gsap.set(".header", {y: 32});
+        if (W == 970) {
+            gsap.set(".header", {y: 14});
+            gsap.set([".puzz", ".subtitle1", ".subtitle2"], {y: "+=10"});
+        } else if (H == 1350) {
+            gsap.set(".header", {y: gsap.getProperty(".header", "x")});
+        }
+    }
+    if ((brand == "de_morgen" || brand == "humo") && W == 970) {
+        gsap.set(".header", {x: 20});
+        gsap.set([".puzz", ".subtitle1", ".subtitle2"], {x: "-=" + (gsap.getProperty(".puzz", "x") - gsap.getProperty(".header", "x"))});
+        gsap.set([".phone", ".puzzle"], {x: brand == "de_morgen" ? "-=50" : "-=30"});
+    } else if (brand == "libelle" && W == 970) {
+        gsap.set([".phone", ".puzzle"], {x: "-=30"});
+        gsap.set(".header", {x: 65, y: 61});
+        gsap.set(".puzz", {y: 192});
+        gsap.set([".subtitle1", ".subtitle2"], {y: gsap.getProperty(".puzz", "y") + diff});
+    } else if (brand == "flair" && W == 970) {
+        gsap.set(".header", {y: 50});
+        gsap.set([".puzz", ".subtitle1", ".subtitle2"], {x: "-=" + (gsap.getProperty(".puzz", "x") - gsap.getProperty(".header", "x"))});
+        gsap.set(".puzz", {y: 178});
+        gsap.set([".subtitle1", ".subtitle2"], {y: gsap.getProperty(".puzz", "y") + diff});
+        gsap.set([".phone", ".puzzle"], {x: "-=40"});
+    }
+} else if (brand == "margriet") {
+    gsap.set(".logo", {x: 12, y: 12});
+    if (W == 970) {
+        gsap.set(".logo", {x: 0, y: 0});
+        gsap.set(".cta", {x: 0, y: 0});
+        gsap.set(".header", {x: 20, y: 20});
+        gsap.set([".puzz", ".subtitle1", ".subtitle2"], {x: "-=" + (gsap.getProperty(".puzz", "x") - gsap.getProperty(".header", "x"))});
+        gsap.set([".phone", ".puzzle"], {x: "-=30"});
+    }
+} else if (brand == "hln" && W == 300) {
+    gsap.set(".header", {x: 10});
+}
+// BRAND-RELATED VISUAL DIFFERENCES END
+
+function an() {
+    // SHOT 1
+    d = 0;
+    if (brand == "de_morgen" || brand == "margriet") {
+        tl.from(".logo", {duration: 1.0, y: W == 970 ? "100%" : "-100%", rotationZ: "0.1deg", ease: "expo"}, d);
+    } else if (brand == "libelle" || brand == "flair") {
+        tl.from(".logo", {duration: 1.0, x: "-100%", rotationZ: "0.1deg", ease: "expo"}, d);
+    } else {
+        var eaz = brand == "humo" ? "expo" : "elastic.out(1.0, 1.0)";
+        tl.from(".logo", {duration: 1.0, x: W + 50, rotationZ: "0.1deg", ease: eaz}, d);
+    }
+    if (brand == "libelle") {
+        tl.from(".libelle_line", {duration: 1.4, scaleX: 0, ease: "expo.inOut"}, d);
+    }
+
+    d += 0.1;
+    var s = -1;
+    for (var i = 0; i < head.length; i++) {
+        var j = document.createElement("div"),
+            l = head[i];
+        l.appendChild(j);
+        j.className = "red";
+        for (var k = 0; k < l.children.length - 1; k++) {
+            s++;
+            if (k == 0) {
+                tl.from(j, {duration: 1.2, scaleX: 0, ease: "expo"}, d + s * 0.1);
+            }
+            var wrd = l.children[k];
+            tl.from(wrd, {duration: 0.7, alpha: 0}, d + s * 0.1);
+            tl.from(wrd, {duration: 0.9, x: "+=" + (gsap.getProperty(".header", "font-size") * 2)/*"+=40"*/, ease: "expo"}, d + s * 0.1);
+        }
+        
+    }
+
+    d += (s + 1) * 0.1 + 0.2;
+    tl.from(".puzz", {duration: 0.7, scale: 0, ease: "elastic.out(1.8, 1.0)"}, d);
+    tl.from(".subtitle1", {duration: 1.0, x: "+=" + (gsap.getProperty(".subtitle1", "font-size") * 3)/*"+=50"*/, alpha: 0, ease: "elastic.out(0.9, 1.1)"}, d + 0.15);
+
+    d += 0.3;
+    if (W == 720) d = 0;
+    if (FRAME2 == "off") {
+        if (W == 300) phoneToY -= 40;
+        gsap.set([".subtitle2", ".puzzle"], {display: "none"});
+
+        tl.fromTo(".phone", {y: H}, {duration: 1.8, y: phoneToY, ease: "expo"}, d);
+
+        d += 0.3;
+        if (W == 970) d -= 0.2;
+        tl.fromTo(".cta", {width: 0}, {duration: 1.0, width: "auto", ease: "expo.out"}, d);
+        tl.from(".cta", {duration: 0.1, alpha: 0}, d);
+        tl.from(".cta_copy", {duration: 0.6, alpha: 0}, d + 0.1);
+        tl.from(".cta_arrow", {duration: 0.6, alpha: 0}, d + 0.3);
+        tl.from(".cta_arrow", {duration: 1.0, x: "-=10", ease: "expo"}, d + 0.3);
+        if (W == 970) d += 0.2;
+    } else {
+        tl.from(".phone", {duration: 1.8, y: H, ease: "expo"}, d);
+
+        // SHOT2
+        d += 2.0;
+        tl.to(".phone", {duration: 1.0, y: phoneToY, ease: "expo.inOut"}, d);
+
+        d += 0.1;
+        tl.to(".subtitle1", {duration: 0.3, alpha: 0}, d);
+        tl.from(".subtitle2", {duration: 1.0, x: "+=" + (gsap.getProperty(".subtitle2", "font-size") * 3)/*"+=50"*/, alpha: 0, ease: "elastic.out(0.9, 1.1)"}, d + 0.15);
+
+        d += 0.4;
+        if (W == 970) d -= 2.4;
+        tl.fromTo(".cta", {width: 0}, {duration: 1.0, width: "auto", ease: "expo.out"}, d);
+        tl.from(".cta", {duration: 0.1, alpha: 0}, d);
+        tl.from(".cta_copy", {duration: 0.6, alpha: 0}, d + 0.1);
+        tl.from(".cta_arrow", {duration: 0.6, alpha: 0}, d + 0.3);
+        tl.from(".cta_arrow", {duration: 0.9, x: "-=10", ease: "expo"}, d + 0.3);
+        if (W == 970) d += 2.4;
+
+        d += 0.1;
+        if (W == 720) d = 0.6;
+        tl.from(".puzzle", {duration: 1.4, x: gsap.getProperty(".phone", "x") + gsap.getProperty(".phone", "width") / 2, y: phoneToY + 100, ease: "expo", scale: 0, stagger: 0.2}, d);
+        tl.set(".puzzle", {rotationY: 15}, d);
+        tl.to(".puzzle", {duration: "random(0.7, 1.3, 0.1)", rotationY: "random(-10, -20, 1)", ease: "sine.inOut", repeat: 7, yoyo: true}, d);
+    }
+    tl.add(hover, d + 1.2);
+    tl.add(hout, d + 1.7);
+}
+if (STATICS) {
+    for (var i = 0; i < head.length; i++) {
+        var j = document.createElement("div"),
+            l = head[i];
+        l.appendChild(j);
+        j.className = "red";
+    }
+    if (FRAME2 == "off") {
+        gsap.set([".subtitle2", ".puzzle"], {display: "none"});
+    } else {
+        gsap.set([".subtitle1"], {display: "none"});
+    }
+} else {
+    an();
+}
+
+}
+</script>
+<!-- //SCRIPTS -->
+<!-- CUSTOM EASE --><script>
+
+</script><!-- /CUSTOM EASE -->
+</body>
+</html>

@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'publico';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-PublicoHeadline-Extrabold.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'museo';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-MuseoSans-500.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'museo-bold';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-MuseoSansCyrl-900.woff2') format('woff2');
+    font-weight:unset!important;
+    font-style: normal;
+    font-display: swap;
+}
+.logo { 
+    background-image: url("DeMorgen.svg"); 
+    background-repeat: no-repeat; 
+    background-size: contain; 
+    background-position: center; 
+    background-color: #ffffff;
+}
+.ad300x600 .logo, .ad320x400 .logo { background-size: 167px auto !important; }
+.ad970x250 .logo { background-size: 167px auto !important; }
+.ad300x600 .logo { width: inherit !important; !important; height: 57px !important; }
+.ad320x400 .logo { width: inherit !important; height: 49px !important; }
+.ad970x250 .logo { width: inherit !important; height: 52px !important; bottom: 0; background-position: 20px center; }
+.header { font-family: 'publico' !important; color: #000000 !important; text-align: left !important; }
+.header span { color: #E1261C !important; }
+.cta_copy { font-family: 'museo-bold' !important; }
+.subtitle1, .subtitle2 { font-family: 'museo' !important; color: #000000 !important; }
+.cta { background: #E1261C; border-radius: 0 !important; }
+.cta_copy { color: #ffffff !important; }
+.cta_arrow svg .a { fill: #ffffff; }
+#grid8-background { background-color: #F2F2F2 !important }
+#level-background { display: none; }
+.ad970x250 .cta { left: auto !important; right: 20px; bottom: 10px; transform-origin: 100% 50% !important; }

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!--
+	NOTES:
+	1. All tokens are represented by '$' sign in the template.
+	2. You can write your code only wherever mentioned.
+	3. All occurrences of existing tokens will be replaced by their appropriate values.
+	4. Blank lines will be removed automatically.
+	5. Remove unnecessary comments before creating your template.
+-->
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="authoring-tool" content="Adobe_Animate_CC">
+    <title>index</title>
+    <!-- write your code here -->
+    <script src="https://s0.2mdn.net/ads/studio/cached_libs/createjs_2019.11.15_min.js"></script>
+    <script src="https://s0.2mdn.net/ads/studio/cached_libs/gsap_3.0.1_min.js"></script>
+    <script src="https://static.pexi.nl/general/jquery.min.js"></script>
+    <script src="https://static.pexi.nl/pexi.js"></script>
+    <script src="index.js"></script>
+    <script>
+        const TITLE = "ad";//AD, ED, TT, DG, PZC, BN, DS, BD
+        const SIZE = "300x600";
+        //const NUM = 0;
+        function xmlToJson(xml) { var obj = {}; if (xml.nodeType == 1) { if (xml.attributes.length > 0) { obj["@attributes"] = {}; for (var j = 0; j < xml.attributes.length; j++) { var attribute = xml.attributes.item(j); obj["@attributes"][attribute.nodeName] = attribute.nodeValue; } } } else if (xml.nodeType == 3) { obj = xml.nodeValue; } if (xml.hasChildNodes()) { for(var i = 0; i < xml.childNodes.length; i++) { var item = xml.childNodes.item(i); var nodeName = item.nodeName; if (typeof(obj[nodeName]) == "undefined") { obj[nodeName] = xmlToJson(item); } else { if (typeof(obj[nodeName].push) == "undefined") { var old = obj[nodeName]; obj[nodeName] = []; obj[nodeName].push(old); } obj[nodeName].push(xmlToJson(item)); } } } return obj; };
+        window.onload = function() {
+            var format = "300x250";
+            PEXI.inView(function(){
+
+                if(window.isInView == true) return;
+                window.isInView = true;
+            $.get('https://dash.pexi.nl/api/feeds/610bcdb8bb1d7',function(e){
+            var json = e;// xmlToJson(e)
+            var i = 0;
+    
+            var item = 0;
+            var previewDate = decodeURIComponent(GetURLParameter("previewdate"));
+                console.log("preview date:" + previewDate);
+                var today = new Date();
+
+            if(previewDate != undefined && previewDate != "undefined") today = new Date( previewDate);
+           
+            console.log(e);
+            //console.log(json.length + " json.length");
+            for(var it = 0; it < json.length; it++){
+                if(json[it].size == SIZE && json[it].title == TITLE) {
+                    console.log(json[it]);
+                    dynamicContent.dcodata[i].video = json[it];
+                }
+                //item = it;
+            }
+            //console.log(json[NUM]);
+            //dynamicContent.dcodata[i].video = json[NUM];
+                init();
+         
+        
+    
+            });
+        });
+
+
+        }
+        
+
+        var devDynamicContent = {};
+        var dynamicContent = {};
+        /*var dynamicContent = {
+            dcodata: [ {},{},{},{}, {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+            {},{},{},{}, {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]
+        };*/
+        var dynamicContent = {
+            dcodata: []
+        };
+        for(var dd = 0; dd < 40; dd++){
+            var obj = {};
+            dynamicContent.dcodata.push(obj);
+        }
+
+        const ASSET_FOLDER = ""; // https://s0.2mdn.net/creatives/assets/3595934/
+        var clickTag = "https://www.google.com/";
+        var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+
+        function getColor(titleName) {
+            var color = 'red';
+            switch (titleName) {
+                case "ad":
+                    color = "red"
+                    break;
+                case "ed":
+                    color = "blue"
+                    break;
+                case "ds":
+                    color = "red"
+                    break;
+                case "dg":
+                    color = "red"
+                    break;
+                case "bd":
+                    color = "red"
+                    break;
+                case "pzc":
+                    color = "blue"
+                    break;
+                case "tt":
+                    color = "red"
+                    break;
+                case "bn":
+                    color = "red"
+                    break;
+                default:
+                    color = "red"
+            }
+            return color;
+        }
+
+        function init() {
+            window.titleName = dynamicContent.dcodata[0].title;
+            canvas = document.getElementById("canvas");
+            anim_container = document.getElementById("animation_container");
+            dom_overlay_container = document.getElementById("dom_overlay_container");
+            var comp = AdobeAn.getComposition("63503EBEFC3C4775853C2823E35F380E");
+            var lib = comp.getLibrary();
+            var loader = new createjs.LoadQueue(false);
+            loader.addEventListener("fileload", function(evt) {
+                handleFileLoad(evt, comp)
+            });
+            loader.addEventListener("complete", function(evt) {
+                handleComplete(evt, comp)
+            });
+            var lib = comp.getLibrary();
+
+            if (getColor(window.titleName) == "blue") {
+                for (var i = 0; i < lib.properties.manifest.length; i++)
+                    if (lib.properties.manifest[i].id == "phone")
+                        lib.properties.manifest[i].src = "phone_blue.png";
+
+            }
+
+
+
+            loader.loadManifest(lib.properties.manifest);
+
+            document.getElementById('animation_container').addEventListener('click', onExitEvent);
+        }
+
+        function handleFileLoad(evt, comp) {
+            var images = comp.getImages();
+            if (evt && (evt.item.type == "image")) {
+                images[evt.item.id] = evt.result;
+            }
+        }
+
+        function handleComplete(evt, comp) {
+            //This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+            var lib = comp.getLibrary();
+            var ss = comp.getSpriteSheet();
+            var queue = evt.target;
+            var ssMetadata = lib.ssMetadata;
+            for (i = 0; i < ssMetadata.length; i++) {
+                ss[ssMetadata[i].name] = new createjs.SpriteSheet({
+                    "images": [queue.getResult(ssMetadata[i].name)],
+                    "frames": ssMetadata[i].frames
+                })
+            }
+            exportRoot = new lib.index();
+            stage = new lib.Stage(canvas);
+            //Registers the "tick" event listener.
+            fnStartAnimation = function() {
+                    stage.addChild(exportRoot);
+                    createjs.Ticker.framerate = lib.properties.fps;
+                    createjs.Ticker.addEventListener("tick", stage);
+                }
+                //Code to support hidpi screens and responsive scaling.
+            AdobeAn.makeResponsive(false, 'both', false, 1, [canvas, anim_container, dom_overlay_container]);
+            AdobeAn.compositionLoaded(lib.properties.id);
+            fnStartAnimation();
+        }
+        function GetURLParameter(sParam)
+            {
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) 
+                {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) 
+                    {
+                        return sParameterName[1];
+                    }
+                }
+             } 
+
+        function onExitEvent() {
+            //PEXI.click();
+            window.open('https://www.google.com', '_blank');
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0; /* Optional: adds a light gray background to the page */
+        }
+        
+        #dom_overlay_container {
+            display: none;
+        }
+        
+        #animation_container {
+            position: relative;
+            width: 300px;
+            height: 600px;
+            overflow: hidden;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow */
+        }
+        
+        #animation_container * {
+            position: absolute;
+        }
+        
+        #animation_container>div {
+            width: inherit;
+            height: inherit;
+        }
+        
+        #white {
+            background: #ffffff;
+        }
+        
+        #video_holder {
+            width: inherit;
+            height: inherit;
+            background: #ffffff;
+        }
+        
+        #video_holder * {
+            width: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="animation_container">
+        <div id="video_holder"></div>
+        <div id="white"></div>
+        <canvas id="canvas" width="300" height="600"></canvas>
+        <div id="dom_overlay_container"></div>
+    </div>
+</body>
+
+</html>

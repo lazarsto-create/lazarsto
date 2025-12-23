@@ -1,0 +1,103 @@
+.logo {
+    content:"";
+    background-image: url("NU.svg");
+    width:100%;
+    height:60px; 
+    position:absolute;
+ /*   right: 0;
+    bottom: 0;*/
+    background-repeat: no-repeat;
+    background-size: auto 60px;
+    background-position: 653px 15px;
+}
+.subtitle1, .subtitle2 {
+    top: 10px;
+}
+.red,  .black {
+
+ }
+ .black {
+
+ }
+ .img1 {
+    transform: scale(1.33);
+    top: 11px;
+    left: -83px;
+ }
+  .puzzel {
+    transform: scale(1.33);
+    top: 10px;
+    left:-85px;
+ }
+ .overwhite {display: none;}
+.btn_left, .arrinR {
+     content:"";
+    background-image: url("btnLNu.png");
+    width:100%;
+    height:38px; 
+    position:absolute;
+    background-repeat: no-repeat;
+    background-size: auto 38px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+/*    border: 5px solid rgba(41, 41, 41, 0.15);*/
+}
+.btn_left, .btn_right {left:-70px}
+/*.btn_right {
+  background-image: url("btnLNu.png");
+  
+}*/
+.arrinR {
+/*    transform: scaleX(-1) !important;*/
+}
+ /*#grid8-background{
+    background-color: #FF0000!important;
+ }*/
+
+ /*CTA BUTTON*/
+ .btn {left: -70px;top: 34px;}
+.cta {
+    border-radius: 8px;
+    background-color: #69A10E;
+    width: max-content !important;
+    height: auto !important;
+    padding: 0.8em 1.5em 0.5em 2.5em;
+    /*left: 50%;
+    transform: translate(-50%, 0) !important;*/
+}
+
+.ctaFrame2 {
+    background-color: #D10A10;
+}
+
+.btnRight>.cta {
+    right: 0;
+}
+
+.cta::after {
+    content: "";
+    height: 0.7em;
+    width: 0.7em;
+    background-image: url("cta-nu.svg");
+    display: inline-block;
+    margin-left: 7px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 17px;
+    top: 13px;
+}
+
+
+@font-face {
+    font-family: 'flama';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-Arial-BoldMT.woff2') format('woff2');
+    font-weight:unset!important;
+    overflow: visible!important;
+}
+
+
+.title1, .title2, .subtitle1, .subtitle2, .cta {
+    font-family: 'flama' !important;
+    font-weight:unset!important;
+}

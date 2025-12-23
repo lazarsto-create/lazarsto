@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" class="no-touch">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BL4888PM60"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BL4888PM60');
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Lazar Stojkovic - Digital Design - LazarSto.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<!-- Favicon and touch icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<link rel="stylesheet" href="./css/styles.css">
+<script src="https://kit.fontawesome.com/560446b760.js" crossorigin="anonymous"></script>
+<script src="./js/jquery-1.11.0.min.js"></script>
+<script src="./js/fastclick.js"></script>
+<script src="./js/scripts.js"></script>
+<!--[if lt IE 9]>
+        <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+<link href="./css/fonts.css" rel="stylesheet" type="text/css">
+</head>
+<body class="screen--standard">
+<nav class="menu">
+<div class="menu__inner container">
+<ul class="menu__items">
+<li class="menu__item"><a class="internal" href="#intro">Hello</a></li>
+<li class="menu__item"><a class="internal" href="#about">About</a></li>
+<li class="menu__item"><a class="internal" href="#skills">Skills</a></li>
+<li class="menu__item"><a class="internal" href="#portfolio">Work</a></li>
+<li class="menu__item"><a class="internal" href="#contact">Contact</a></li>
+</ul>
+</div>
+</nav>
+
+<div class="item item--compas">
+	<img class="item" src="./images/compas.png" alt="">
+	<img class="item needle" src="./images/compas-needle.png" alt="" data-first-enter-image="true">
+</div>
+
+<section id="intro" class="container block block--intro">
+<h1>digital marketing<br>creative agency<br>banner motion<br>Web ads</h1>
+<h2>Animated social & display ads for the world's number one traffic app</h2>
+<p>Hello, I'm Lazar, a creative developer with a foundation in marketing and advertising. I specialize in building a broad spectrum of web advertising—from static to animated, interactive to expandable—and, most notably,<b>dynamic DCO (Dynamic Creative Optimization) banner ads.</b> These intelligent ads pull live content from <b>JSON, XML</b>, or <b>CSV</b> feeds to automatically generate highly personalized and timely ad content.</p>
+<p>Take a look my <a href="#portfolio" class="internal">online portfolio</a> and if you are interested, you can <a href="#contact" class="internal">contact&nbsp;me</a>.</p>
+</section>
+
+<section id="about" class="container block block--about">
+<h2>A bit about me...</h2>
+<p>I deliver banner sets for <b>GDN, IAB, Pexi, AdForm, Weborama</b>, and virtually any advertising platform. Whether it's a simple static ad or a complex, data-driven dynamic banner connected to JSON, XML, or CSV feeds, I can bring your campaign to life with precise animation and flawless execution.</p>
+<p>With more than 20 years of experience, I've had the privilege to work with world's leading brands and top creative agencies, including:
+<b>Allianz, HEMA, DPG Media, Ziggo, MediaMarkt, Univé, AT&T, Carrefour, Citroën, Diesel, Electrolux, Erste Bank, FedEx, Givenchy, Hermès, Hyundai, Jean Paul Gaultier, Kenzo, Kia, L'Oréal, McDonald's, Nespresso, Nutella, Omega, Paco Rabanne, Prada, Samsonite, PlayStation, Swatch, Ubisoft, Dior, Heineken, Lancôme, Nikon, Renault, Volkswagen, Yves Rocher</b> … and many more.</p>
+</section>
+
+<section id="skills" class="container block block--skills">
+<h2>Skills:</h2>
+<ul class="list">
+<li class="list__item"><i class="list__item__icon fa-solid fa-angle-right"></i><b>DCO</b> dynamic creatives optimization Ads</li>
+<li class="list__item"><i class="list__item__icon fa-solid fa-angle-right"></i><b>Display Ads</b> Animated banners</li>
+<li class="list__item"><i class="list__item__icon fa-solid fa-angle-right"></i><b>Weborama</b> All kind of weborama ads</li>
+</ul>
+<h2>Tools:</h2>
+<ul class="list">
+<li class="list__item"><i class="list__item__icon fa-solid fa-angle-right"></i><b>Software</b> (Sublime Text, Photoshop, Illustrator, XD, After Effects, Animate, Audition, Media Encoder, Acrobat)</li>
+<li class="list__item"><i class="list__item__icon fa-solid fa-angle-right"></i><b>Online apps</b> (Weborama, Google Studio, Pexi, DCO, Slack)</li>
+<li class="list__item"><i class="list__item__icon fa-solid fa-angle-right"></i><b>Programming</b> (HTML5, CSS3, JavaScript, GSAP, Createjs)</li>
+</ul>
+</section>
+
+<section id="portfolio" class="container block block--portfolio">
+<?php
+    $portfolioImages = glob(__DIR__ . '/images/portfolio/*.jpg');
+?>
+
+<?php if (!empty($portfolioImages)): ?>
+    <div class="image-grid">
+        <?php foreach ($portfolioImages as $imagePath): ?>
+            <?php
+                $imageFile = basename($imagePath);
+            ?>
+            <div class="image-grid__item" data-file="<?php echo htmlspecialchars($imageFile, ENT_QUOTES, 'UTF-8'); ?>">
+                <img src="images/portfolio/<?php echo htmlspecialchars($imageFile, ENT_QUOTES, 'UTF-8'); ?>" alt="">
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+</section>
+
+<section id="contact" class="container block block--contact">
+
+<h2>Get in touch!</h2>
+<p>Contact me on one of the following and I'll get back to you as soon as I can. In the meantime, feel free to have a look around.</p>
+<p>lazarsto@gmail.com</p>
+<p>
+<a href="mailto:lazarsto@gmail.com" class="button" title="Email"><i class="fa-solid fa-envelope"></i></a>
+<a href="https://www.linkedin.com/in/lazar-stojkovic-369867a/" target="_blank" class="button" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+</p>
+
+<div class="item item--iphone">
+	<div class="item phone_screen"><video width="472" height="270" autoplay muted loop><source type="video/mp4" src="display/video-ads/no-limits.mp4"></video></div>
+
+	<div class="item phone-s">
+    	<img src="./images/mobilescreen.png">
+    </div>
+</div>
+
+<p><a href="#intro" class="internal handwriting">back to the beginning<i class="arrow fa-solid fa-angle-up"></i></a></p>
+</section>
+
+<footer class="footer">
+<div class="container">
+<p>© <span class="current-year">2025</span> LazarSto.com All rights reserved.</p>
+</div>
+</footer>
+
+</body></html>

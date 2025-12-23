@@ -1,0 +1,153 @@
+.tr, .fl, .vk, .hp, .mar, .lib, .bg_article1 {display: none!important;}
+.logo {
+    content:"";
+    background-image: url("hln.svg");
+    width:100%;
+    height:40px; 
+    position:absolute;
+ /*   right: 0;
+    bottom: 0;*/
+    background-repeat: no-repeat;
+    background-size: auto 40px;
+    background-position: 15px 12px;
+}
+.bg_logo {
+    background-color: #FFFFFF;
+}
+.hand {
+    transform: translate(80px, 53px)!important;
+}
+.image1 {
+    transform: translate(-25px, 59px)!important;
+}
+
+.red,  .black {
+    padding: 3px 5px 3px 5px;
+    left: 50%;
+    transform: translate(-50%, 0) !important;
+/*    clip-path: inset(0 0 0 0);*/
+    background-color: #FF0000;
+    width: fit-content;
+    white-space: nowrap;
+ }
+ .black {
+
+ }
+ .label {
+/*    border:1px solid #000000;*/
+    background-color: #FF0000;
+    width: max-content !important;
+    height: auto !important;
+    padding: 5px 5px 5px 5px;
+/*    color: #000000!important;*/
+    font-size: 10px!important;
+ }
+ .ad970x250 { --cp: 612px;}
+.bg_article {
+    border: 1px solid #000000;
+    clip-path: inset( 0 0 0 var(--cp) );
+}
+.bg1 { overflow: visible; transform: translate(86px, 147px)!important;}
+.bg2 { overflow: visible; transform: translate(194px, 131px)!important;}
+
+.bg_color{
+    background-color: #F5F5F5;
+}
+/*.btn_right {
+  background-image: url("btnLNu.png");
+  
+}*/
+.arrinR {
+    transform: scaleX(-1) !important;
+}
+ /*#grid8-background{
+    background-color: #FF0000!important;
+ }*/
+
+ /*CTA BUTTON*/
+ /*.btn {
+    top:-70px;
+ }*/
+.cta {
+    border-radius: 5px;
+    background-color: #FF0000;
+    width: max-content !important;
+    height: auto !important;
+    padding: 0.5em 1.0em 0.4em 1.0em;
+    left: 50%;
+    transform: translate(-50%, 0) !important;
+    text-transform: uppercase!important;
+}
+
+.ctaFrame2 {
+    background-color: #D10A10;
+}
+
+.btnRight>.cta {
+    right: 0;
+}
+
+.cta::after {
+    content: "";
+    height: 0.9em;
+    width: 0.9em;
+    background-image: url(vk_arrow.svg);
+    display: inline-block;
+    margin-left: 7px;
+    position: relative;
+    top: 2px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+@font-face {
+    font-family: 'capitol';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/StagSans-Semibold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+/*@font-face {
+    font-family: 'bmedium';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-BentonSans-Medium.woff2') format('woff2');
+    font-weight:unset!important;
+}*/
+
+@font-face {
+    font-family: 'bregular';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/RamaGothicEW01SemiBold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+@font-face {
+    font-family: 'benton';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/StagSans-Medium.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+
+
+
+.title, .artTitle  {
+    font-family: 'capitol' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+}
+
+/*.artTitle {
+    font-family: 'capitol' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+    line-height: 1.133 em!important;
+}*/
+
+.artSub {
+    font-family: 'bregular' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+}
+
+.cta, .label{
+    font-family: 'benton' !important;
+    font-weight:unset!important;
+}

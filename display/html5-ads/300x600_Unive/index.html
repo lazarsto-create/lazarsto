@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="ad.size" content="width=300,height=600">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="">
+    <script src="https://s0.2mdn.net/ads/studio/Enabler.js">
+    </script>
+    <script src="https://s0.2mdn.net/ads/studio/cached_libs/gsap_3.11.5_min.js"></script>
+    <script src="manifest.js"></script>
+    
+
+    <!-- VARIABLES -->
+    <script type="text/javascript">
+        var bStudioReady = false, bGrid8ready = false;
+        var WIDTH = manifest.settings.width;
+        var HEIGHT = manifest.settings.height;
+        var adID = manifest.settings.adID;
+    </script>
+    <script src="grid8player.min.js"></script>
+    <script src="animate.js"></script>
+    
+
+
+        <!-- ANIMATIONS -->
+        <script>
+            if (!Enabler.isInitialized()) {
+                Enabler.addEventListener(
+                    studio.events.StudioEvent.INIT,
+                    enablerInitialized);
+            } else {
+                enablerInitialized();
+            }
+
+            function enablerInitialized() {
+                // Enabler initialized.
+                // In App ads are rendered offscreen so animation should wait for
+                // the visible event. These are simulated with delays in the local
+                // environment.
+                bStudioReady = true;
+                console.log('!!!studioready')
+
+                if (!Enabler.isVisible()) {
+                    Enabler.addEventListener(
+                        studio.events.StudioEvent.VISIBLE,
+                        adVisible);
+                } else {
+                    adVisible();
+                }
+            }
+
+            function adVisible() {
+                console.log('!!!advisible')
+
+                if (bGrid8ready == true && bStudioReady == true) {
+                    grid8player.play();
+                    $('#ad').style.opacity = 1;
+                } else {
+                    setTimeout(() => {
+                        adVisible();
+                    }, 10);
+                }
+                //    grid8player.init();
+            }
+
+
+            function mouseOver(e, t) {
+
+                grid8player.onMouseOver(e, t);
+
+            }
+
+            function mouseOut(e, t) {
+                grid8player.onMouseOut(e, t);
+
+            }
+
+            function onClick() {
+                Enabler.exitOverride("ExitEvent", grid8player.getExitUrl());
+            }
+        </script>
+        <style>
+
+
+            /* css */
+.copy1 { margin: 0 !important; overflow: visible !important; }
+.copy3, .copy4 { overflow: visible !important; }
+.line { overflow: hidden !important; border-radius: 4px; }
+.copy1_cont { overflow: hidden !important; border-radius: 12px; }
+#level-answers { display: flex; align-items: center; justify-content: center; flex-direction: row; flex-wrap: wrap; height: 100px !important; top: 170px !important; overflow: visible !important; column-gap: 10px; row-gap: 10px; }
+.ad970x250 #level-answers { align-items: flex-start; justify-content: left; top: 190px !important; left: 20px !important; }
+#level-answers > div { position: unset !important; background: #ffffff; border-radius: 12px; width: auto !important; }
+#level-answers > div > div:nth-child(2) { position: unset; padding: 0 14px 0 40px; width: max-content !important; }
+#level-answers .icon { top: 0; }
+#level-answers > div * { pointer-events: none; }
+.copy1 span { color: #25DC71 !important; }
+.copy3 span, .copy4 span { color: #125C30 !important; }
+
+
+
+        </style>
+
+</head>
+
+<body>
+<div id="ad" onclick="onClick()" onmouseenter="mouseOver(event,this)" onmouseleave="mouseOut(event,this)">
+
+
+</div>
+
+<!--<div id="clickLayer" onclick="onClick()"></div>-->
+<div id="border"></div>
+
+<div class='resizable'>
+    <div class='resizers'>
+        <div class='rotator-wrapper'>
+            <div class='rotator'></div>
+        </div>
+        <div class='resizer top-left'></div>
+        <div class='resizer top-right'></div>
+        <div class='resizer bottom-left'></div>
+        <div class='resizer bottom-right'></div>
+    </div>
+</div>
+<div id="debug-panel">
+    <div id="slider-wrapper">
+        <input id="debug-slider" type="range" min="0" max="100" value="0" class="slider">
+    </div>
+    <div id="debug-label">0:00/0:00</div>
+    <div id="debug-control-bar">
+
+        <button id="debug-back">
+            <svg style="rotate:180deg;" xmlns="http://www.w3.org/2000/svg" width="7.678"
+                 height="9.709" viewBox="0 0 7.678 9.709">
+                <path id="Icon_metro-next" data-name="Icon metro-next"
+                      d="M7.678,0V9.709H5.484V5.259L0,9.3V.4L5.484,4.45V0Z"
+                      fill="#00004c"/>
+            </svg>
+        </button>
+        <button id="debug-play">
+            <svg xmlns="http://www.w3.org/2000/svg" id="play-debug-icon" width="8.511" height="10.851"
+                 viewBox="0 0 8.511 10.851">
+                <path id="Icon_ionic-md-play" data-name="Icon ionic-md-play" d="M6.75,3.656V14.507l8.511-5.425Z"
+                      transform="translate(-6.75 -3.656)" fill="#00004c"/>
+            </svg>
+
+            <svg xmlns="http://www.w3.org/2000/svg" id="pause-debug-icon" style="display:none" width="8.678"
+                 height="10.124" viewBox="0 0 8.678 10.124">
+                <path id="Icon_material-pause" data-name="Icon material-pause"
+                      d="M0,10.124H2.893V0H0ZM5.785,0V10.124H8.678V0Z" fill="#00004c"/>
+            </svg>
+        </button>
+
+        <button id="debug-forward">
+            <svg xmlns="http://www.w3.org/2000/svg" width="7.678" height="9.709"
+                 viewBox="0 0 7.678 9.709">
+                <path id="Icon_metro-next" data-name="Icon metro-next"
+                      d="M19.889,5.784v9.709H17.695v-4.45l-5.484,4.046v-8.9l5.484,4.046V5.784Z"
+                      transform="translate(-12.211 -5.784)" fill="#00004c"/>
+            </svg>
+        </button>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $('#ad').style.width = $('#border').style.width = WIDTH + "px";
+    $('#ad').style.height = $('#border').style.height = HEIGHT + "px";
+
+    function replaceZ(str) {
+      str = str.replace(/\^([\p{L}\d\-,@!?.:;*#€$&%\-==\(\)\[\]{}]+)/gmu, '<span>$1</span>');
+      str = str.replace('\n', '<br>');
+      return str;
+    }
+
+    var queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    let dynamicData = {};
+    urlParams.forEach((value, key) => {
+        if (key.indexOf("copy") != -1 || key.indexOf("question") > -1) {
+            value = replaceZ(value);
+        }
+        dynamicData[key] = value;
+    })
+    grid8player.dynamicData = dynamicData;
+    var ans0 = grid8player.dynamicData["s0_answer_1"] ? grid8player.dynamicData["s0_answer_1"].split("|") : [],
+        ans1 = grid8player.dynamicData["s0_answer_2"] ? grid8player.dynamicData["s0_answer_2"].split("|") : [],
+        ans2 = grid8player.dynamicData["s0_answer_3"] ? grid8player.dynamicData["s0_answer_3"].split("|") : [],
+        good = grid8player.dynamicData["s0_right_copy"] ? grid8player.dynamicData["s0_right_copy"].split("|") : [],
+        bad = grid8player.dynamicData["s0_wrong_copy"] ? grid8player.dynamicData["s0_wrong_copy"].split("|") : [];
+    if (ans0.length > 1) { grid8player.dynamicData["index0"] = ans0[0]; grid8player.dynamicData["s0_answer_1"] = ans0[1]; }
+    if (ans1.length > 1) { grid8player.dynamicData["index1"] = ans1[0]; grid8player.dynamicData["s0_answer_2"] = ans1[1]; }
+    if (ans2.length > 1) { grid8player.dynamicData["index2"] = ans2[0]; grid8player.dynamicData["s0_answer_3"] = ans2[1]; }
+
+    if (good.length > 1) { grid8player.dynamicData["good"] = good[0]; grid8player.dynamicData["s0_right_copy"] = good[1]; }
+    if (bad.length > 1) { grid8player.dynamicData["bad"] = bad[0]; grid8player.dynamicData["s0_wrong_copy"] = bad[1]; }
+    if (dynamicData['showDebug'] == "true" || dynamicData['grid8'] == "true") {
+        grid8player.debug(true);
+    } else {
+        grid8player.init(() => {
+            bGrid8ready = true;
+            console.log('!!!grid8ready')
+            // if(bStudioReady==true) bGrid8ready.play();
+        });
+    }
+</script>
+<!-- SCRIPTS -->
+<script>
+grid8player.globalScripts=function(){
+
+/* sc3 */
+var W = manifest.settings.width,
+    H = manifest.settings.height,
+    g = grid8player,
+    tls = g.shotTimelines,
+    RIGHT_ANSWER = g.dynamicData["s0_right_answer"] ? g.dynamicData["s0_right_answer"] : "",
+    CLICKED = false;
+
+gsap.set(".answer", {x: 0, y: 0});
+gsap.set(".answer > div:nth-child(2)", {x: 0});
+
+function an() {
+    // SHOT 1
+    var d = 0.0;
+    tl = tls[0];
+    var sh0_le = tl.parent.labels.shot1,
+        sh1_le = tl.parent.labels.shot2;
+    var c1 = document.getElementsByClassName("copy1")[0].children,
+        line = document.getElementsByClassName("line")[0],
+        c3 = document.getElementsByClassName("copy3")[0].children,
+        c4 = document.getElementsByClassName("copy4")[0].children,
+        imX = gsap.getProperty(".image_cont", "x"),
+        imY = gsap.getProperty(".image_cont", "y");
+
+    if (W == 300) {
+        tl.from(".cover", {duration: 0.8, y: -50, ease: "expo"}, d);
+        tl.from(".logo", {duration: 1.0, y: "+=100", ease: "expo"}, d + 0.1);
+    } else { // 970x250
+        tl.from(".cover", {duration: 0.8, x: 300, ease: "expo"}, d);
+        tl.from(".logo", {duration: 1.0, x: "+=150", ease: "expo"}, d + 0.1);
+    }
+    tl.from(".image", {duration: 3.5, scale: 1.06, ease: "sine"}, d);
+
+    d += 0.2;
+    tl.from(".unibol", {duration: 1.0, scale: 0, ease: "elastic.out(1.2, 1.0)"}, d);
+
+    d += 0.3;
+    tl.from(".copy1_cont", {duration: 1.0, scale: 0, rotation: -30, ease: "elastic.out(1.0, 1.0)"}, d);
+
+    d += 0.2;
+    tl.from(c1, {duration: 1.0, y: "+=30", alpha: 0, ease: "expo", rotationY: "0.1deg", stagger: 0.1}, d);
+
+    d += 2.0;
+    if (W == 300) tl.to(".image_cont", {duration: 0.8, x: "+=40", y: "+=70", scale: 0.87, overwrite: true, ease: "expo.inOut"}, d);
+    if (W == 970) tl.to(".image_cont", {duration: 0.8, x: -80, y: -130, scale: 0.87, overwrite: true, ease: "expo.inOut"}, d);
+    if (W == 970) tl.to(".copy1_cont", {duration: 1.0, y: 20, ease: "expo.inOut"}, d);
+    tl.to(".image_cont", {duration: 1.0, filter: "blur(3px)", ease: "expo.inOut"}, d);
+    
+    d += 0.4;
+    if (W == 300) tl.to(".unibol", {duration: 1.0, y: "+=80", ease: "elastic.out(1.2, 1.0)"}, d);
+
+    d += 0.2;
+    var lineW = gsap.getProperty(line, "width");
+    tl.from([line.children[0], line.children[2]], {duration: 0.8, x: "-=" + lineW, ease: "expo.inOut"}, d);
+    tl.from(".answer", {duration: 0.9, scale: 0, y: "+=50", rotation: 10, ease: "elastic.out(1.0, 0.9)", stagger: 0.1}, d);
+    tl.add(function() {
+        var ans = document.querySelectorAll(".answer");
+        for (var i = 0; i < ans.length; i++) {
+            var a = ans[i];
+            a.addEventListener("mouseenter", hoverAns, false);
+            a.addEventListener("mouseleave", outAns, false);
+            a.addEventListener(grid8player.getClickEvent(), clickAns, false);
+        }
+    });
+
+    d += 0.5;
+    tl.from(line.children[1], {duration: sh0_le - d, x: "-=" + lineW, ease: "none"}, d);
+
+    d += 1.0;
+    tl.to(".answer", {duration: 0.3, scale: 1.15, ease: "back", stagger: 0.25}, d);
+    tl.to(".answer", {duration: 0.6, scale: 1.0, ease: "elastic.out(1.0, 1.0)", stagger: 0.25}, d + 0.3);
+
+    // SHOT 2
+    d = 0;
+    tl = tls[1];
+    tl.to([".copy1_cont", c1, line, ".answer"], {duration: 0.5, y: "-=320", rotation: -10, ease: "expo.in", stagger: 0.015}, d);
+    tl.call(function() {
+        var ans = document.querySelectorAll(".answer");
+        for (var i = 0; i < ans.length; i++) {
+            var a = ans[i];
+            a.removeEventListener("mouseenter", hoverAns);
+            a.removeEventListener("mouseleave", outAns);
+            a.removeEventListener(grid8player.getClickEvent(), clickAns);
+        }
+    }, null, d);
+
+    d += 0.2;
+    if (W == 300) tl.to(".image_cont", {duration: 0.8, x: "-=40", scale: 1, ease: "expo.inOut"}, d);
+    if (W == 970) tl.to(".image_cont", {duration: 0.8, x: imX - 50, y: imY, scale: 1, ease: "expo.inOut"}, d);
+    tl.to(".image_cont", {duration: 1.0, filter: "blur(0px)", ease: "sine"}, d);
+    
+    d += 0.4;
+    if (W == 300) tl.to(".unibol", {duration: 1.0, y: "-=80", ease: "elastic.out(1.2, 1.0)"}, d);
+    if (W == 970) tl.to(".unibol", {duration: 1.0, scale: 380 / 480, x: -75, y: -75, ease: "elastic.out(1.2, 1.0)"}, d);
+
+    d += 0.2;
+    tl.from(".copy2", {duration: 1.0, y: "+=30", alpha: 0, ease: "expo", rotationY: "0.1deg"}, d);
+    tl.call(function() {
+        if (!CLICKED) gsap.set(".copy4", {display: "none"});
+    }, null, d);
+    tl.from(c3, {duration: 1.0, y: "+=30", alpha: 0, ease: "expo", rotationY: "0.1deg", stagger: 0.1}, d + 0.1);
+    tl.from(c4, {duration: 1.0, y: "+=30", alpha: 0, ease: "expo", rotationY: "0.1deg", stagger: 0.1}, d + 0.1);
+
+    d += 0.6;
+    tl.from(".cta", {duration: 0.7, scale: 0, ease: "elastic.out(1.2, 1.0)"}, d);
+    tl.add(function() {
+        document.getElementById("ad").addEventListener("mouseover", hoverAd, false);
+        document.getElementById("ad").addEventListener("mouseout", outAd, false);
+    });
+}
+function hoverAd(e) {
+    gsap.to(".cta", {duration: 0.6, scale: 1.1, ease: "elastic.out(1.0, 1.0)"});
+}
+function outAd(e) {
+    gsap.to(".cta", {duration: 0.6, scale: 1.0, ease: "elastic.out(1.0, 1.0)"});
+}
+function hoverAns(e) {
+    gsap.to(e.target, {duration: 0.6, scale: 1.1, ease: "elastic.out(1.0, 1.0)"});
+}
+function outAns(e) {
+    gsap.to(e.target, {duration: 0.6, scale: 1.0, ease: "elastic.out(1.0, 1.0)"});
+}
+function clickAns(e) {
+    CLICKED = true;
+    e.stopPropagation();
+    var n = e.target.getAttribute("name");
+    if (n == RIGHT_ANSWER) {
+        if (g.dynamicData["good"]) document.querySelector(".copy2").innerHTML = g.dynamicData["good"];
+        gsap.set(".copy4", {display: "none"});
+    } else {
+        if (!g.dynamicData["bad"]) g.dynamicData["bad"] = "Helaas, dat is fout";
+        document.querySelector(".copy2").innerHTML = g.dynamicData["bad"];
+        gsap.set(".copy3", {display: "none"});
+    }
+    g.timelineMaster.play(g.timelineMaster.labels.shot1 - 0.2);
+}
+an();
+
+}
+</script>
+<!-- //SCRIPTS -->
+<!-- CUSTOM EASE --><script>
+
+</script><!-- /CUSTOM EASE -->
+</body>
+
+</html>

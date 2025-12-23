@@ -1,0 +1,180 @@
+.logo {
+    content:"";
+    background-image: url("MAR.jpg");
+    width:100%;
+    height:50px; 
+    position:absolute;
+ /*   right: 0;
+    bottom: 0;*/
+    background-repeat: no-repeat;
+    background-size: auto 50px;
+/*    background-position: 141px 557px;*/
+}
+/*.bg_logo {
+    background-color: #FFFFFF;
+}*/
+/*.title3::after{
+    content:'';
+    position:absolute;
+    top:128px;
+    left:77px;
+    width:72px;
+    height:10px;
+    background-image: url("lib_sign.svg");
+    background-repeat: no-repeat;
+}*/
+.img1 {display: none;}
+.title1-2, .title2-2 {
+    left: 50px;
+    top: 40px;
+    color: #FFFFFF!important;
+}
+.subtitle1-2, .subtitle2-2 {
+    left: 50px;
+    color: #FFFFFF!important;
+}
+.title2-2 {
+    left: 50px;
+    color: #FFFFFF!important;
+};
+
+.red,  .black {
+
+ }
+ .black {
+
+ }
+ .img1 {
+    left: -12px;
+    top: 231px;
+ }
+.puzzel {
+    top: 48px;
+ }
+.btn_left, .arrinR {
+     content:"";
+    background-image: url("btnLMAR.png");
+    width:100%;
+    height:32px; 
+    position:absolute;
+    top: 48px;
+    left: 0px;
+    background-repeat: no-repeat;
+    background-size: auto 32px;
+    /*border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2);*/
+}
+.arrinR {
+    transform: scaleX(-1) !important;
+/*    left: -105px;*/
+}
+
+.bg_color{
+    background-color: #FFFFFF;
+}
+/*.bg_color::after{
+    content:'';
+    width:24px;
+    height:600px;
+    background-image: url("lib_stripes.svg");
+    position:absolute;
+    right: 0;
+}*/
+/*.btn_right {
+  background-image: url("btnLNu.png");
+  
+}*/
+
+ /*#grid8-background{
+    background-color: #FF0000!important;
+ }*/
+
+ /*CTA BUTTON*/
+.btn {
+    top: 20px;
+    left: -10px;
+ }
+.cta {
+    border-radius: 8px;
+    background-color: #FFE500;
+    width: max-content !important;
+    height: auto !important;
+    padding: 0.9em 1.0em 0.9em 1.0em;
+    color: #000000!important;
+    font-size: 16px!important;
+    /*left: 50%;
+    transform: translate(-50%, 0) !important;*/
+}
+
+.ctaFrame1 {
+    /*right: 0px;
+    bottom: 0px;*/
+}
+
+.btnRight>.cta {
+/*    right: 0;*/
+}
+
+.cta::after {
+     content: "";
+    height: 0.7em;
+    width: 0.7em;
+    background-image: url("cta-mar.svg");
+    display: inline-block;
+    margin-left: 7px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+@font-face {
+    font-family: 'qautro';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-Eckhart-TextRegular.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+@font-face {
+    font-family: 'bold';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/Eckhart-TextBold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+@font-face {
+    font-family: 'balto';
+    src: url('https://static.pexi.nl/dpg-brand&digital/fonts/subset-CocoGothic-Bold.woff2') format('woff2');
+    font-weight:unset!important;
+}
+
+
+
+
+.title1-2, .title2-2 {
+    font-family: 'qautro' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+}
+
+.subtitle1-2, .subtitle2-2, .cta {
+    font-family: 'balto' !important;
+    font-weight:unset!important;
+    overflow: visible!important;
+}
+
+.title1-2 span { 
+/*    color: #FF0000 !important; */
+    font-family: 'bold' !important;
+    font-weight:unset!important;
+}
+.title2 span { 
+/*    color: #FF0000 !important; */
+    font-family: 'bold' !important;
+    font-weight:unset!important;
+}
+.red span { 
+/*    color: #FF0000 !important; */
+    font-family: 'bold' !important;
+    font-weight:unset!important;
+}
+
+
+

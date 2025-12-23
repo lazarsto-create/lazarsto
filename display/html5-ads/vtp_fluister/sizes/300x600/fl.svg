@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="600.001" viewBox="0 0 300 600.001">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_6910" data-name="Rectangle 6910" width="92" height="30" transform="translate(0 0.5)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Group_4407" data-name="Group 4407" transform="translate(0 0)">
+    <g id="Group_4210" data-name="Group 4210">
+      <path id="Union_1" data-name="Union 1" d="M-2435,133V-152h-270V133h-15V-167h300V133Z" transform="translate(2720 167)" fill="#ffdb33"/>
+      <path id="Union_2" data-name="Union 2" d="M-2435,133h-285V-167h15V118h270V-167h15V133Z" transform="translate(2720 467)" fill="#1fab68"/>
+    </g>
+    <g id="Frame" transform="translate(0 -0.5)" clip-path="url(#clip-path)">
+      <path id="Path_4452" data-name="Path 4452" d="M44.35,16.121h4.779c-1.6-4.581-1.942-5.823-2.506-7.853h-.033C46.032,10.448,45.632,12.212,44.35,16.121Zm36.694-4.739c0-1.69-1.122-2.643-3.426-2.643H73.283v5.319h4.276C80.088,14.057,81.044,13.118,81.044,11.382Zm5.588-.6a5.429,5.429,0,0,1-3.353,5.338c.936.386,2.835,1.443,2.835,5.508v1.148a18.119,18.119,0,0,0,.325,4.268H81.11a15.223,15.223,0,0,1-.492-5.038v-.385c0-2.245-.6-3.322-4.123-3.322H73.282v8.745H67.866V4.5h10.84c5.138,0,7.926,2.734,7.926,6.284M65.3,27.043H59.764V4.5H65.3V27.044Zm-6.657,0H52.8l-2.133-6.407h-7.85l-2.027,6.407H24.1V4.5h5.536V22.632H36.86L43.283,4.5h7.009ZM21.952,8.9H10.494v5.019H21.215v4.411H10.494v8.712H5.065V4.5H21.952ZM91.693.5H0V30.662H91.693Z" fill="#1d1d1b"/>
+    </g>
+  </g>
+</svg>
