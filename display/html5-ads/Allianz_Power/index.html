@@ -78,36 +78,42 @@
 <body>
     <h1>Allianz Crowbar - HTML5 Banners</h1>
     <div class="banner-container">
-        <?php
-        $baseDir = __DIR__;
-        $folders = glob($baseDir . '/*', GLOB_ONLYDIR);
-        $index = 0;
-        
-        foreach ($folders as $folder) {
-            $folderName = basename($folder);
-            $indexPath = $folder . '/index.html';
-            
-            if (file_exists($indexPath)) {
-                // Extract dimensions from folder name (e.g., "300x250")
-                preg_match('/(\d+)x(\d+)/', $folderName, $matches);
-                $width = isset($matches[1]) ? $matches[1] : '300';
-                $height = isset($matches[2]) ? $matches[2] : '250';
-                $iframeId = 'banner-' . $index;
-                
-                echo '<div class="banner-item">';
-                echo '<div class="banner-header">';
-                echo '<h2>' . htmlspecialchars($folderName) . '</h2>';
-                echo '<button class="refresh-btn" onclick="refreshBanner(\'' . $iframeId . '\')" title="Refresh banner"><i class="fa-solid fa-rotate-right"></i></button>';
-                echo '</div>';
-                echo '<div class="banner-frame">';
-                echo '<iframe id="' . $iframeId . '" src="' . htmlspecialchars($folderName) . '/index.html" width="' . $width . '" height="' . $height . '" scrolling="no"></iframe>';
-                echo '</div>';
-                echo '</div>';
-                
-                $index++;
-            }
-        }
-        ?>
+        <div class="banner-item">
+            <div class="banner-header">
+                <h2>300x250</h2>
+                <button class="refresh-btn" onclick="refreshBanner('banner-0')" title="Refresh banner"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+            <div class="banner-frame">
+                <iframe id="banner-0" src="300x250/index.html" width="300" height="250" scrolling="no"></iframe>
+            </div>
+        </div>
+        <div class="banner-item">
+            <div class="banner-header">
+                <h2>300x600</h2>
+                <button class="refresh-btn" onclick="refreshBanner('banner-1')" title="Refresh banner"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+            <div class="banner-frame">
+                <iframe id="banner-1" src="300x600/index.html" width="300" height="600" scrolling="no"></iframe>
+            </div>
+        </div>
+        <div class="banner-item">
+            <div class="banner-header">
+                <h2>336x280</h2>
+                <button class="refresh-btn" onclick="refreshBanner('banner-2')" title="Refresh banner"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+            <div class="banner-frame">
+                <iframe id="banner-2" src="336x280/index.html" width="336" height="280" scrolling="no"></iframe>
+            </div>
+        </div>
+        <div class="banner-item">
+            <div class="banner-header">
+                <h2>970x250</h2>
+                <button class="refresh-btn" onclick="refreshBanner('banner-3')" title="Refresh banner"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+            <div class="banner-frame">
+                <iframe id="banner-3" src="970x250/index.html" width="970" height="250" scrolling="no"></iframe>
+            </div>
+        </div>
     </div>
     
     <script>
