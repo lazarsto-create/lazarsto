@@ -32,6 +32,64 @@ $(function () {
         $('.menu').toggleClass('menu--active');
     })
 
+    // YouTube Modal Functions
+    function getYouTubeEmbedUrl(url) {
+        var videoId = null;
+        
+        // Handle different YouTube URL formats
+        if (url.includes('youtube.com/watch?v=')) {
+            videoId = url.split('v=')[1];
+            var ampersandPosition = videoId.indexOf('&');
+            if (ampersandPosition !== -1) {
+                videoId = videoId.substring(0, ampersandPosition);
+            }
+        } else if (url.includes('youtu.be/')) {
+            videoId = url.split('youtu.be/')[1];
+            var questionPosition = videoId.indexOf('?');
+            if (questionPosition !== -1) {
+                videoId = videoId.substring(0, questionPosition);
+            }
+        } else if (url.includes('youtube.com/shorts/')) {
+            videoId = url.split('shorts/')[1];
+            var questionPosition = videoId.indexOf('?');
+            if (questionPosition !== -1) {
+                videoId = videoId.substring(0, questionPosition);
+            }
+        }
+        
+        if (videoId) {
+            return 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+        }
+        return null;
+    }
+
+    function openVideoModal(videoUrl) {
+        var embedUrl = getYouTubeEmbedUrl(videoUrl);
+        if (embedUrl) {
+            $('#videoFrame').attr('src', embedUrl);
+            $('#videoModal').addClass('active');
+            $('body').css('overflow', 'hidden');
+        }
+    }
+
+    function closeVideoModal() {
+        $('#videoModal').removeClass('active');
+        $('#videoFrame').attr('src', '');
+        $('body').css('overflow', '');
+    }
+
+    // Modal close handlers
+    $('.video-modal__close, .video-modal__overlay').on('click', function() {
+        closeVideoModal();
+    });
+
+    // Close modal on ESC key
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape' && $('#videoModal').hasClass('active')) {
+            closeVideoModal();
+        }
+    });
+
     // make grid images clickable based on portfolio.json
     $.getJSON('js/portfolio.json', function (items) {
         if (!items || !items.length) {
@@ -67,9 +125,26 @@ $(function () {
                     if (!/^https?:\/\//i.test(href)) {
                         href = 'https://' + href;
                     }
-                    var $link = $('<a href="' + href + '" target="_blank" rel="noopener noreferrer"></a>');
-                    $link.append($img);
-                    $item.append($link);
+                    
+                    // Check if it's a YouTube link or has "Video Motion" skills
+                    var isYouTube = href.includes('youtube.com') || href.includes('youtu.be');
+                    var isVideoMotion = item.skills && item.skills.toLowerCase().includes('video motion');
+                    
+                    if (isYouTube || isVideoMotion) {
+                        // Create a clickable div for YouTube videos
+                        var $clickable = $('<div class="youtube-link" style="cursor: pointer;"></div>');
+                        $clickable.append($img);
+                        $clickable.on('click', function(e) {
+                            e.preventDefault();
+                            openVideoModal(href);
+                        });
+                        $item.append($clickable);
+                    } else {
+                        // Regular external link
+                        var $link = $('<a href="' + href + '" target="_blank" rel="noopener noreferrer"></a>');
+                        $link.append($img);
+                        $item.append($link);
+                    }
                 } else {
                     $item.append($img);
                 }
