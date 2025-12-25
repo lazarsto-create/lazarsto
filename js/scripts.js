@@ -38,43 +38,49 @@ $(function () {
             return;
         }
 
-        var map = {};
-        for (var i = 0; i < items.length; i++) {
-            if (items[i].images) {
-                map[items[i].images] = items[i];
-            }
-        }
+        var $grid = $('.image-grid');
+        var loaded = 0;
+        var total = items.length;
 
-        $('.image-grid__item').each(function () {
-            var $item = $(this);
-            var file = $item.data('file');
-            var info = map[file];
+        items.forEach(function(item, index) {
+            if (!item.images) return;
 
-            // Add skills overlay
-            if (info && info.skills) {
-                if ($item.find('.image-grid__overlay').length === 0) {
-                    $item.append('<div class="image-grid__overlay"><span class="image-grid__skills">' + info.skills + '</span></div>');
+            var filename = item.images;
+            var imagePath = 'images/portfolio/' + filename;
+            
+            // Test if image exists by trying to load it
+            var testImg = new Image();
+            testImg.onload = function() {
+                // Image exists, create the grid item
+                var $item = $('<div class="image-grid__item" data-file="' + filename + '"></div>');
+                var $img = $('<img src="' + imagePath + '" alt="">');
+                
+                // Add skills overlay
+                if (item.skills) {
+                    var $overlay = $('<div class="image-grid__overlay"><span class="image-grid__skills">' + item.skills + '</span></div>');
+                    $item.append($overlay);
+                }
+                
+                // Wrap image with link if URL exists
+                if (item.url) {
+                    var href = item.url;
+                    if (!/^https?:\/\//i.test(href)) {
+                        href = 'https://' + href;
+                    }
+                    var $link = $('<a href="' + href + '" target="_blank" rel="noopener noreferrer"></a>');
+                    $link.append($img);
+                    $item.append($link);
                 } else {
-                    $item.find('.image-grid__skills').text(info.skills);
+                    $item.append($img);
                 }
-            }
-
-            if (info && info.url) {
-                var href = info.url;
-                // add protocol if omitted
-                if (!/^https?:\/\//i.test(href)) {
-                    href = 'https://' + href;
-                }
-
-                var $img = $item.find('img');
-
-                // wrap image with anchor if not already wrapped
-                if ($img.parent('a').length === 0) {
-                    $img.wrap('<a href="' + href + '" target="_blank" rel="noopener noreferrer"></a>');
-                } else {
-                    $img.parent('a').attr('href', href);
-                }
-            }
+                
+                $grid.append($item);
+            };
+            testImg.onerror = function() {
+                // Image doesn't exist, skip it
+                console.log('Image not found: ' + imagePath);
+            };
+            testImg.src = imagePath;
         });
     });
 
