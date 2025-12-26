@@ -1204,6 +1204,45 @@
 	-o-transform:translate(1220px,0);
 	transform:translate(1220px,0)
 }
+/* Portfolio filter menu */
+.portfolio-filter {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+	margin: 2em auto 1em;
+	padding: 0;
+}
+
+.filter-btn {
+	background: #f0f0f0;
+	border: 2px solid #000084;
+	color: #000084;
+	padding: 10px 20px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	border-radius: 4px;
+	transition: all 0.3s ease;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.filter-btn:hover {
+	background: #e0e0e0;
+	transform: translateY(-2px);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.filter-btn.active {
+	background: #000084;
+	color: #ffffff;
+}
+
+.image-grid__item.hidden {
+	display: none;
+}
+
 /* Simple image grid for portfolio JPGs */
 .image-grid {
 	display: flex;

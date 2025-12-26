@@ -97,8 +97,63 @@ $(function () {
         }
 
         var $grid = $('.image-grid');
+        var $filterContainer = $('.portfolio-filter');
         var loaded = 0;
         var total = items.length;
+        
+        // Collect unique categories from skills
+        var categories = {};
+        
+        items.forEach(function(item) {
+            if (!item.skills) return;
+            
+            var skills = item.skills.toLowerCase();
+            var category = '';
+            
+            // Categorize based on skills
+            if (skills.includes('video motion')) {
+                category = 'Video Motion';
+            } else if (skills.includes('dco')) {
+                category = 'DCO';
+            } else if (skills.includes('html5') || skills.includes('animation')) {
+                category = 'Display';
+            } else if (skills.includes('weborama')) {
+                category = 'Weborama';
+            }
+            
+            if (category && !categories[category]) {
+                categories[category] = true;
+            }
+        });
+        
+        // Add filter buttons for each category
+        Object.keys(categories).sort().forEach(function(category) {
+            var $btn = $('<button class="filter-btn" data-filter="' + category.toLowerCase().replace(' ', '-') + '">' + category + '</button>');
+            $filterContainer.append($btn);
+        });
+        
+        // Filter button click handler
+        $('.filter-btn').on('click', function() {
+            var filter = $(this).data('filter');
+            
+            // Update active state
+            $('.filter-btn').removeClass('active');
+            $(this).addClass('active');
+            
+            // Filter items
+            if (filter === 'all') {
+                $('.image-grid__item').removeClass('hidden');
+            } else {
+                $('.image-grid__item').each(function() {
+                    var itemCategory = $(this).data('category');
+                    if (itemCategory === filter) {
+                        $(this).removeClass('hidden');
+                    } else {
+                        $(this).addClass('hidden');
+                    }
+                });
+            }
+        });
 
         items.forEach(function(item, index) {
             if (!item.images) return;
@@ -112,6 +167,22 @@ $(function () {
                 // Image exists, create the grid item
                 var $item = $('<div class="image-grid__item" data-file="' + filename + '"></div>');
                 var $img = $('<img src="' + imagePath + '" alt="">');
+                
+                // Determine category for filtering
+                var skills = item.skills ? item.skills.toLowerCase() : '';
+                var category = '';
+                
+                if (skills.includes('video motion')) {
+                    category = 'video-motion';
+                } else if (skills.includes('dco')) {
+                    category = 'dco';
+                } else if (skills.includes('html5') || skills.includes('animation')) {
+                    category = 'display';
+                } else if (skills.includes('weborama')) {
+                    category = 'weborama';
+                }
+                
+                $item.attr('data-category', category);
                 
                 // Add skills overlay
                 if (item.skills) {
