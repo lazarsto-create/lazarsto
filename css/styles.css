@@ -415,11 +415,89 @@
 	font-size:16px;
 	color:#7c7f88;
 	line-height:1.3;
-	-webkit-font-smoothing:antialiased
+	-webkit-font-smoothing:antialiased;
+	position: relative;
+}
+	body::before
+{
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 50%;
+	margin-left: -750px;
+	width: 300px;
+	height: 100vh;
+	opacity: 0.15;
+	z-index: 0;
+	pointer-events: none;
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+	background: 
+		url('../SVG-Client-logo/allianz.svg') 0 5% / 90px auto no-repeat,
+		url('../SVG-Client-logo/hema.svg') 0 20% / 90px auto no-repeat,
+		url('../SVG-Client-logo/ziggo.svg') 0 35% / 90px auto no-repeat,
+		url('../SVG-Client-logo/Mediamarkt.svg') 0 50% / 90px auto no-repeat,
+		url('../SVG-Client-logo/Unive.svg') 0 65% / 90px auto no-repeat,
+		url('../SVG-Client-logo/Dpg.svg') 0 80% / 90px auto no-repeat,
+		url('../SVG-Client-logo/Centraal Beheer.svg') 0 95% / 90px auto no-repeat,
+		url('../SVG-Client-logo/mcdonalds.svg') 105px 5% / 90px auto no-repeat,
+		url('../SVG-Client-logo/kfc.svg') 105px 20% / 90px auto no-repeat,
+		url('../SVG-Client-logo/heineken.svg') 105px 35% / 90px auto no-repeat,
+		url('../SVG-Client-logo/nespresso.svg') 105px 50% / 90px auto no-repeat,
+		url('../SVG-Client-logo/nutella.svg') 105px 65% / 90px auto no-repeat,
+		url('../SVG-Client-logo/volkswagen.svg') 105px 80% / 90px auto no-repeat,
+		url('../SVG-Client-logo/renault.svg') 105px 95% / 90px auto no-repeat,
+		url('../SVG-Client-logo/citroen.svg') 210px 5% / 90px auto no-repeat,
+		url('../SVG-Client-logo/kia-motors.svg') 210px 20% / 90px auto no-repeat,
+		url('../SVG-Client-logo/hyundai.svg') 210px 35% / 90px auto no-repeat,
+		url('../SVG-Client-logo/att.svg') 210px 50% / 90px auto no-repeat,
+		url('../SVG-Client-logo/loreal.svg') 210px 65% / 90px auto no-repeat,
+		url('../SVG-Client-logo/lancome.svg') 210px 80% / 90px auto no-repeat;
+}
+	body::after
+{
+	content: '';
+	position: fixed;
+	top: 0;
+	right: 50%;
+	margin-right: -750px;
+	width: 300px;
+	height: 100vh;
+	opacity: 0.15;
+	z-index: 0;
+	pointer-events: none;
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+	background: 
+		url('../SVG-Client-logo/dior.svg') 0 5% / 90px auto no-repeat,
+		url('../SVG-Client-logo/yves-rocher.svg') 0 20% / 90px auto no-repeat,
+		url('../SVG-Client-logo/prada.svg') 0 35% / 90px auto no-repeat,
+		url('../SVG-Client-logo/hermes.svg') 0 50% / 90px auto no-repeat,
+		url('../SVG-Client-logo/givenchy.svg') 0 65% / 90px auto no-repeat,
+		url('../SVG-Client-logo/kenzo.svg') 0 80% / 90px auto no-repeat,
+		url('../SVG-Client-logo/jean-paul-gaultier.svg') 0 95% / 90px auto no-repeat,
+		url('../SVG-Client-logo/paco-rabanne.svg') 105px 5% / 90px auto no-repeat,
+		url('../SVG-Client-logo/playstation.svg') 105px 20% / 90px auto no-repeat,
+		url('../SVG-Client-logo/ubisoft.svg') 105px 35% / 90px auto no-repeat,
+		url('../SVG-Client-logo/nikon.svg') 105px 50% / 90px auto no-repeat,
+		url('../SVG-Client-logo/omega-watches.svg') 105px 65% / 90px auto no-repeat,
+		url('../SVG-Client-logo/swatch.svg') 105px 80% / 90px auto no-repeat,
+		url('../SVG-Client-logo/samsonite.svg') 105px 95% / 90px auto no-repeat,
+		url('../SVG-Client-logo/fedex.svg') 210px 5% / 90px auto no-repeat,
+		url('../SVG-Client-logo/electrolux.svg') 210px 20% / 90px auto no-repeat,
+		url('../SVG-Client-logo/carrefour.svg') 210px 35% / 90px auto no-repeat,
+		url('../SVG-Client-logo/diesel.svg') 210px 50% / 90px auto no-repeat,
+		url('../SVG-Client-logo/erste-bank.svg') 210px 65% / 90px auto no-repeat,
+		url('../SVG-Client-logo/hollands_nieuwe.svg') 210px 80% / 90px auto no-repeat;
 }
 	body.screen--mobile
 {
 	background-image:url(../images/bg-mobile.jpg)
+}
+	body.screen--mobile::before,
+	body.screen--mobile::after
+{
+	display: none;
 }
 	body.screen--standard
 {
@@ -939,7 +1017,9 @@
 	width:100%;
 	max-width:100em;
 	margin:0 auto;
-	padding:0 1.25em
+	padding:0 1.25em;
+	position: relative;
+	z-index: 10;
 }
 .block
 {
