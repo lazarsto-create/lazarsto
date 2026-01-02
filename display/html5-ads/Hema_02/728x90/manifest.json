@@ -1,0 +1,20 @@
+{
+    "version": "1.0",
+
+    "title": "728x90",
+    "description": "",
+
+    "width": "728",
+    "height": "90",
+
+    "events": {
+        "enabled": 1,
+        "list": {}
+    },
+
+    "clicktags": {
+        "clickTAG": "https://hema.nl"
+    },
+
+    "source": "index.html"
+}

@@ -1,0 +1,20 @@
+{
+    "version": "1.0",
+
+    "title": "1200x1200",
+    "description": "",
+
+    "width": "1200",
+    "height": "1200",
+
+    "events": {
+        "enabled": 1,
+        "list": {}
+    },
+
+    "clicktags": {
+        "clickTAG": ""
+    },
+
+    "source": "index.html"
+}
