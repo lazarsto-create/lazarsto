@@ -1,0 +1,880 @@
+<!doctype html>
+<html>
+<head>
+	<meta name="name" content="content" charset="UTF-8" lang="sv">
+	<meta name="viewport" content="width=device-width, initial-scale=1"  />
+	
+	<script src="https://s0.2mdn.net/ads/studio/Enabler.js"> </script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.15.1/TweenLite.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.15.1/TimelineLite.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.15.1/easing/EasePack.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.15.1/plugins/CSSPlugin.min.js"></script>
+
+
+	<script type="text/javascript" src="hammer.min.js"></script>
+	<script type="text/javascript" src="bannerboy.js"></script>
+	<script type="text/javascript" src="introCanvas.js"></script>
+	<script type="text/javascript" src="bannerboy_dc.js" ></script>
+	<script type="text/javascript" src="compatibility.js"></script>
+	<script type="text/javascript" src="smokeCanvas.js"></script>
+	<script type="text/javascript" src="delaunay.min.js"></script>
+	
+	
+	<style type="text/css">
+		body { margin: 0;background-color: #000000; }
+		}
+		canvas{position:absolute;}
+		
+	</style>
+
+	<script type="text/javascript">
+
+	bannerboy.dc.init({
+		onInit: function() {
+			bannerboy.main();
+		},
+		onPolite: function() {
+			bannerboy.main.politeLoad();
+		}
+	});
+
+	var bannerboy = bannerboy || {};
+	bannerboy.main = function() {
+
+		function viewport()
+		{
+			var e = window, 
+			a = 'inner';
+			if ( !( 'innerWidth' in window ) )
+			{
+				a = 'client';
+				e = document.documentElement || document.body;
+			}
+			return { width : e[ a+'Width' ] , height : e[ a+'Height' ] }
+		}
+
+		var windowWidth = viewport().width;
+		var windowHeight = viewport().height;
+
+		var width = windowWidth;
+		var height = windowHeight;
+
+		width  =320;
+		height  =460;
+
+		var banner = bannerboy.createElement({width: width, height: height, backgroundColor: "#000000", overflow: "hidden", parent: document.body,cursor: "pointer",display:'block'});
+		var autoPilot = false;
+		var SUPPORT_TOUCH = ('ontouchstart' in window);
+
+		var images = 	[
+			'smoke_clear.png',
+			'txt_intro.png',
+			"rocker_bottom.png",
+			"rocker_top.png",
+			'logo_nike.png',
+			'txt_swipe.png',
+			'player1.png',
+			'player2.png',
+			'player3.png',
+			'player4.png',
+			'button.png',
+			'txt_atnike.png',
+			"bg.jpg",
+			"plane_wing_1.png",  
+			"plane_front_1.png", 
+			"plane_back_p2.png", 
+			"plane_back_p1.png", 
+			"plane_core_1.png",
+			"shoe_mercurial.png",
+			'logo_mercurial.png',
+			"copter_back.png", 
+			"copter_back_wing.png", 
+			"copter_wing.png", 
+			"copter_front.png", 
+			"copter_center.png", 
+			"copter_rotor.png",
+			"shoe_magista.png",
+			"logo_magista.png",
+			"skull_external_p2.png", 
+			"skull_external_p1.png", 
+			"skull_jaw.png", 
+			"skull_teeth.png", 
+			"skull_top.png", 
+			"skull_core.png",
+			"shoe_hypervenom.png",
+			"logo_hypervenom.png",
+			"bull_horn_p2.png", 
+			"bull_horn_p1.png", 
+			"bull_top.png", 
+			"bull_bullie.png", 
+			"bull_side.png", 
+			"bull_jaw.png", 
+			"bull_core.png", 
+			"shoe_tiempo.png",
+			"logo_tiempo.png",
+			"ball.png",
+			'light.png'
+			];
+
+		bannerboy.main.politeLoad = function () {
+		bannerboy.preloadImages(images, function() 
+		{
+			var bannerHolder = bannerboy.createElement({width: width, height: height, overflow: "visible", parent: banner,display:'block'});
+			var mainContentHolder = bannerboy.createElement({left:0,top:0, parent: bannerHolder,display:'block', overflow: "visible"});
+			var backgroundHolder = bannerboy.createElement({ id:'backgroundHolder',parent: bannerHolder,left:0,top:0});
+				var backgroundHolderIn = bannerboy.createElement({ id:'backgroundHolder',parent: backgroundHolder});
+				var background = bannerboy.createElement({ id:'background',parent: backgroundHolderIn,left:0,top:0,backgroundImage: 'bg.jpg',transforOrigin:'50% 50%',scale:1,z:0.1,width:width,height:height});
+				var background2 = bannerboy.createElement({ id:'background2',parent: backgroundHolderIn,top:0,backgroundImage: 'bg.jpg',transforOrigin:'50% 50%',scaleX:-1,z:.1,width:width,height:height});
+				var background3 = bannerboy.createElement({ id:'background3',parent: backgroundHolderIn,top:0,backgroundImage: 'bg.jpg',transforOrigin:'50% 50%',scaleX:1,z:.1,width:width,height:height});
+				var background4 = bannerboy.createElement({ id:'background4',parent: backgroundHolderIn,top:0,backgroundImage: 'bg.jpg',transforOrigin:'50% 50%',scaleX:-1,z:.1,width:width,height:height});
+				background2.set({left:background2.get('width')-1})
+				background3.set({left:background2.get('left')+background2.get('width')-1})
+				background4.set({left:background3.get('left')+background2.get('width')-1})
+			var smokeHolder = bannerboy.createElement({ parent: bannerHolder,left:0,top:0});
+			
+			
+			// ALL MERCURIAL ELMENTS --------------
+			var player1Holder = bannerboy.createElement({ id:'player1Holder',parent: bannerHolder,top:-95,left:-185,alpha:0,x:0,transforOrigin:'50% 50%',visibility:'hidden',z:.1,width:300,height:300,display:'block'});;
+				var player1 = bannerboy.createElement({ id:'player1',parent: player1Holder,backgroundImage: 'player1.png',z:1});;
+			var ballHolder1 = bannerboy.createElement({ id:'ballHolder1',parent: player1,left:210,top:460,scale:1.2,transformOrigin:'50% 50%',visibility:'hidden',z:0.1});;
+				var ball = bannerboy.createElement({ id:'ball1',parent: ballHolder1,backgroundImage: 'ball.png',transformOrigin:'50% 50%',z:0.1});;
+
+			var plane_container_all= bannerboy.createElement({id:'plane_container_all',left:0, top:-25, width:320, height:height, transformOrigin:"50% 50%", scale:1, parent: bannerHolder,visibility:'hidden'});
+				var plane_container_l = bannerboy.createElement({className:'plane_container_l',left: 14, top: 74, width:146, height:313, transformOrigin:"100% 50%", parent: plane_container_all});
+					var plane_wing_1_container_l = bannerboy.createElement({className:'plane_wing_1_container_l',top: 85, width:119, height:78, transformOrigin:"100% 50%", parent: plane_container_l});
+						bannerboy.createElement({className:'plane_wing_1_l',backgroundImage: "plane_wing_1.png", width:119, height:78, parent: plane_wing_1_container_l});
+					var plane_front_1_container_l = bannerboy.createElement({className:'plane_front_1_container_l',left: 104, top: 160, width:43, height:153, transformOrigin:"100% 0%", parent: plane_container_l});
+						bannerboy.createElement({className:'plane_front_1_l',backgroundImage: "plane_front_1.png", width:43, height:153, parent: plane_front_1_container_l});
+					var plane_back_p2_container_l = bannerboy.createElement({className:'plane_back_p2_container_l',left: 73, width:65, height:60, transformOrigin:"100% 50%", parent: plane_container_l});
+						bannerboy.createElement({className:'plane_back_p2_l',backgroundImage: "plane_back_p2.png",width:65, height:60,  parent: plane_back_p2_container_l});
+					var plane_back_p1_container_l = bannerboy.createElement({className:'plane_back_p1_container_l',left: 119, top: 2, width:27, height:91, transformOrigin:"100% 100%",  parent: plane_container_l});
+						bannerboy.createElement({className:'plane_back_p1_l',backgroundImage: "plane_back_p1.png", width:27, height:91, parent: plane_back_p1_container_l});
+					var plane_core_1_container_l = bannerboy.createElement({className:'plane_core_1_container_l',left: 99, top: 84, width:48, height:132, parent: plane_container_l});
+						bannerboy.createElement({className:'plane_core_1_l',backgroundImage: "plane_core_1.png", width:48, height:132, parent: plane_core_1_container_l});
+				
+				var plane_container_r = plane_container_all.appendChild(plane_container_l.cloneNode(true));
+				TweenLite.set(plane_container_r,{scaleX:"-1"});
+
+			var shoes_mercurial_container_all = bannerboy.createElement({ id:'shoes_mercurial_container_all',left:80,top:120,width:248, height:218, transformOrigin:"0% 0%", scale:0.65, parent: bannerHolder,visibility:'hidden'});
+				var shoe_mercurial_container_l = bannerboy.createElement({className:'shoe_mercurial_container_l',width:124, height:218, transformOrigin:"100% 50%", scale:1, parent: shoes_mercurial_container_all});
+					var shoe_mercurial_l = bannerboy.createElement({backgroundImage: "shoe_mercurial.png", width:124, height:218, transformOrigin:"50% 50%", scale:1, parent: shoe_mercurial_container_l});
+
+				var shoe_mercurial_container_r = shoes_mercurial_container_all.appendChild(shoe_mercurial_container_l.cloneNode(true));
+				shoe_mercurial_container_r.className = 'shoe_mercurial_container_r'
+				TweenLite.set(shoe_mercurial_container_r,{scaleX:-1});
+
+
+			var holderMercurial = bannerboy.createElement({ id:'holderMercurial',parent: bannerHolder,top:0,width:width,height:height});;
+				var logoMercurial = bannerboy.createElement({ id:'logoMercurial',parent: holderMercurial,top:360,backgroundImage: 'logo_mercurial.png',transforOrigin:'50% 50%',visibility:'hidden',alpha:0,z:.1});;
+			// END MERCURIAL ELEMENTS ***************
+
+			// ALL MAGISTA ELMENTS --------------
+			var player2Holder = bannerboy.createElement({ id:'player2Holder',parent: bannerHolder,top:8,left:105,alpha:0,x:0,transforOrigin:'50% 50%',visibility:'hidden',z:.1,width:300,height:300,display:'block'});;
+				var player2 = bannerboy.createElement({ id:'player2',parent: player2Holder,backgroundImage: 'player2.png',z:1});;
+			var ballHolder2 = bannerboy.createElement({ id:'ballHolder2',parent: player2,left:10,top:340,scale:1.2,transformOrigin:'50% 50%',visibility:'hidden',z:0.1});;
+				var ball2 = bannerboy.createElement({ id:'ball2',parent: ballHolder2,backgroundImage: 'ball.png',transformOrigin:'50% 50%',z:0.1});;
+
+			var holderMagista = bannerboy.createElement({ id:'holderMagista',parent: bannerHolder,top:0,width:width,height:height});;
+				var logoMagista = bannerboy.createElement({ id:'logoMagista',parent: holderMagista,top:360,backgroundImage: 'logo_magista.png',transforOrigin:'50% 50%',visibility:'hidden',alpha:0,z:.1});;
+
+
+			//COPTER - MAGISTA
+				var copter_container_all = bannerboy.createElement({ id:'copter_container_all',width:664, height:715, left:26, top:15,transformOrigin:"0% 0%", scale:0.4, parent: bannerHolder,visibility:'hidden'});
+					var copter_container_left = bannerboy.createElement({ className:'copter_container_left',width:332, height:715, transformOrigin:"100% 297px",  scaleX:"1", parent: copter_container_all});
+						var copter_back_container_l = bannerboy.createElement({className:'copter_back_container_l',left: 246, width: 86, height: 365, transformOrigin:"100% 100%", parent: copter_container_left});
+							var copter_back = bannerboy.createElement({className:'copter_back',backgroundImage: "copter_back.png", width:86, height:365, parent: copter_back_container_l});						
+						var copter_back_wing_container_l = bannerboy.createElement({className:'copter_back_wing_container_l',left: 258, top: 43, width: 68, height: 68, transformOrigin: "100% 100%", parent: copter_container_left});
+							var copter_back_wing = bannerboy.createElement({className:'copter_back_wing',backgroundImage: "copter_back_wing.png", width: 68, height: 68, parent: copter_back_wing_container_l});
+						var copter_wing_container_l = bannerboy.createElement({className:'copter_wing_container_l',left: 96, top: 328, width: 188, height: 143, transformOrigin:"100% 50%", parent: copter_container_left});
+							var copter_wing = bannerboy.createElement({className:'copter_wing',backgroundImage: "copter_wing.png", width: 188, height: 143, parent: copter_wing_container_l});
+						var copter_front_container_l = bannerboy.createElement({className:'copter_front_container_l',left: 246, top: 435, width: 86, height: 280, transformOrigin:"100% 0%", parent: copter_container_left});
+							var copter_front = bannerboy.createElement({className:'copter_front',backgroundImage: "copter_front.png", width: 86, height: 280, parent: copter_front_container_l});
+						var copter_center_container_l = bannerboy.createElement({className:'copter_center_container_l',left: 270, top: 353, width: 62, height: 119, parent: copter_container_left});
+							var copter_center = bannerboy.createElement({className:'copter_center',backgroundImage: "copter_center.png", width: 62, height: 119,  parent: copter_center_container_l});
+					var copter_container_right = copter_container_all.appendChild(copter_container_left.cloneNode(true));
+					TweenLite.set(copter_container_right,{scaleX:"-1"});
+
+					var copter_container_rotor = bannerboy.createElement({ width:664, height:1430, transformOrigin:"100% 297px", scaleX:"1", parent: copter_container_all});
+						var copter_rotor_container_l = bannerboy.createElement({top: 108,  width: 332, height: 577, transformOrigin:"331px 297px", parent: copter_container_rotor});
+							var copter_rotor = bannerboy.createElement({backgroundImage: "copter_rotor.png", width: 332, height: 577, parent: copter_rotor_container_l});
+						var copter_rotor_container_r = copter_container_all.appendChild(copter_rotor_container_l.cloneNode(true));
+						TweenLite.set(copter_rotor_container_r,{scaleX:"-1"});
+
+				var shoes_magista_container_all = bannerboy.createElement({left:80,top:120,width:238, height:214, transformOrigin:"0% 0%", scale:0.65, parent: bannerHolder,visibility:'hidden'});
+					var shoe_magista_container_l = bannerboy.createElement({width:119, height:214, transformOrigin:"100% 50%", scale:1, parent: shoes_magista_container_all});
+						var shoe_magista_l = bannerboy.createElement({backgroundImage: "shoe_magista.png", width:119, height:214, transformOrigin:"50% 50%", scale:1, parent: shoe_magista_container_l});
+
+					var shoe_magista_container_r = shoes_magista_container_all.appendChild(shoe_magista_container_l.cloneNode(true));
+					TweenLite.set(shoe_magista_container_r,{scaleX:"-1"});
+
+			// END MAGISTA ELEMENTS ***************
+
+			// ALL HYPERVENOM ELMENTS --------------
+			var player3Holder = bannerboy.createElement({ id:'player3Holder',parent: bannerHolder,top:5,left:70,alpha:0,x:0,transforOrigin:'50% 50%',visibility:'hidden',z:.1,width:300,height:300,display:'block'});;
+				var player3 = bannerboy.createElement({ id:'player3',parent: player3Holder,backgroundImage: 'player3.png',z:1});;
+			var ballHolder3 = bannerboy.createElement({ id:'ballHolder3',parent: player3,left:90,top:380,scale:1.2,transformOrigin:'50% 50%',visibility:'hidden',z:0.1});;
+				var ball3 = bannerboy.createElement({ id:'ball3',parent: ballHolder3,backgroundImage: 'ball.png',transformOrigin:'50% 50%',z:0.1});;
+			
+			var holderHypervenom = bannerboy.createElement({ id:'holderHypervenom',parent: bannerHolder,top:0,width:width,height:height});;
+				var logoHypervenom = bannerboy.createElement({ id:'logoHypervenom',parent: holderMagista,top:360,backgroundImage: 'logo_hypervenom.png',transforOrigin:'50% 50%',visibility:'hidden',alpha:0,z:.1});;
+
+			//SKULL - HYPERVENOM
+				var skull_container_all = bannerboy.createElement({id:'skull_container_all',width:578, height:444, transformOrigin:"0% 0%", left:36,top:90,scale:0.42, parent: bannerHolder,visibility:'hidden'});
+					var skull_container_left = bannerboy.createElement({className:'skull_container_left',width:289, height:444,  transformOrigin:"100% 50%", parent: skull_container_all});
+						var skull_external_p2_container_l = bannerboy.createElement({className:'skull_external_p2_container_l', left: 25, top: 295, width:164, height:139, transformOrigin:"100% 0%", parent: skull_container_left});
+							var skull_external_p2_l = bannerboy.createElement({className:'skull_external_p2_l',backgroundImage: "skull_external_p2.png", width:164, height:139, parent: skull_external_p2_container_l});
+						var skull_external_p1_container_l = bannerboy.createElement({className:'skull_external_p1_container_l',top: 11, width:155, height:142, transformOrigin:"100% 100%", parent: skull_container_left});
+							var skull_external_p1_l = bannerboy.createElement({className:'skull_external_p1_l',backgroundImage: "skull_external_p1.png", width:155, height:142,  parent: skull_external_p1_container_l});
+						var skull_jaw_container_l = bannerboy.createElement({className:'skull_jaw_container_l',left: 190, top: 326, width:100, height:118, transformOrigin:"50% 0%", parent: skull_container_left});
+							var skull_jaw_l = bannerboy.createElement({className:'skull_jaw_l',backgroundImage: "skull_jaw.png", width:100, height:118,  parent: skull_jaw_container_l});
+						var skull_teeth_container_l = bannerboy.createElement({className:'skull_teeth_container_l',left: 177, top: 284, width:114, height:90, transformOrigin:"50% 0%",  parent: skull_container_left});
+							var skull_teeth_l = bannerboy.createElement({className:'skull_teeth_l',backgroundImage: "skull_teeth.png",width:114, height:90,  parent: skull_teeth_container_l});
+						var skull_top_container_l = bannerboy.createElement({className:'skull_top_container_l',left: 152, width:139, height:156, transformOrigin:"50% 100%",  parent: skull_container_left});
+							var skull_top_l = bannerboy.createElement({className:'skull_top_l',backgroundImage: "skull_top.png", width:139, height:156,  parent: skull_top_container_l});
+						var skull_core_container_l = bannerboy.createElement({className:'skull_core_container_l',left: 147, top: 104,width:144, height:227, transformOrigin:"50% 50%",  parent: skull_container_left});
+							var skull_core_l = bannerboy.createElement({className:'skull_core_l',backgroundImage: "skull_core.png", width:144, height:227,  parent: skull_core_container_l});
+
+					var copter_container_right = skull_container_all.appendChild(skull_container_left.cloneNode(true));
+					TweenLite.set(copter_container_right,{scaleX:"-1"});
+
+				var shoes_hypervenom_container_all = bannerboy.createElement({ id:'shoes_hypervenom_container_all',left:80,top:120,width:232, height:208, transformOrigin:"0% 0%", scale:0.65, parent: bannerHolder,visibility:'hidden'});
+					var shoe_hypervenom_container_l = bannerboy.createElement({className:'shoe_hypervenom_container_l',width:116, height:208, transformOrigin:"100% 50%", scale:1, parent: shoes_hypervenom_container_all});
+						var shoe_hypervenom_l = bannerboy.createElement({backgroundImage: "shoe_hypervenom.png", width:116, height:208, transformOrigin:"50% 50%", scale:1, parent: shoe_hypervenom_container_l});
+
+					var shoe_hypervenom_container_r = shoes_hypervenom_container_all.appendChild(shoe_hypervenom_container_l.cloneNode(true));
+					TweenLite.set(shoe_hypervenom_container_r,{scaleX:"-1"});
+					shoe_hypervenom_container_r.className = 'shoe_hypervenom_container_r'
+
+
+			// ALL MERCURIAL ELMENTS DUPLICATE--------------
+
+			var player3HolderDup = bannerHolder.appendChild(player3Holder.cloneNode(true));
+			player3HolderDup.id = 'player3HolderDup';
+			player3HolderDup.firstChild.id= 'player3Dup'
+			player3HolderDup.firstChild.firstChild.id = 'ballHolder3Dup';
+			player3HolderDup.firstChild.firstChild.firstChild.id = 'ball3Dup';
+
+			var skull_container_allDup = bannerHolder.appendChild(skull_container_all.cloneNode(true));
+			skull_container_allDup.id = 'skull_container_allDup';
+
+			var shoes_hypervenom_container_allDup = bannerHolder.appendChild(shoes_hypervenom_container_all.cloneNode(true));
+			shoes_hypervenom_container_allDup.id = 'shoes_hypervenom_container_allDup';
+
+			var holderHypervenomDup = bannerHolder.appendChild(holderHypervenom.cloneNode(true));
+			holderHypervenomDup.id ='holderHypervenomDup';
+			
+			// END MERCURIAL ELEMENTS DUPLICATE ***************
+
+			// ALL TIEMPO ELEMENTS ----------------
+			var player4Holder = bannerboy.createElement({ id:'player4Holder',parent: bannerHolder,top:8,left:40,alpha:0,x:0,transforOrigin:'50% 50%',visibility:'hidden',z:.1,width:300,height:300,display:'block'});;
+				var player4 = bannerboy.createElement({ id:'player4',parent: player4Holder,backgroundImage: 'player4.png',z:1});;
+			var ballHolder4 = bannerboy.createElement({ id:'ballHolder4',parent: player4,left:100,top:290,scale:1.2,transformOrigin:'50% 50%',visibility:'hidden',z:0.1});;
+				var ball4 = bannerboy.createElement({ id:'ball4',parent: ballHolder4,backgroundImage: 'ball.png',transformOrigin:'50% 50%',z:0.1});;
+
+			var holderTiempo = bannerboy.createElement({ id:'holderTiempo',parent: bannerHolder,top:0,width:width,height:height});;
+				var logoTiempo = bannerboy.createElement({ id:'logoTiempo',parent: holderTiempo,top:370,backgroundImage: 'logo_tiempo.png',transforOrigin:'50% 50%',visibility:'hidden',alpha:0,z:.1});;
+
+
+			//BULL TIEMPO
+				var bull_container_all = bannerboy.createElement({id:'bull_container_all',width:626, height:978, left:27,top:76,transformOrigin:"0% 0%", scale:0.43, parent: bannerHolder,visibility:'hidden'});
+					var bull_container_left = bannerboy.createElement({className:'bull_container_left',width:311, height:489, transformOrigin:"100% 50%", parent: bull_container_all});
+						var bull_forehead_container_l = bannerboy.createElement({className:'bull_forehead_container_l',width:312, height:218,  transformOrigin:"100% 100%",  parent: bull_container_left});
+							var bull_horn_container_l = bannerboy.createElement({className:'bull_horn_container_l',width:187, height:187, transformOrigin:"100% 0%",  parent: bull_forehead_container_l});
+								var bull_horn_p2_container_l = bannerboy.createElement({className:'bull_horn_p2_container_l',width:93, height:114, transformOrigin:"0% 100%", parent: bull_horn_container_l});
+									var bull_horn_p2_l = bannerboy.createElement({className:'bull_horn_p2_l',backgroundImage: "bull_horn_p2.png",width:93, height:114, parent: bull_horn_p2_container_l});
+								var bull_horn_p1_container_l = bannerboy.createElement({className:'bull_horn_p1_container_l',left: 13, top: 52, width:174, height:135, transformOrigin:"100% 0%", parent: bull_horn_container_l});
+									var bull_horn_p1_l = bannerboy.createElement({className:'bull_horn_p1_l',backgroundImage: "bull_horn_p1.png", width:174, height:135,  parent: bull_horn_p1_container_l});
+							var bull_top_container_l = bannerboy.createElement({className:'bull_top_container_l',left: 177, top: 15, width:135, height:141, transformOrigin:"100% 100%", parent: bull_forehead_container_l});
+								var bull_top_l = bannerboy.createElement({className:'bull_top_l',backgroundImage: "bull_top.png",  width:135, height:141, parent: bull_top_container_l});
+							var bull_bullie_container_l = bannerboy.createElement({className:'bull_bullie_container_l',left: 119, top: 185, width:68, height:33, transformOrigin:"100% 50%",  parent: bull_forehead_container_l});
+								var bull_bullie_l = bannerboy.createElement({className:'bull_bullie_l',backgroundImage: "bull_bullie.png", width:68, height:33, parent: bull_bullie_container_l});
+						var bull_side_container_l = bannerboy.createElement({className:'bull_side_container_l',left: 162, top: 208, width:136, height:189,  transformOrigin:"100% 50%",  parent: bull_container_left});
+							var bull_side_l = bannerboy.createElement({className:'bull_side_l',backgroundImage: "bull_side.png",  width:136, height:189, parent: bull_side_container_l});
+						var bull_jaw_container_l = bannerboy.createElement({className:'bull_jaw_container_l',left: 231, top: 356,  width:82, height:133,  transformOrigin:"100% 0%",  parent: bull_container_left});
+							var bull_jaw_l = bannerboy.createElement({className:'bull_jaw_l',backgroundImage: "bull_jaw.png", width:82, height:133, parent: bull_jaw_container_l});
+						var bull_core_container_l = bannerboy.createElement({className:'bull_core_container_l',left: 177, top: 127, width:136, height:273, transformOrigin:"100% 50%",  parent: bull_container_left});
+							var bull_core_l = bannerboy.createElement({className:'bull_core_l',backgroundImage: "bull_core.png", width:136, height:273, parent: bull_core_container_l});
+
+					var bull_container_right = bull_container_all.appendChild(bull_container_left.cloneNode(true));
+					TweenLite.set(bull_container_right,{scaleX:"-1"});
+
+				
+					var shoes_tiempo_container_all = bannerboy.createElement({id:'shoes_tiempo_container_all',left:96,top:110,width:204, height:218, transformOrigin:"0% 0%", scale:0.65, parent: bannerHolder,visibility:'hidden'});
+						var shoe_tiempo_container_l = bannerboy.createElement({width:102, height:226, transformOrigin:"100% 50%", scale:1, parent: shoes_tiempo_container_all});
+							var shoe_tiempo_l = bannerboy.createElement({backgroundImage: "shoe_tiempo.png", width:102, height:226, transformOrigin:"50% 50%", scale:1, parent: shoe_tiempo_container_l});
+
+						var shoe_tiempo_container_r = shoes_tiempo_container_all.appendChild(shoe_tiempo_container_l.cloneNode(true));
+						TweenLite.set(shoe_tiempo_container_r,{scaleX:"-1"});
+
+			// END TIEMPO elements **************
+
+			var logosHolder = bannerboy.createElement({ id:'logosHolder',parent: bannerHolder,top:70,width:255,height:200,transforOrigin:'50% 50%',scale:.85,z:.1});;
+				var txtRockerTop = bannerboy.createElement({ id:'txtRockerTop',parent: logosHolder,left:25,top:0,backgroundImage: 'rocker_top.png',transforOrigin:'50% 50%',z:.1,visibility:'hidden'});
+				var txtIntro = bannerboy.createElement({ id:'txtIntro',parent: logosHolder,left:0,top:82,backgroundImage: 'txt_intro.png',transforOrigin:'50% 50%',z:.1,visibility:'hidden'});
+				var txtRockerBottom = bannerboy.createElement({ id:'txtRockerBottom',parent: logosHolder,left:25,top:200,backgroundImage: 'rocker_bottom.png',transforOrigin:'50% 50%',z:.1,visibility:'hidden'});
+
+			var nikeLogo = bannerboy.createElement({ id:'nikeLogo',parent: bannerHolder,bottom:10,backgroundImage: 'logo_nike.png',visibility:'visible',alpha:1,scale:.8,retina:true});;
+			var buttonCta = bannerboy.createElement({ id:'buttonCta',parent: bannerHolder,top:355,backgroundImage: 'button.png',visibility:'hidden',alpha:0,retina:true});;
+			var txtAtNike = bannerboy.createElement({ id:'txtAtNike',parent: bannerHolder,top:405,backgroundImage: 'txt_atnike.png',visibility:'hidden',alpha:0,retina:true});;
+			
+			var swipeHolder = bannerboy.createElement({ id:'swipeHolder',parent:bannerHolder,width:width,height:48,bottom:60});;
+				var swipeBackground = bannerboy.createElement({ id:'swipeBackground',alpha:.1,parent: swipeHolder,background:'#000000',width:width,height:48});;
+				var swipeTextHolder = bannerboy.createElement({ id:'swipeTextHolder',parent: swipeHolder,x:0});;
+				var swipeText = bannerboy.createElement({ id:'swipeText',parent: swipeTextHolder,top:15,x:0,backgroundImage:'txt_swipe.png',retina:true});;
+				
+			var light0 = bannerboy.createElement({ id:'light0',parent: bannerHolder,top:height,left:0,backgroundImage:'light.png',scale:1,alpha:0,transforOrigin:'50% 50%',z:.1,force3D:true,visibility:'hidden'});;
+			var traceHolder = bannerboy.createElement({ id:'traceHolder',parent:bannerHolder,top:200});;
+
+			// SET COMPATIBILITY STUFF
+			//if(browser()=='Safari'||browser()=='Chrome') light0.set({mixBlendMode:'overlay'})
+
+			center(bannerHolder,plane_container_all);
+			center(holderMercurial,logoMercurial);
+			center(holderMagista,logoMagista);
+			center(holderTiempo,logoTiempo);
+			center(holderHypervenom,logoHypervenom);
+			center(bannerHolder,buttonCta);
+			center(bannerHolder,txtAtNike);
+			center(bannerHolder,nikeLogo);
+			center(swipeHolder,swipeText);
+			center(banner,logosHolder);
+			logosHolder.set({left:(width/2)-(logosHolder.get('width')/2)})
+			light0.set({left:-light0.get('width')/2,top:height-200,scale:4,alpha:0})
+			
+			var smoke = new Smoke(smokeHolder,'canvasSmoke','smoke_clear.png',width,height,{x : width/2, y : 400},40);
+			smoke.start(true);
+			var introCanvas = new IntroCanvas(banner,width,height);
+			var hammertime = new Hammer(banner);
+			TweenLite.delayedCall(5,autoPlay)
+
+			var animationStart = new TimelineLite({});
+			var timeline0 = new TimelineLite({onComplete:timeLineComplete, onCompleteParams:[0]});
+			var timeline1 = new TimelineLite({onComplete:timeLineComplete, onCompleteParams:[1]});
+			var timeline2 = new TimelineLite({onComplete:timeLineComplete, onCompleteParams:[2]});
+			var timeline3 = new TimelineLite({onComplete:timeLineComplete, onCompleteParams:[3]});
+			var timeline4 = new TimelineLite({onComplete:timeLineComplete, onCompleteParams:[4]});
+			var timeline5 = new TimelineLite({onComplete:timeLineComplete, onCompleteParams:[5]});
+			var timesLines = [timeline0,timeline3,timeline1,timeline2,timeline4,timeline5];
+
+			for(var i=0;i<timesLines.length;i++)
+			{
+				var timeLine = timesLines[i];
+				timeLine.pause();
+			}
+
+			var spd = .6;
+			var ease = Cubic.easeOut
+			animationStart.from([txtRockerTop],spd, {ease:ease,alpha:0,delay:.45,y:'25',autoAlpha:0});
+			animationStart.from([txtRockerBottom],spd, {ease:ease,alpha:0,delay:-spd+.01,y:'-25',autoAlpha:0});
+			animationStart.from([swipeHolder],spd, {ease:ease,bottom:0,alpha:0,delay:-.5,autoAlpha:0});
+			animationStart.from([swipeText],spd, {ease:ease,x:width,alpha:0,delay:-.5,autoAlpha:0});
+			
+			TweenLite.delayedCall(2,startSwipeTrigger)
+
+			//REMOVE SWIPE
+			timeline0.to([swipeHolder], 1, {ease:Cubic.easeOut,alpha:0,autoAlpha:0,onStart:removelight});
+
+			//SHOW MERCURIAL
+			timeline1.add([
+				TweenLite.to(logoHypervenom, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(skull_container_all, 1, { x:-width,   alpha:0,autoAlpha:1,ease: Cubic.easeInOut}),
+				TweenLite.to(shoes_hypervenom_container_all, 1, { x:-width,  alpha:0, autoAlpha:1,ease: Cubic.easeInOut}),
+
+				TweenLite.to(skull_container_allDup, 1, { x:-width,   alpha:0,autoAlpha:1,ease: Cubic.easeInOut}),
+				TweenLite.to(shoes_hypervenom_container_allDup, 1, { x:-width,  alpha:0, autoAlpha:1,ease: Cubic.easeInOut}),
+
+				TweenLite.to(player1Holder, 1, {overwrite:0,x:'50',y:'0',ease:Cubic.easeInOut,alpha:1,autoAlpha:1,onComplete:movePlayer,onCompleteParams:['player1']}),
+				TweenLite.to(ballHolder1, 1, {overwrite:0,x:'50',y:'-10',ease:Cubic.easeInOut,autoAlpha:1}),
+				TweenLite.delayedCall(.9,moveBall,['ball1']),
+				TweenLite.to(txtIntro, 0.01, {x:300,y:'0',ease:Cubic.easeInOut,alpha:0}),
+				TweenLite.to(txtIntro, 1, {overwrite:0,x:0,y:'0',ease:Cubic.easeInOut,alpha:1,autoAlpha:1}),
+				TweenLite.to(backgroundHolder, 1, {x:'-50',y:'0',ease:Cubic.easeInOut,alpha:1,autoAlpha:1}),
+				TweenLite.to(swipeHolder, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(txtRockerTop, 1, {ease:Cubic.easeInOut,y:txtRockerTop.getOriginal('y')}),
+				TweenLite.to(txtRockerBottom, 1, {ease:Cubic.easeInOut,y:txtRockerBottom.getOriginal('y')})
+			], "0");
+
+			timeline1.add([
+				TweenLite.to(player1Holder, .6, {x:'350',ease:Cubic.easeIn,alpha:0,autoAlpha:0,onStart:addWind}),
+				TweenLite.to(document.getElementById('ballHolder1'), .6, {x:'600',y:'-100',ease:Cubic.easeIn,alpha:0,autoAlpha:0}),
+				TweenLite.to(backgroundHolder, .6, {x:-background.get("width")+20,ease:Cubic.easeIn,onComplete:function()
+					{
+						TweenLite.killTweensOf(backgroundHolderIn)
+					}}),
+				TweenLite.to(light0, 1, {ease:Cubic.easeInOut,left:width-100,alpha:.5,autoAlpha:1}),
+				
+				TweenLite.to(txtIntro, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(txtRockerTop, .5, {ease:Cubic.easeIn,y:'-70',autoAlpha:1}),
+				TweenLite.to(txtRockerBottom, .5, {ease:Cubic.easeIn,y:'+20',autoAlpha:1}),
+				TweenLite.to(logoMercurial, 1, {ease:Cubic.easeInOut,alpha:1,autoAlpha:1,delay:.2})	
+			], "+=.5");
+
+			timeline1.add([
+				TweenLite.from(document.getElementById('shoes_mercurial_container_all'), 0.01, { x:0,opacity:0,   autoAlpha:0,ease: Expo.easeOut}),
+				TweenLite.from(document.getElementById('plane_container_all'), 0.01, { x:0,opacity:0,   autoAlpha:0,ease: Expo.easeOut}),
+				TweenLite.from(document.getElementById('plane_container_all').getElementsByClassName("plane_container_l"), 2, { scale:0.2, opacity:1,   ease: Expo.easeOut,autoAlpha:0}),
+				TweenLite.from(document.getElementById('plane_container_all').getElementsByClassName("plane_front_1_container_l"), 0.5 , { delay: 0.2, y:"-=65", scale:0.5, opacity:0,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementById('plane_container_all').getElementsByClassName("plane_back_p2_container_l"), 0.8 , { delay: 0.6,  scale:0, y:"+=12", ease: Power2.easeOut}),
+				TweenLite.from(document.getElementById('plane_container_all').getElementsByClassName("plane_back_p1_container_l"), 0.5 , { delay: 0.4, y:"+=65", scale:0.5, opacity:0,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementById('plane_container_all').getElementsByClassName("plane_wing_1_container_l"), 1 , { delay: 0.3, x:"+=50", y:"+=12", rotationY:90,     ease: Power2.easeOut}),
+				TweenLite.from(document.getElementById('shoes_mercurial_container_all').getElementsByClassName("shoe_mercurial_container_l"), 1.5 , { delay: 0, x:"-=450", y:"-=12", rotation:180,autoAlpha:0,  ease: Expo.easeIn,onComplete:shake}),
+				TweenLite.from(document.getElementById('shoes_mercurial_container_all').getElementsByClassName("shoe_mercurial_container_r"), 1.5 , { delay: 0, x:"+=450", y:"-=12", rotation:180,autoAlpha:0,  ease: Expo.easeIn})
+
+			], "-=1");
+
+			timeline1.add([
+				TweenLite.to(swipeHolder,1, {overwrite:0,ease:Cubic.easeInOut,bottom:swipeHolder.getOriginal('bottom'),alpha:1,delay:0,autoAlpha:1}),
+				TweenLite.to(swipeText,0.01,{x:width}),
+				TweenLite.to(swipeText,1, {overwrite:0,ease:Cubic.easeInOut,x:0,alpha:1,delay:.3,autoAlpha:1})
+			], "-=1");
+
+			//HIDE MERCURIAL
+			timeline2.add([
+				TweenLite.to(logoMercurial, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(plane_container_all, 1, { x:-width,   alpha:0,autoAlpha:1,ease: Cubic.easeInOut}),
+				TweenLite.to(shoes_mercurial_container_all, 1, { x:-width,   alpha:0,autoAlpha:1,ease: Cubic.easeInOut}),
+				TweenLite.to(txtRockerTop, 1, {ease:Cubic.easeInOut,y:txtRockerTop.getOriginal('y')}),
+				TweenLite.to(txtRockerBottom, 1, {ease:Cubic.easeInOut,y:txtRockerBottom.getOriginal('y')}),
+				TweenLite.from(txtIntro, 1, {x:width,y:0,ease:Cubic.easeInOut,alpha:1,autoAlpha:0}),
+				TweenLite.to(swipeHolder, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0})
+			], "0");
+			
+			//SHOW MAGISTA
+			timeline2.add([
+				
+				TweenLite.to(player2Holder, 1, {overwrite:0,x:-50,y:0,ease:Cubic.easeInOut,alpha:1,autoAlpha:1,onComplete:movePlayer,onCompleteParams:['player2']}),
+				TweenLite.to(ballHolder2, 1, {overwrite:0,x:-20,y:-10,ease:Cubic.easeInOut,autoAlpha:1}),
+				TweenLite.delayedCall(.9,moveBall,['ball2']),
+				TweenLite.to(backgroundHolder, 1, {x:'-50',y:'0',ease:Cubic.easeInOut,alpha:1})				
+			], "0");
+
+			timeline2.add([
+				TweenLite.to(player2Holder, .6, {x:'-350',ease:Cubic.easeIn,alpha:0,autoAlpha:0,onStart:addWind}),
+				TweenLite.to(document.getElementById('ballHolder2'), .6, {x:'-400',y:'-100',ease:Cubic.easeIn,alpha:0,autoAlpha:0}),
+				TweenLite.to(backgroundHolder, .6, {x:-background.get("width")+20,ease:Cubic.easeIn,onComplete:function()
+					{
+						TweenLite.killTweensOf(backgroundHolderIn)
+					}}),
+				TweenLite.to(light0, 1, {ease:Cubic.easeInOut,left:width-100,alpha:.5,autoAlpha:1}),
+				TweenLite.to(txtIntro, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(txtRockerTop, .5, {ease:Cubic.easeIn,y:'-70',autoAlpha:1}),
+				TweenLite.to(txtRockerBottom, .5, {ease:Cubic.easeIn,y:'+20',autoAlpha:1}),
+				TweenLite.to(logoMagista, 1, {ease:Cubic.easeInOut,alpha:1,autoAlpha:1,delay:.2})
+			], "+=1");
+			
+			timeline2.add([
+
+				TweenLite.from(shoes_magista_container_all, 0.01, { opacity:0,  x:0, autoAlpha:0,ease: Expo.easeOut}),
+				TweenLite.from(copter_container_all, 0.01, { opacity:0,    x:0,autoAlpha:0,ease: Expo.easeOut}),
+
+				TweenLite.from(document.getElementsByClassName("copter_container_left"), 2, { scale:0.0, opacity:1,   ease: Expo.easeOut}),				
+				TweenLite.from(document.getElementsByClassName("copter_front_container_l"), 0.5 , { delay: 0.2, y:"-=130", scale:0.5, opacity:0,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementsByClassName("copter_back_container_l"), 0.5 , { delay: 0.4, y:"+=130", scale:0.5,    ease: Power4.easeOut}),
+				TweenLite.from(document.getElementsByClassName("copter_back_wing_container_l"), 0.8 , { delay: 0.6,  scale:0, y:"+=25", ease: Power2.easeOut}),
+				TweenLite.from(document.getElementsByClassName("copter_wing_container_l"), 1 , { delay: 0.3, x:"+=50", y:"+=25", rotationY:90,     ease: Power2.easeOut}),
+				TweenLite.from([copter_rotor_container_l,copter_rotor_container_r], 1 , { delay: 0.3,  rotation:1440,  scale:0 ,  ease: Expo.easeInOut}),
+
+				TweenLite.from(shoe_magista_container_l, 1.5 , { delay: 0, x:"-=450", y:"-=25", opacity:0, rotation:180,  ease: Expo.easeIn, onComplete:shake}),
+				TweenLite.from(shoe_magista_container_r, 1.5 , { delay: 0, x:"+=450", y:"-=25", opacity:0, rotation:180,  ease: Expo.easeIn})
+			], "-=1");
+	
+			timeline2.add([
+				
+				TweenLite.to(swipeHolder,1, {ease:Cubic.easeInOut,bottom:swipeHolder.getOriginal('bottom'),alpha:1,delay:0,autoAlpha:1}),
+				TweenLite.to(swipeText,0.01,{x:width}),
+				TweenLite.to(swipeText,1, {overwrite:0,ease:Cubic.easeInOut,x:0,alpha:1,delay:.3,autoAlpha:1})
+			], "-=1");
+
+			timeline3.add([
+				TweenLite.to(txtRockerTop, 1, {ease:Cubic.easeInOut,y:txtRockerTop.getOriginal('y')}),
+				TweenLite.to(txtRockerBottom, 1, {ease:Cubic.easeInOut,y:txtRockerBottom.getOriginal('y')}),
+				TweenLite.to(swipeHolder, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(nikeLogo, 1, {ease:Cubic.easeIn,alpha:0,autoAlpha:0})
+			], "0");
+			
+			//SHOW HYPERVENOM
+			timeline3.add([
+				TweenLite.to(player3Holder, 1, {overwrite:0,x:-50,y:0,ease:Cubic.easeInOut,alpha:1,autoAlpha:1,onComplete:movePlayer,onCompleteParams:['player3']}),
+				TweenLite.to(ballHolder3, 1, {overwrite:0,x:-50,y:-10,ease:Cubic.easeInOut,autoAlpha:1}),
+				TweenLite.delayedCall(.9,moveBall,['ball3']),
+				TweenLite.to(backgroundHolder, 1, {x:'-50',y:'0',ease:Cubic.easeInOut,alpha:1})			
+			], "0");
+
+			timeline3.add([
+				TweenLite.to(player3Holder, .6, {x:'-350',ease:Cubic.easeIn,alpha:0,autoAlpha:0,onStart:addWind}),
+				TweenLite.to(document.getElementById('ballHolder3'), .6, {x:'-50',y:'-50',ease:Cubic.easeIn,alpha:0,autoAlpha:0}),
+				TweenLite.to(backgroundHolder, .6, {x:-background.get("width")+20,ease:Cubic.easeIn,onComplete:function()
+					{
+						TweenLite.killTweensOf(backgroundHolderIn)
+					}}),
+				TweenLite.delayedCall(0.1,removeIntro),
+				TweenLite.to(light0, 1, {ease:Cubic.easeInOut,left:width-100,alpha:.5,autoAlpha:1}),
+				TweenLite.to(txtIntro, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(txtRockerTop, .5, {ease:Cubic.easeIn,y:'-70',autoAlpha:1}),
+				TweenLite.to(txtRockerBottom, .5, {ease:Cubic.easeIn,y:'+20',autoAlpha:1}),
+				TweenLite.to(logoHypervenom, 1, {ease:Cubic.easeInOut,alpha:1,autoAlpha:1,delay:.2})
+			], "+=1");
+			
+			timeline3.add([
+
+				TweenLite.from(document.getElementById('skull_container_all'), 0.01, { opacity:0,    x:0,autoAlpha:0,ease: Expo.easeOut}),				
+				TweenLite.from(document.getElementById('shoes_hypervenom_container_all'), 0.01, { opacity:0,   x:0, autoAlpha:0,ease: Expo.easeOut}),				
+
+				TweenLite.from(document.getElementById('skull_container_all').getElementsByClassName("skull_container_left"), 2, { scale:0.2, opacity:1,   ease: Expo.easeOut}),
+				TweenLite.from(document.getElementById('skull_container_all').getElementsByClassName("skull_teeth_container_l"), 0.5 , { delay: 0.2, y:"-=130", scale:0.5, opacity:0,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementById('skull_container_all').getElementsByClassName("skull_jaw_container_l"), 0.9 , { delay: 0.4, y:"-=130", scale:0.5, opacity:0,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementById('skull_container_all').getElementsByClassName("skull_top_container_l"), 1.5 , { delay: 0,  scale:1, y:"+=80", ease: Power1.easeOut}),
+				TweenLite.from(document.getElementById('skull_container_all').getElementsByClassName("skull_external_p1_container_l"), 0.25 , { delay: 0.8,  scale:0,  ease: Linear.easeNone}),
+				TweenLite.from(document.getElementById('skull_container_all').getElementsByClassName("skull_external_p2_container_l"), 0.5 , { delay: 1.0,  scale:0,  ease: Power3.easeOut}),
+
+				TweenLite.from(document.getElementById('shoes_hypervenom_container_all').getElementsByClassName("shoe_hypervenom_container_l"), 1.5 , { delay: 0, x:"-=450", y:"-=25", opacity:0, rotation:180,  ease: Expo.easeIn, onComplete:shake}),
+				TweenLite.from(document.getElementById('shoes_hypervenom_container_all').getElementsByClassName("shoe_hypervenom_container_r"), 1.5 , { delay: 0, x:"+=450", y:"-=25", opacity:0, rotation:180,  ease: Expo.easeIn})	
+			], "-=1");
+	
+			timeline3.add([
+				TweenLite.to(swipeHolder,0.01,{y:45}),
+				TweenLite.to(swipeHolder,1, {ease:Cubic.easeInOut,bottom:swipeHolder.getOriginal('bottom'),alpha:1,delay:0,autoAlpha:1}),
+				TweenLite.to(swipeText,0.01,{x:width}),
+				TweenLite.to(swipeText,1, {overwrite:0,ease:Cubic.easeInOut,x:0,alpha:1,delay:.3,autoAlpha:1})
+			], "-=1");
+
+			//HIDE MAGISTA
+			timeline4.add([
+				TweenLite.to(logoMagista, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(copter_container_all, 1, { x:-width,   alpha:0,autoAlpha:1,ease: Cubic.easeInOut}),
+				TweenLite.to(shoes_magista_container_all, 1, { x:-width,   alpha:0,autoAlpha:1,ease: Cubic.easeInOut}),
+
+				TweenLite.to(txtRockerTop, 1, {ease:Cubic.easeInOut,y:txtRockerTop.getOriginal('y')}),
+				TweenLite.to(txtRockerBottom, 1, {ease:Cubic.easeInOut,y:txtRockerBottom.getOriginal('y')}),
+				TweenLite.to(txtIntro, 0.01, {x:300,y:'0',ease:Cubic.easeInOut,alpha:0}),
+				TweenLite.to(txtIntro, 1, {overwrite:0,x:0,y:'0',ease:Cubic.easeInOut,alpha:1,autoAlpha:1}),
+				TweenLite.to(swipeHolder, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0})
+			], "0");
+			
+			//SHOW TIEMPO
+			timeline4.add([
+				TweenLite.to(player4Holder, 1, {overwrite:0,x:-50,y:0,ease:Cubic.easeInOut,alpha:1,autoAlpha:1,onComplete:movePlayer,onCompleteParams:['player4']}),
+				TweenLite.to(document.getElementById('ballHolder4'), 1, {overwrite:0,x:-20,y:-20,ease:Cubic.easeInOut,autoAlpha:1}),
+				TweenLite.delayedCall(.9,moveBall,['ball4']),
+				TweenLite.to(backgroundHolder, 1, {x:'-50',y:'0',ease:Cubic.easeInOut,alpha:1})				
+			], "0");
+
+			timeline4.add([
+				TweenLite.to(player4Holder, .6, {x:'-350',ease:Cubic.easeIn,alpha:0,autoAlpha:0,onStart:addWind}),
+				TweenLite.to(ballHolder4, .6, {x:'-100',y:'-100',ease:Cubic.easeIn,alpha:0,autoAlpha:0}),
+				TweenLite.to(backgroundHolder, .6, {x:-background.get("width")+20,ease:Cubic.easeIn,onComplete:function()
+					{
+						TweenLite.killTweensOf(backgroundHolderIn)
+					}}),
+				TweenLite.to(light0, 1, {ease:Cubic.easeInOut,left:width-100,alpha:.5,autoAlpha:1}),
+				TweenLite.to(txtIntro, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(txtRockerTop, .5, {ease:Cubic.easeIn,y:'-70',autoAlpha:1}),
+				TweenLite.to(txtRockerBottom, .5, {ease:Cubic.easeIn,y:'+20',autoAlpha:1}),
+				TweenLite.to(logoTiempo, 1, {ease:Cubic.easeInOut,alpha:1,autoAlpha:1,delay:.2})	
+			], "+=1");
+			
+			timeline4.add([
+
+				TweenLite.from(bull_container_all, 0.01, { opacity:0,    x:0,autoAlpha:0,ease: Expo.easeOut}),
+				TweenLite.from(shoes_tiempo_container_all, 0.01, { opacity:0,   x:0, autoAlpha:0,ease: Expo.easeOut}),
+
+				TweenLite.from(document.getElementsByClassName("bull_container_left"), 2, { scale:0.0, opacity:1,  ease: Expo.easeOut}),							
+				TweenLite.from(document.getElementsByClassName("bull_jaw_container_l"), 0.8 , { delay: 0.3, y:"-=130", scale:0.5, opacity:0,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementsByClassName("bull_side_container_l"), 0.8 , { delay: 0.3, x:"-=30", scale:1, opacity:0,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementsByClassName("bull_forehead_container_l"), 0.5 , { delay: 0.5, y:"+=130", scale:0.5,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementsByClassName("bull_horn_container_l"), 0.8 , { delay: 0.7,  scale:0.5, y:"+=50", ease: Power2.easeOut}),
+				TweenLite.from(document.getElementsByClassName("bull_horn_p1_container_l"), 0.4 , { delay: 0.8, rotation:-90, scale:0.7, y:"+=15", ease: Power2.easeOut}),
+				TweenLite.from(document.getElementsByClassName("bull_horn_p2_container_l"), 0.6 , { delay: 1, rotation:-90, scale:0, x:"+=135", y:"+35", ease: Power2.easeOut}),				
+				TweenLite.from(document.getElementsByClassName("bull_bullie_container_l"), 1 , { delay: 1.3, x:"+=50", rotationY:90,     ease: Power2.easeOut}),
+							
+				TweenLite.from(shoe_tiempo_container_l, 1.5 , { delay: 0, x:"-=450", y:"-=25", opacity:0, rotation:180,  ease: Expo.easeIn, onComplete:shake}),
+				TweenLite.from(shoe_tiempo_container_r, 1.5 , { delay: 0, x:"+=450", y:"-=25", opacity:0, rotation:180,  ease: Expo.easeIn}),		
+
+			], "-=1");
+			
+			timeline4.add([
+				TweenLite.to(logoTiempo, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(buttonCta, 1, {ease:Cubic.easeInOut,alpha:1,autoAlpha:1,scale:1}),			
+				TweenLite.to(txtAtNike, 1, {ease:Cubic.easeInOut,alpha:1,autoAlpha:1,scale:1}),
+				TweenLite.to(nikeLogo, 1, {ease:Cubic.easeIn,alpha:1,autoAlpha:1})
+			], "+=.5");
+			
+			//HIDE TIEMPO
+			timeline5.add([
+				TweenLite.to(logoTiempo, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(bull_container_all, 1, { x:-width,   alpha:0,autoAlpha:1,ease: Cubic.easeInOut}),
+				TweenLite.to(shoes_tiempo_container_all, 1, { x:-width,   alpha:0,autoAlpha:1,ease: Cubic.easeInOut}),
+				TweenLite.to(txtRockerTop, 1, {ease:Cubic.easeInOut,y:txtRockerTop.getOriginal('y')}),
+				TweenLite.to(txtRockerBottom, 1, {ease:Cubic.easeInOut,y:txtRockerBottom.getOriginal('y')}),
+				TweenLite.to(txtIntro, 0.01, {x:300,y:'0',ease:Cubic.easeInOut,alpha:0}),
+				TweenLite.to(txtIntro, 1, {overwrite:0,x:0,y:'0',ease:Cubic.easeInOut,alpha:1,autoAlpha:1}),
+				TweenLite.to(swipeHolder, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(txtAtNike, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(buttonCta, 1, {ease:Cubic.easeIn,alpha:0,autoAlpha:0}),
+				TweenLite.to(nikeLogo, 1, {ease:Cubic.easeIn,alpha:0,autoAlpha:0})
+			], "0");
+			
+			//SHOW HYPERVENOM SECOND TIME
+			timeline5.add([
+
+				TweenLite.to(player3HolderDup, 1, {overwrite:0,x:-50,y:0,ease:Cubic.easeInOut,alpha:1,autoAlpha:1,onComplete:movePlayer,onCompleteParams:['player3Dup']}),
+				TweenLite.to(document.getElementById('ballHolder3Dup'), 1, {overwrite:0,x:-50,y:-10,ease:Cubic.easeInOut,autoAlpha:1}),
+				TweenLite.delayedCall(.9,moveBall,['ball3Dup']),
+				TweenLite.to(backgroundHolder, 1, {x:'-50',y:'0',ease:Cubic.easeInOut,alpha:1}),
+				
+			], "0");
+
+			timeline5.add([
+				TweenLite.to(player3HolderDup, .6, {x:'-350',ease:Cubic.easeIn,alpha:0,autoAlpha:0,onStart:addWind}),
+				TweenLite.to(ballHolder3, .6, {x:'-50',y:'-50',ease:Cubic.easeIn,alpha:0,autoAlpha:0}),
+				TweenLite.to(backgroundHolder, .6, {x:-background.get("width")+20,ease:Cubic.easeIn,onComplete:function()
+					{
+						TweenLite.killTweensOf(backgroundHolderIn)
+					}}),
+				TweenLite.to(light0, 1, {ease:Cubic.easeInOut,left:width-100,alpha:.5,autoAlpha:1}),
+				TweenLite.to(txtIntro, 1, {ease:Cubic.easeInOut,alpha:0,autoAlpha:0}),
+				TweenLite.to(txtRockerTop, .5, {ease:Cubic.easeIn,y:'-70',autoAlpha:1}),
+				TweenLite.to(txtRockerBottom, .5, {ease:Cubic.easeIn,y:'+20',autoAlpha:1}),
+				TweenLite.to(logoMercurial, 1, {ease:Cubic.easeInOut,alpha:1,autoAlpha:1,delay:.2})	
+
+			], "+=1");
+			
+			timeline5.add([
+				TweenLite.from(document.getElementById('skull_container_allDup'), 0.01, { opacity:0,    x:0,autoAlpha:0,ease: Expo.easeOut}),				
+				TweenLite.from(document.getElementById('shoes_hypervenom_container_allDup'), 0.01, { opacity:0,   x:0, autoAlpha:0,ease: Expo.easeOut}),				
+
+				TweenLite.from(document.getElementById('skull_container_allDup').getElementsByClassName("skull_container_left"), 2, { scale:0.2, opacity:1,   ease: Expo.easeOut}),
+				TweenLite.from(document.getElementById('skull_container_allDup').getElementsByClassName("skull_teeth_container_l"), 0.5 , { delay: 0.2, y:"-=130", scale:0.5, opacity:0,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementById('skull_container_allDup').getElementsByClassName("skull_jaw_container_l"), 0.9 , { delay: 0.4, y:"-=130", scale:0.5, opacity:0,   ease: Power4.easeOut}),
+				TweenLite.from(document.getElementById('skull_container_allDup').getElementsByClassName("skull_top_container_l"), 1.5 , { delay: 0,  scale:1, y:"+=80", ease: Power1.easeOut}),
+				TweenLite.from(document.getElementById('skull_container_allDup').getElementsByClassName("skull_external_p1_container_l"), 0.25 , { delay: 0.8,  scale:0,  ease: Linear.easeNone}),
+				TweenLite.from(document.getElementById('skull_container_allDup').getElementsByClassName("skull_external_p2_container_l"), 0.5 , { delay: 1.0,  scale:0,  ease: Power3.easeOut}),
+				
+				TweenLite.from(document.getElementById('shoes_hypervenom_container_allDup').getElementsByClassName("shoe_hypervenom_container_l"), 1.5 , { delay: 0, x:"-=450", y:"-=25", opacity:0, rotation:180,  ease: Expo.easeIn, onComplete:shake}),
+				TweenLite.from(document.getElementById('shoes_hypervenom_container_allDup').getElementsByClassName("shoe_hypervenom_container_r"), 1.5 , { delay: 0, x:"+=450", y:"-=25", opacity:0, rotation:180,  ease: Expo.easeIn})
+			], "-=1");
+	
+			timeline5.add([
+				TweenLite.to(swipeHolder,1, {ease:Cubic.easeInOut,bottom:swipeHolder.getOriginal('bottom'),alpha:1,delay:0,autoAlpha:1}),
+				TweenLite.to(swipeText,0.01,{x:width}),
+				TweenLite.to(swipeText,1, {overwrite:0,ease:Cubic.easeInOut,x:0,alpha:1,delay:.3,autoAlpha:1})
+			], "-=1");
+			
+			var currentIndex = 0;
+			var percent =0;
+			var locked = false;
+			var progress = {};
+			progress.percent =0;
+
+			function timeLineComplete(id)
+			{
+				var timeLine = timesLines[id];
+				timeLine.pause();
+
+				if(id>0)
+				{
+					locked=false;
+					currentIndex++;
+
+					if(id==5)
+					{	
+						currentIndex=2;
+						//RESET ELEMENTS FOR LOOP
+						for(var i=1;i<5;i++)
+						{
+							TweenLite.set(document.getElementById('ballHolder'+i), {x:0,y:0});
+							TweenLite.set(document.getElementById('player'+i+'Holder'),  {x:0,y:0});
+							TweenLite.set(document.getElementById('player'+i),  {x:0,y:0});
+							TweenLite.set(document.getElementById('ball'+i),  {x:0,y:0,rotation:0});
+							var timeLine = timesLines[i];
+							if(i>1) 
+							{
+								timeLine.pause();
+							}
+						}
+						
+						TweenLite.set(document.getElementById('player3HolderDup'),  {x:0,y:0});
+						TweenLite.set(document.getElementById('player3Dup'),  {x:0,y:0});
+						TweenLite.set(document.getElementById('ballHolder3Dup'),  {x:0,y:0});
+						TweenLite.set(document.getElementById('ball3Dup'),  {x:0,y:0});
+					}
+				}
+			}
+
+			function nextTimeline()
+			{
+				stopSwipeTrigger();
+
+				if(currentIndex==0) currentIndex++
+				if(currentIndex<0)currentIndex =0;
+            	else if(currentIndex>timesLines.length) currentIndex = 0;
+
+               var timeLine = timesLines[currentIndex]
+               if(timeLine) timeLine.play();
+			}
+
+			function getNextTimeline()
+			{
+				var tempIndex = currentIndex+1;
+				if(tempIndex<0)tempIndex =0;
+            	else if(tempIndex>timesLines.length) tempIndex = 0;
+            	return tempIndex;
+			}
+
+			function updateProgress()
+			{
+	    		timesLines[currentIndex].progress(Math.abs(progress.percent)/400)
+
+        		var nextTimeLineClip = timesLines[getNextTimeline(currentIndex)]
+				if(nextTimeLineClip) nextTimeLineClip.progress(Math.abs(progress.percent)/400)
+			}
+
+			function autoPlay()
+			{
+				if(!locked)nextTimeline();
+				locked = true;
+			}
+
+			banner.addEventListener("click", function () 
+			{
+				Enabler.exit("clickthrough");
+			});
+
+			hammertime.on('panstart', function(e) 
+			{
+				progress.percent = 0;
+			});
+
+			hammertime.on('panmove panend pancancel pan swipe', function(e) 
+			{
+			   // /if(!SUPPORT_TOUCH)return;
+				TweenLite.killDelayedCallsTo(autoPlay)
+
+				var delta = dirProp(Hammer.DIRECTION_HORIZONTAL, e.deltaX, e.deltaY);
+				var percent = (100 / width) * delta;
+    			var direction = (percent < 0) ? 1 : -1;
+    			var wind = -(Math.random()*(direction*3));
+    			smoke.setWind(wind);
+    	
+    			progress.percent = percent;
+
+    			if(Math.abs(percent)>70&&locked==false)
+    			{
+    				locked = true;
+    				nextTimeline();
+    			}
+    			else if(!locked)
+    			{
+    				var timeLine = timesLines[currentIndex]
+    				timeLine.progress(Math.abs(progress.percent)/400)
+    				if(currentIndex==0)
+    				{
+    					var nextTimeLine = timesLines[getNextTimeline(currentIndex)]
+    					if(nextTimeLine) nextTimeLine.progress(Math.abs(progress.percent)/400)
+    				}
+    				swipeText.set({x:percent})
+    			}
+    			
+    			if (e.type == 'swipe') 
+                {
+                	if(!locked) nextTimeline();
+                	locked = true;
+                }
+
+                if (e.type == 'panend' || e.type == 'pancancel' ) 
+                {
+                	if(!locked)
+                	{
+                		TweenLite.to(progress,.5,{ease:Cubic.easeInOut,percent:0,onUpdate:updateProgress,onUpdateParams:[]})
+                		TweenLite.to(swipeText,.5,{ease:Cubic.easeInOut,x:0})
+                	}
+                }
+        	});		
+	
+			function movePlayer(id)
+			{
+				var player = document.getElementById(id);
+				var xMovement = 50;
+				if(id.indexOf('1')==-1) xMovement = -xMovement;
+				TweenLite.to(player, 5, {x:xMovement,y:0,ease:Linear.easeNone});
+				TweenLite.to(backgroundHolderIn, 5, {x:'-50',y:'0',ease:Linear.easeNone});
+			}
+
+			function moveBall(id)
+			{
+				var ball = document.getElementById(id);
+				if(id=='ball1') TweenLite.to(ball, 5, {x:200,y:-35,rotation:180,ease:Linear.easeNone});
+				else if(id=='ball2') TweenLite.to(ball, 5, {x:-200,y:-35,rotation:180,ease:Linear.easeNone});
+				else if(id=='ball3' ||id=='ball3Dup') TweenLite.to(ball, 5, {x:-50,y:-35,rotation:-180,ease:Linear.easeNone});
+				else if(id=='ball4') TweenLite.to(ball, 5, {x:-50,y:-35,rotation:-180,ease:Linear.easeNone});
+			}
+
+			function addWind()
+			{
+				smoke.setWind(3)
+			}
+
+			function startSwipeTrigger()
+			{
+				var spd = .5;
+				TweenLite.to(swipeTextHolder, spd, {x:-25,ease:Cubic.easeOut});
+				TweenLite.to(swipeTextHolder, spd, {overwrite:0,x:0,ease:Cubic.easeInOut,delay:spd});
+				TweenLite.delayedCall(spd*5,startSwipeTrigger)
+			}
+
+			function stopSwipeTrigger()
+			{
+				TweenLite.to(swipeTextHolder, spd, {x:0,ease:Cubic.easeInOut});
+				TweenLite.killDelayedCallsTo(startSwipeTrigger)
+			}
+
+			function shake()
+			{
+				var bounces  =6;
+				var moveAmount = 8;
+				var d = 0;
+				var spd= .3;
+
+				for(var i =0;i<bounces;i++)
+				{
+					var amount = moveAmount/(i+1);
+					var spdInt =.10;
+					if(i % 2 == 0) amount = -(amount);
+					if(i==bounces-1) amount=0;
+					TweenLite.to(bannerHolder,spdInt,{x:amount,y:amount,ease:Cubic.easeOut,delay:d+(spdInt*i),overwrite:0});
+				}
+			}
+
+			function removeCanvas()
+			{
+				if(document.getElementById('canvasIntro'))banner.removeChild(document.getElementById('canvasIntro'));
+			}
+
+			function removeIntro()
+			{
+				if(document.getElementById('canvasIntro'))TweenLite.to(document.getElementById('canvasIntro'),.5,{alpha:0,ease:Cubic.easeIn,delay:0,overwrite:0,onComplete:removeCanvas});
+			}
+
+			function removelight()
+			{
+				introCanvas.removelight();
+			}
+
+			function dirProp(direction, hProp, vProp) 
+			{
+		    	return (direction & Hammer.DIRECTION_HORIZONTAL) ? hProp : vProp
+			}
+
+			function center(parent,child)
+			{
+				child.set({left:(parent.get('width')/2)-(child.get('width')/2)})
+			}
+
+		});	
+	}
+}
+</script>
+
+</head>
+<body></body>
+</html>

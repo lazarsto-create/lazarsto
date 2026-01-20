@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="bannerboy.js"></script>
+		<script src="bannerboy_utils.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/TweenLite.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/TimelineLite.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/easing/EasePack.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/plugins/CSSPlugin.min.js"></script>
+		<script src="http://track.adform.net/banners/scripts/rmb/Adform.DHTML.js"></script>
+		<meta name="viewport" content="initial-scale=1">
+		<style>
+
+			html, body, div, span, applet, object, iframe,
+			h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+			a, abbr, acronym, address, big, cite, code,
+			del, dfn, em, img, ins, kbd, q, s, samp,
+			small, strike, strong, sub, sup, tt, var,
+			b, u, i, center,
+			dl, dt, dd, ol, ul, li,
+			fieldset, form, label, legend,
+			table, caption, tbody, tfoot, thead, tr, th, td,
+			article, aside, canvas, details, embed, 
+			figure, figcaption, footer, header, hgroup, 
+			menu, nav, output, ruby, section, summary,
+			time, mark, audio, video {
+				margin: 0;
+				padding: 0;
+				border: 0;
+				font-size: 100%;
+				font: inherit;
+				vertical-align: baseline;
+			}
+			/* HTML5 display-role reset for older browsers */
+			article, aside, details, figcaption, figure, 
+			footer, header, hgroup, menu, nav, section {
+				display: block;
+			}
+			body {
+				line-height: 1;
+			}
+			ol, ul {
+				list-style: none;
+			}
+			blockquote, q {
+				quotes: none;
+			}
+			blockquote:before, blockquote:after,
+			q:before, q:after {
+				content: '';
+				content: none;
+			}
+			table {
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+
+		</style>
+		<script type="text/javascript">
+			// bannerboy namespace	
+			var bannerboy = bannerboy || {};
+			
+			bannerboy.main = function() {
+				console.log("==== START BANNER ====");
+				// global variables (not really global, but kinda)
+				var width = 300;
+				var height = 250;
+				var banner = bannerboy.createDiv({width: width, height: height, overflow:"hidden", parent: document.body});
+				var border = bannerboy.createDiv({width: width, height: height, border: "1px solid #000", boxSizing: "border-box", parent: document.body});
+				var tiltLR = bannerboy.main.tiltLR = 0;
+				var speed = bannerboy.main.speed = 0;
+				var maxSpeed = 10;
+				var bgPanning = false;
+				var bgSpeed = bannerboy.main.bgSpeed = 0.05;
+				var blurAmount = bannerboy.main.blurAmount = 1;
+				var toggle = true;
+				var images = [
+					"bg.jpg",
+					"ground.png",
+					"car.png",
+					"carShadow.png",
+					"wheel_still.png",
+					"wheel_blur.png",
+					"wheelShadow.png",
+					"txt1.png",
+					"txt2.png",
+					"tilt.png",
+					"tiltBG.png",
+					"logo.png"
+				];
+
+				//create introFade
+				var introFade = bannerboy.createDiv({background:"#FFF", width:300, height: 250, zIndex: 10, parent:banner});
+
+				//clickTAG
+				 clickTAGvalue = dhtml.getVar('clickTAG', 'http://www.example.com');
+				 landingpagetarget = dhtml.getVar('landingPageTarget', '_blank');
+
+				 border.addEventListener("click", function () {
+				 	window.open(clickTAGvalue,landingpagetarget);
+				 });
+
+				// preload images
+				bannerboy.preloadImages(images, function () {
+
+					//create divs
+					var mainContainer = bannerboy.main.mainContainer = bannerboy.createDiv({width: 300, height: 250});
+
+					var carContainer = bannerboy.main.car = bannerboy.createDiv({width: 292, height: 87, left: 3+5, top: 119+20});
+					var carShadow = bannerboy.createDiv({backgroundImage:"carShadow.png", retina: true, parent: carContainer});
+					var frontWheelBG = bannerboy.createDiv({background: "#000", left:45, top: 36, width:48, height: 30, parent: carContainer});
+					var backWheelBG = bannerboy.createDiv({background: "#000", left:192, top: 36, width:48, height: 30, parent: carContainer});
+
+					var frontWheelShadow = bannerboy.createDiv({backgroundImage:"wheelShadow.png", left: 52, top: 69, retina: true, parent: carContainer});
+					var frontWheelContainer = bannerboy.main.frontWheelContainer = bannerboy.createDiv({width:36, height: 36, left: 51, top: 40, parent: carContainer});
+					var frontWheelBlur = bannerboy.createDiv({backgroundImage:"wheel_blur.png", retina: true, parent:frontWheelContainer});
+					var frontWheelStill = bannerboy.createDiv({backgroundImage:"wheel_still.png", retina: true, parent:frontWheelContainer});
+
+					var backWheelShadow = bannerboy.createDiv({backgroundImage:"wheelShadow.png", left: 201, top: 69, retina: true, parent: carContainer});
+					var backWheelContainer = bannerboy.main.backWheelContainer = bannerboy.createDiv({width:36, height: 36, left: 199, top: 41, parent: carContainer});
+					var backWheelBlur = bannerboy.createDiv({backgroundImage:"wheel_blur.png", retina: true, parent:backWheelContainer});
+					var backWheelStill = bannerboy.createDiv({backgroundImage:"wheel_still.png", retina: true, parent:backWheelContainer});
+
+					var car = bannerboy.createDiv({backgroundImage:"car.png", retina: true, parent: carContainer});
+
+					var bgContainer = bannerboy.main.bgContainer = bannerboy.createDiv({width: 300, height: 250});
+					var bgInnerContainer = bannerboy.main.bgInnerContainer = bannerboy.createDiv({width:1500, height: 350, x: -1000, parent: bgContainer});
+					var bg1 = bannerboy.createDiv({backgroundImage:"bg.jpg", left: 0, top: -60, x: 0, parent: bgInnerContainer});
+					var bg2 = bannerboy.createDiv({backgroundImage:"bg.jpg", left: 500, top: -60, x: 0, scaleX: 1, parent: bgInnerContainer});
+					var bg3 = bannerboy.createDiv({backgroundImage:"bg.jpg", left: 1000, top: -60, x: 0, parent: bgInnerContainer});
+
+					var groundContainer = bannerboy.main.groundContainer = bannerboy.createDiv({width: 300, height: 250, transformOrigin:"center 50%"});
+					var groundInnerContainer = bannerboy.main.groundInnerContainer = bannerboy.createDiv({width:1500, height: 187, x: -1000, parent: groundContainer});
+					var ground1 = bannerboy.createDiv({backgroundImage:"ground.png", left: 0, top: 166+20, x: 0, parent: groundInnerContainer});
+					var ground2 = bannerboy.createDiv({backgroundImage:"ground.png", left: 500, top: 166+20, x: 0, scaleX: 1, parent: groundInnerContainer});
+					var ground3 = bannerboy.createDiv({backgroundImage:"ground.png", left: 1000, top: 166+20, x: 0, parent: groundInnerContainer});
+
+					var logo = bannerboy.createDiv({backgroundImage:"logo.png", left: 260, top: 7, retina: true});
+
+					var tiltContainer = bannerboy.createDiv({width: 59, height: 59, left: 121, top: 96});
+					var tiltBG = bannerboy.createDiv({backgroundImage: "tiltBG.png", retina: true, parent: tiltContainer});
+					var tilt = bannerboy.createDiv({backgroundImage: "tilt.png", transformOrigin: "50% 91%", retina:true, parent: tiltContainer});
+
+					var txt1 = bannerboy.createDiv({backgroundImage: "txt1.png", left: 30, top: 49, retina: true});
+					var txt2 = bannerboy.createDiv({backgroundImage: "txt2.png", left: 29, top: 76, retina: true});
+
+					//append divs
+					mainContainer.appendChild(bgContainer);
+					mainContainer.appendChild(groundContainer);
+					mainContainer.appendChild(carContainer);
+					mainContainer.appendChild(txt1);
+					mainContainer.appendChild(txt2);
+					banner.appendChild(mainContainer);
+					banner.appendChild(tiltContainer);
+					banner.appendChild(logo);
+
+					//var debugText = bannerboy.main.debugText = bannerboy.createDiv({innerHTML: "0", left: 50, top: 50, parent:banner});
+
+					// tilt instructions timeline
+					tiltContainer.tl = new TimelineLite()
+					.to(tilt, 0.5, {rotation: 12, ease: Power1.easeInOut})
+					.to(tilt, 1, {rotation: -12, ease: Power1.easeInOut})
+					.to(tilt, 0.5, {rotation: 0, ease: Power1.easeInOut})
+					.to(tiltContainer, 0.5, {autoAlpha: 0});
+
+					// car going up / down timeline
+					var carUpDownTl = new TimelineLite({paused:true})
+					.addLabel("loop", "+=1")
+					.to(carContainer, 1, {y: -3, ease: Power1.easeInOut}, "loop")
+					.to(carContainer, 1, {y: 0, ease: Power1.easeInOut})
+					.to(carContainer, 1, {y: 3, ease: Power1.easeInOut}, "+=1")
+					.to(carContainer, 1, {y: 1, ease: Power1.easeInOut})
+					.to(carContainer, 1, {y: 0, ease: Power1.easeInOut})
+					.call(function () {carUpDownTl.seek("loop"); });
+
+					// car animation timeline
+					var carTl = new TimelineLite({paused:true})
+					//start going up and down
+					.call(carUpDownTl.play, [], null, 1)
+					//do car driving animations
+					.addLabel("loop")
+					.to([car, carShadow], 0.2, {y: 0.5, rotation: 0.1, ease: Power1.easeInOut})
+					.to([car, carShadow], 0.2, {y: 0, rotation: -0.1, ease: Power1.easeInOut})
+					.to([car, carShadow], 0.2, {y: 0.5, rotation: 0.1, ease: Power1.easeInOut})
+					.to([car, carShadow], 0.2, {y: 0, rotation: 0, ease: Power1.easeInOut})
+					//loop
+					.call(function () {carTl.seek("loop"); });
+
+					//////////////////////////
+					/////MAIN TIMELINE///////
+					////////////////////////
+
+					var mainTimeline = new TimelineLite({paused:false})
+					.add(tiltContainer.tl, 0.5)
+					.addLabel("start")
+					.to(bannerboy.main, 1, {blurAmount: 0})
+					.to(bannerboy.main, 1, {speed: 6, ease: Power1.easeIn}, "start")
+					.to([frontWheelStill, backWheelStill], 1, {autoAlpha: 0}, "start")
+					.call(function () { carTl.play(); }, [], null, "start")
+					.call(function () { carUpDownTl.play(); }, [], null, "start")
+
+					//animate in text
+					.from(txt1, 1, {x: -5, alpha: 0})
+					.from(txt2, 1, {x: -5, alpha: 0}, "+=0.5");
+
+
+					//update loop
+					TweenLite.ticker.addEventListener("tick", update);
+
+					//animate out introFade
+					TweenLite.to(introFade, 0.5, {autoAlpha: 0});
+
+					//device orientation listener
+					window.addEventListener("devicemotion", function (event) {
+
+						//this is inversed on iDevices
+						if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
+							tiltLR = event.accelerationIncludingGravity.x;
+						} else {
+							tiltLR = -event.accelerationIncludingGravity.x;
+						}
+
+						var targetRotation = (tiltLR*6);
+
+						TweenLite.to(bannerboy.main.car, 0.5, {x: targetRotation, rotation: -targetRotation, force3D: true});
+						TweenLite.to(bannerboy.main.groundContainer, 0.5, {rotation: -targetRotation, force3D: true});
+
+
+						//PAN BG UP & DOWN
+						if (targetRotation > 20) {
+							if (!bgPanning) {
+								bgPanning = true;
+								TweenLite.to(bannerboy.main.bgContainer, 10, {y: 30*-bannerboy.utils.sign(targetRotation), ease: Power1.easeInOut, onComplete: function () { TweenLite.to(bannerboy.main, 1, {bgSpeed: 0.05}); } });
+								TweenLite.to(bannerboy.main, 5, {bgSpeed: 0.03});
+							}
+						} else if (targetRotation < -20) {
+							if (!bgPanning) {
+								bgPanning = true;
+								TweenLite.to(bannerboy.main.bgContainer, 10, {y: 50*-bannerboy.utils.sign(targetRotation), ease: Power1.easeInOut, onComplete: function () { TweenLite.to(bannerboy.main, 1, {bgSpeed: 0.05}); } });
+								TweenLite.to(bannerboy.main, 5, {bgSpeed: 0.03});
+							}
+						} else {
+							bgPanning = false;
+							TweenLite.to(bannerboy.main.bgContainer, 1, {y: 0, ease: Power1.easeInOut, onComplete: function () {
+							}});
+							TweenLite.to(bannerboy.main, 1, {bgSpeed: 0.05});
+						}
+					});
+					
+				});
+				
+				//update function
+				function update () {
+
+					//blur the banner
+					if (bannerboy.main.blurAmount != 0) {
+						toggle = !toggle;
+						if (toggle) return;
+						bannerboy.main.mainContainer.set({webkitFilter: "blur("+bannerboy.main.blurAmount*5+"px)"});
+					}
+
+					//background animation
+					if (bannerboy.main.bgInnerContainer.get("x") <= 0) {
+						bannerboy.main.bgInnerContainer.set({x: "+="+bannerboy.main.speed*bannerboy.main.bgSpeed, force3D: true});
+					} else {
+						bannerboy.main.bgInnerContainer.set({x: -1000, force3D: true});
+					}
+
+					//ground animation
+					if (bannerboy.main.groundInnerContainer.get("x") <= -499) {
+						bannerboy.main.groundInnerContainer.set({x: "+="+bannerboy.main.speed, force3D: true});
+					} else {
+						bannerboy.main.groundInnerContainer.set({x: -1000, force3D: true});
+					}
+
+					//spin wheels!
+					bannerboy.main.frontWheelContainer.set({rotation: "-="+bannerboy.main.speed*3.5, force3D: true});
+					bannerboy.main.backWheelContainer.set({rotation: "-="+bannerboy.main.speed*3.5, force3D: true});
+
+				}
+
+				
+
+			}
+
+		</script>
+	</head>
+	<body onload="bannerboy.main()">
+		<div id="border_bb"></div>
+	</body>
+</html>
