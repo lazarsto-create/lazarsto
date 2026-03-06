@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>300x600 Ad</title>
+  <link rel="preload" href="Noto IKEA Latin Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="Noto IKEA Latin Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    // number of product slides to show in carousel (change this value)
+    window.products = 5;
+    // dynamic CTA text (change this value to update the CTA text)
+    window.ctaText = "Shop Now";
+  </script>
+</head>
+<body>
+  <div id="ad" aria-label="Advertisement - 300 by 600">
+    <div class="bg"></div>
+    <div class="logo">
+      <img src="ikea.svg" alt="IKEA" />
+    </div>
+    <div class="table-img">
+      <img src="table.jpg" alt="Table" />
+    </div>
+    <div class="media">
+      <div class="carousel"></div>
+      <div class="pagination"></div>
+    </div>
+    <div class="cta" aria-label="Call to Action">
+      <span class="cta-text"></span>
+    </div>
+    <!-- headline removed -->
+    <div class="nav left" aria-label="Previous">
+      <img src="arrow.svg" alt="Previous" />
+    </div>
+    <div class="nav right" aria-label="Next">
+      <img src="arrow.svg" alt="Next" />
+    </div>
+  </div>
+
+  <!-- GSAP from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="animation.js"></script>
+</body>
+</html>

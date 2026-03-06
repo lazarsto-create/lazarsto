@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Banner Preview</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f5f5;
+padding:20px;
+}
+
+h1{
+text-align:center;
+margin-bottom:40px;
+}
+
+.container{
+display:flex;
+flex-wrap:wrap;
+gap:40px;
+justify-content:center;
+}
+
+.banner{
+text-align:center;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+iframe{
+border:1px solid #ccc;
+}
+
+button{
+background:#0066cc;
+color:white;
+border:none;
+padding:6px 10px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>HTML5 Banner Preview</h1>
+
+<div class="container" id="container"></div>
+
+<script>
+
+const folders = [
+
+"160x600_Golfer",
+"300x250_breeze",
+"300x250_coke",
+"300x250_dog",
+"300x250_donuts",
+"300x250_duracell",
+"300x250_gamestop",
+"300x250_hello-fresh",
+"300x250_lids",
+"300x250_netapp",
+"300x250_passat",
+"300x250_petsmart",
+"300x250_rum",
+"300x250_scion",
+"300x250_toyota",
+"300x600_addwash",
+"320x320_postnord",
+"320x460_nike",
+"980x500_urb-it"
+
+];
+
+const container = document.getElementById("container");
+
+folders.forEach((folder,i)=>{
+
+let size = folder.match(/\d+x\d+/)[0];
+let width = size.split("x")[0];
+let height = size.split("x")[1];
+
+let div = document.createElement("div");
+div.className="banner";
+
+div.innerHTML = `
+
+<div class="header">
+<strong>${folder}</strong>
+<button onclick="reload('frame${i}')">↻</button>
+</div>
+
+<iframe
+id="frame${i}"
+src="${folder}/index.html"
+width="${width}"
+height="${height}"
+scrolling="no">
+</iframe>
+
+`;
+
+container.appendChild(div);
+
+});
+
+function reload(id){
+let frame = document.getElementById(id);
+frame.src = frame.src;
+}
+
+</script>
+
+</body>
+</html>
