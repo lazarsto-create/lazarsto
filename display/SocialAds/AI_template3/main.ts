@@ -1,1 +1,0 @@
-console.log("The project is currently empty or does not contain any TypeScript files.");
