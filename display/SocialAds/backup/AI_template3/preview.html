@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ads Preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: #f3f4f6;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .preview-shell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    /* ── toolbar ── */
+    .toolbar-container {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 10px 14px;
+      position: sticky;
+      top: 24px;
+      z-index: 100;
+      width: 100%;
+    }
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .toolbar-title { font-weight: 700; margin-right: 8px; }
+    .toolbar label  { font-weight: 500; }
+    .toolbar select {
+      font-size: 12px; padding: 3px 6px;
+      border-radius: 4px; border: 1px solid #d1d5db; background: #ffffff;
+    }
+    #cta-input {
+      font-size: 12px; padding: 3px 6px;
+      border-radius: 4px; border: 1px solid #d1d5db; width: 70px;
+    }
+    .toolbar button {
+      font-size: 11px; padding: 3px 8px;
+      border-radius: 4px; border: 1px solid #d1d5db;
+      background: #f9fafb; cursor: pointer;
+    }
+    .toolbar button:hover { background: #eef2ff; }
+
+    /* ── rows ── */
+    .ads-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .ads-row.landscape {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── ad card ── */
+    .ad-container {
+      min-width: 0;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ad-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ad-header h2 {
+      margin: 0; font-size: 14px; font-weight: 700; color: #374151;
+    }
+    .replay-ad-button {
+      font-size: 18px; padding: 4px 8px;
+      border-radius: 4px; border: 1px solid #d1d5db;
+      background: #ffffff; color: #000; cursor: pointer; line-height: 1;
+      flex-shrink: 0;
+    }
+    .replay-ad-button:hover { background: #f3f4f6; border-color: #9ca3af; }
+
+    /* ── scale mechanics ── */
+    .ad-scale-outer {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .ad-scale-wrapper {
+      transform-origin: top center;
+      display: block;
+      margin: 0 auto;
+    }
+    .ad-frame {
+      border: 0;
+      overflow: hidden;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-shell" id="preview-shell">
+    <div class="toolbar-container">
+      <div class="toolbar-left">
+        <span class="toolbar-title">Feed preview</span>
+        <label for="csv-select">CSV:</label>
+        <select id="csv-select"></select>
+        <label for="products-select">Products:</label>
+        <select id="products-select">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <label for="cta-input">CTA:</label>
+        <input id="cta-input" type="text" placeholder="Shop Now" />
+        <label for="header-file">Header image:</label>
+        <button id="header-button" type="button">Choose image…</button>
+        <input id="header-file" type="file" accept="image/*" style="display:none" />
+        <label for="header-video-file">Header video:</label>
+        <button id="header-video-button" type="button">Choose video…</button>
+        <input id="header-video-file" type="file" accept="video/*" style="display:none" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function () {
+
+      const shell = document.getElementById('preview-shell');
+
+      // ── load ad list from manifest ────────────────────────────
+      let adSizes = [];
+      try {
+        const res = await fetch('ads/list.json');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        adSizes = await res.json();
+      } catch (e) {
+        shell.insertAdjacentHTML('beforeend',
+          `<p style="color:red;padding:16px">Could not load ads/list.json: ${e.message}</p>`);
+        return;
+      }
+
+      // ── group into rows ───────────────────────────────────────
+      // portrait  (h >= w): group in pairs, side by side
+      // landscape (w >  h): group in pairs, side by side
+      function isPortrait(size) {
+        const [w, h] = size.split('x').map(Number);
+        return h >= w;
+      }
+      function chunk(arr, n) {
+        const out = [];
+        for (let i = 0; i < arr.length; i += n) out.push(arr.slice(i, i + n));
+        return out;
+      }
+
+      const portrait  = adSizes.filter(s =>  isPortrait(s));
+      const landscape = adSizes.filter(s => !isPortrait(s));
+
+      // portrait ads all in one row (nowrap, scale down together)
+      // landscape ads each in their own row
+      const rows = [
+        ...(portrait.length  ? [{ sizes: portrait,  cls: '' }]              : []),
+        ...landscape.map(s  => ({ sizes: [s],        cls: 'landscape' })),
+      ];
+
+      rows.forEach(group => {
+        const row = document.createElement('div');
+        row.className = ('ads-row ' + group.cls).trim();
+
+        group.sizes.forEach(size => {
+          const [adW, adH] = size.split('x').map(Number);
+          const container = document.createElement('div');
+          container.className = 'ad-container';
+          container.innerHTML = `
+            <div class="ad-header">
+              <h2>Ad Preview – ${size}</h2>
+              <button class="replay-ad-button" data-ad="${size}">↻</button>
+            </div>
+            <div class="ad-scale-outer">
+              <div class="ad-scale-wrapper" data-ad-width="${adW}" data-ad-height="${adH}">
+                <iframe
+                  class="ad-frame"
+                  data-size="${size}"
+                  src="ads/${size}/index.html"
+                  width="${adW}"
+                  height="${adH}"
+                  scrolling="no"
+                ></iframe>
+              </div>
+            </div>
+          `;
+          row.appendChild(container);
+        });
+
+        shell.appendChild(row);
+      });
+
+      // ── scaling (shrink only, never upscale) ─────────────────
+      function scaleAds() {
+        document.querySelectorAll('.ad-scale-wrapper').forEach(wrapper => {
+          const adW   = parseInt(wrapper.dataset.adWidth);
+          const adH   = parseInt(wrapper.dataset.adHeight);
+          const outer = wrapper.parentElement;
+          const available = outer.clientWidth;
+          if (!available) return;
+          const scale = Math.min(1, available / adW);
+          wrapper.style.width     = adW + 'px';
+          wrapper.style.height    = adH + 'px';
+          wrapper.style.transform = scale < 1 ? `scale(${scale})` : '';
+          outer.style.height      = (adH * scale) + 'px';
+        });
+      }
+
+      window.addEventListener('resize', scaleAds);
+      requestAnimationFrame(() => requestAnimationFrame(scaleAds));
+
+      // ── toolbar wiring ────────────────────────────────────────
+      const csvSelect         = document.getElementById('csv-select');
+      const productsSelect    = document.getElementById('products-select');
+      const ctaInput          = document.getElementById('cta-input');
+      const headerButton      = document.getElementById('header-button');
+      const headerFile        = document.getElementById('header-file');
+      const headerVideoButton = document.getElementById('header-video-button');
+      const headerVideoFile   = document.getElementById('header-video-file');
+      const adFrames          = document.querySelectorAll('.ad-frame');
+
+      // persisted header media state
+      let headerMediaUrl  = null;  // blob URL
+      let headerMediaType = null;  // 'image' | 'video'
+
+      function applyHeaderMedia(doc) {
+        if (!headerMediaUrl) return;
+        const img   = doc.querySelector('.table-img img');
+        const video = doc.querySelector('.table-img .header-video');
+        if (!img || !video) return;
+        if (headerMediaType === 'image') {
+          img.src = headerMediaUrl;
+          img.style.display   = 'block';
+          video.style.display = 'none';
+        } else {
+          video.src = headerMediaUrl;
+          video.style.display = 'block';
+          img.style.display   = 'none';
+          video.currentTime = 0;
+          video.onloadedmetadata = () => video.play().catch(() => {});
+        }
+      }
+
+      function reloadFrame(iframe) {
+        iframe.onload = () => {
+          applyHeaderMedia(iframe.contentWindow.document);
+          iframe.onload = null;
+        };
+        iframe.src = iframe.src;
+      }
+
+      function reloadAds() {
+        adFrames.forEach(f => { if (f) reloadFrame(f); });
+      }
+
+      document.querySelectorAll('.replay-ad-button').forEach(btn => {
+        btn.onclick = function () {
+          const iframe = document.querySelector(`.ad-frame[data-size="${this.dataset.ad}"]`);
+          if (iframe) reloadFrame(iframe);
+        };
+      });
+
+      function withAdDocs(cb) {
+        adFrames.forEach(f => {
+          if (!f || !f.contentWindow) return;
+          const doc = f.contentWindow.document;
+          if (doc && (doc.readyState === 'complete' || doc.readyState === 'interactive')) {
+            cb(doc);
+          } else {
+            f.onload = () => cb(f.contentWindow.document);
+          }
+        });
+      }
+
+      if (csvSelect) {
+        // load csv list from manifest
+        try {
+          const res = await fetch('csv/list.json');
+          if (res.ok) {
+            const csvFiles = await res.json();
+            csvFiles.forEach(file => {
+              const opt = document.createElement('option');
+              opt.value = `csv/${file}`;
+              opt.textContent = file.replace(/\.csv$/i, '').replace(/[-_]/g, ' ');
+              csvSelect.appendChild(opt);
+            });
+          }
+        } catch (e) {
+          console.warn('Could not load csv/list.json', e);
+        }
+        const savedCsv = localStorage.getItem('adCsvPath') || (csvSelect.options[0]?.value ?? '');
+        if (savedCsv) csvSelect.value = savedCsv;
+        csvSelect.onchange = () => {
+          localStorage.setItem('adCsvPath', csvSelect.value);
+          reloadAds();
+        };
+      }
+
+      if (productsSelect) {
+        productsSelect.value = parseInt(localStorage.getItem('adProducts')) || 3;
+        productsSelect.onchange = () => {
+          localStorage.setItem('adProducts', productsSelect.value);
+          reloadAds();
+        };
+      }
+
+      if (ctaInput) {
+        ctaInput.value = localStorage.getItem('adCtaText') || 'Shop Now';
+        const applyCta = () => {
+          withAdDocs(doc => {
+            const span = doc.querySelector('.cta-text');
+            const cta  = doc.querySelector('.cta');
+            if (span) span.textContent = ctaInput.value;
+            if (cta)  cta.style.display = ctaInput.value.trim() ? 'inline-block' : 'none';
+          });
+        };
+        ctaInput.oninput = () => { localStorage.setItem('adCtaText', ctaInput.value); applyCta(); };
+        applyCta();
+      }
+
+      if (headerButton && headerFile) {
+        headerButton.onclick = () => headerFile.click();
+        headerFile.onchange = () => {
+          const file = headerFile.files[0];
+          if (!file) return;
+          headerMediaUrl  = URL.createObjectURL(file);
+          headerMediaType = 'image';
+          withAdDocs(doc => applyHeaderMedia(doc));
+        };
+      }
+
+      if (headerVideoButton && headerVideoFile) {
+        headerVideoButton.onclick = () => headerVideoFile.click();
+        headerVideoFile.onchange = () => {
+          const file = headerVideoFile.files[0];
+          if (!file) return;
+          headerMediaUrl  = URL.createObjectURL(file);
+          headerMediaType = 'video';
+          withAdDocs(doc => applyHeaderMedia(doc));
+        };
+      }
+    });
+  </script>
+</body>
+</html>

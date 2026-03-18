@@ -1,0 +1,250 @@
+@font-face {
+    font-family: 'Noto IKEA Latin';
+    font-weight: 400;
+    src: url('fonts/Noto IKEA Latin Regular.woff2') format('woff2');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Noto IKEA Latin';
+    font-weight: 700;
+    src: url('fonts/Noto IKEA Latin Bold.woff2') format('woff2');
+    font-display: swap;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background: #f3f4f6;
+}
+
+#ad {
+    width: 160px;
+    height: 600px;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Noto IKEA Latin', Arial, Helvetica, sans-serif;
+    border: 1px solid #1456a2;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+#ad-clickarea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 160px;
+    height: 600px;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.bg { position: absolute; inset: 0; background: transparent; }
+
+/* ── logo ── */
+.logo {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+.logo img {
+    height: 28px;
+    width: auto;
+    display: block;
+    position: relative;
+    z-index: 6;
+}
+.logo::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    width: 160px;
+    height: 36px;
+    background: #1456a2;
+    z-index: 4;
+}
+
+/* ── header image ── */
+.table-img {
+    position: absolute;
+    top: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 170px;
+    overflow: hidden;
+    z-index: 5;
+}
+.table-img img,
+.table-img .header-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── carousel ── */
+/* slide size: 120x120, centered in 160px wide ad */
+.media {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + 80px);
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    overflow: visible;
+    border-radius: 6px;
+    z-index: 15;
+}
+.carousel {
+    height: 100%;
+    position: relative;
+    width: auto;
+}
+.slide {
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 120px;
+    background-size: cover;
+    background-position: center center;
+}
+
+/* ── slide text (headline) ── */
+.slide-text {
+    position: absolute;
+    bottom: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 26px;
+    padding: 5px;
+    font-family: 'Noto IKEA Latin', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #000;
+    background: rgba(255,255,255,0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* ── description (above carousel) ── */
+.description {
+    position: absolute;
+    left: 50%;
+    top: -75px;
+    transform: translateX(-50%);
+    width: 140px;
+    text-align: center;
+    font-family: 'Noto IKEA Latin', Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    color: #000;
+    pointer-events: none;
+    z-index: 6;
+    box-sizing: content-box;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ── price ── */
+.price4 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    text-align: center;
+    font-family: 'Noto IKEA Latin', Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #000;
+    white-space: normal;
+    pointer-events: none;
+    z-index: 6;
+}
+.price4::after {
+    content: "RSD";
+    vertical-align: super;
+    font-size: 9px;
+    margin-left: 0.2em;
+}
+
+/* ── nav arrows ── */
+.nav {
+    position: absolute;
+    top: calc(50% + 190px);
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    z-index: 50;
+}
+.nav img { width: 100%; height: 100%; display: block; }
+.nav.left  { left: 50px; }
+.nav.right { right: 50px; }
+.nav.left img { transform: rotate(180deg); }
+
+/* ── pagination ── */
+.pagination {
+    position: absolute;
+    bottom: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 7px;
+    z-index: 50;
+    pointer-events: none;
+}
+.bullet {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid #1456a2;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    pointer-events: auto;
+}
+.bullet.active {
+    background-color: #fbdc0f;
+}
+
+/* ── CTA ── */
+.cta {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1456a2;
+    border-radius: 3px;
+    padding: 5px 8px;
+    cursor: pointer;
+    z-index: 60;
+    display: inline-block;
+    box-sizing: border-box;
+}
+.cta-text {
+    font-family: 'Noto IKEA Latin', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+.cta:hover .cta-text {
+    color: #fbdc0f;
+}

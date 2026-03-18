@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>300x600 Ad</title>
+  <link rel="preload" href="Noto IKEA Latin Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="Noto IKEA Latin Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    // number of product slides to show in carousel (change this value)
+    window.products = 5;
+    // dynamic CTA text (change this value to update the CTA text)
+    window.ctaText = "Shop Now";
+    // remember last selected CSV between reloads
+    (function () {
+      try {
+        var saved = window.localStorage && localStorage.getItem('adCsvPath');
+        window.currentCsvPath = saved || 'csv/ikea-Tables.csv';
+      } catch (e) {
+        window.currentCsvPath = 'csv/ikea-Tables.csv';
+      }
+    })();
+    // remember selected header image name (file in header_images/)
+    (function () {
+      try {
+        var headerSaved = window.localStorage && localStorage.getItem('adHeaderImageName');
+        window.currentHeaderImageName = headerSaved || 'table.jpg';
+      } catch (e) {
+        window.currentHeaderImageName = 'table.jpg';
+      }
+    })();
+    // remember chosen number of products (1-5)
+    (function () {
+      try {
+        var savedProducts = window.localStorage && localStorage.getItem('adProducts');
+        var n = savedProducts ? parseInt(savedProducts, 10) : window.products;
+        if (!n || isNaN(n)) n = 5;
+        if (n < 1) n = 1;
+        if (n > 5) n = 5;
+        window.products = n;
+      } catch (e) {
+        window.products = 5;
+      }
+    })();
+  </script>
+</head>
+<body>
+  <div class="preview-shell">
+    <div class="preview-card">
+      <div class="toolbar">
+        <div class="toolbar-left">
+        <span class="toolbar-title">Feed preview</span>
+        <label for="csv-select">CSV:</label>
+        <select id="csv-select">
+          <option value="csv/ikea-Tables.csv">Tables</option>
+          <option value="csv/ikea-Food-containers.csv">Food containers</option>
+        </select>
+        <label for="products-select">Products:</label>
+        <select id="products-select">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <label for="cta-input">CTA:</label>
+        <input id="cta-input" type="text" placeholder="Shop Now" />
+        <label for="header-file">Header image:</label>
+        <button id="header-button" type="button">Choose image…</button>
+        <input id="header-file" type="file" accept="image/*" style="display:none" />
+        <label for="header-video-file">Header video:</label>
+        <button id="header-video-button" type="button">Choose video…</button>
+        <input id="header-video-file" type="file" accept="video/*" style="display:none" />
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-wrapper">
+      <div id="ad" aria-label="Advertisement - 300 by 600">
+        <div class="bg"></div>
+        <div class="logo">
+          <img src="ikea.svg" alt="IKEA" />
+        </div>
+        <div class="table-img">
+          <img src="header_images/table.jpg" alt="Header" />
+          <video class="header-video" muted playsinline></video>
+        </div>
+        <div class="media">
+          <div class="carousel"></div>
+          <div class="pagination"></div>
+        </div>
+        <div class="cta" aria-label="Call to Action">
+          <span class="cta-text"></span>
+        </div>
+        <!-- headline removed -->
+        <div class="nav left" aria-label="Previous">
+          <img src="arrow.svg" alt="Previous" />
+        </div>
+        <div class="nav right" aria-label="Next">
+          <img src="arrow.svg" alt="Next" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var csvSelect = document.getElementById('csv-select');
+      var productsSelect = document.getElementById('products-select');
+      var ctaInput = document.getElementById('cta-input');
+      var headerButton = document.getElementById('header-button');
+      var headerFile = document.getElementById('header-file');
+      var headerVideoButton = document.getElementById('header-video-button');
+      var headerVideoFile = document.getElementById('header-video-file');
+
+      // CSV selector
+      if (csvSelect) {
+        if (window.currentCsvPath) {
+          csvSelect.value = window.currentCsvPath;
+        }
+        csvSelect.addEventListener('change', function () {
+          var path = this.value;
+          try {
+            if (window.localStorage) {
+              localStorage.setItem('adCsvPath', path);
+            }
+          } catch (e) { }
+          window.currentCsvPath = path;
+          // reload page so animation.js picks up new CSV
+          window.location.reload();
+        });
+      }
+
+      // Products selector (1-5)
+      if (productsSelect) {
+        var initialProducts = window.products || 5;
+        if (initialProducts < 1) initialProducts = 1;
+        if (initialProducts > 5) initialProducts = 5;
+        productsSelect.value = String(initialProducts);
+        productsSelect.addEventListener('change', function () {
+          var n = parseInt(this.value, 10);
+          if (!n || isNaN(n)) n = 5;
+          if (n < 1) n = 1;
+          if (n > 5) n = 5;
+          window.products = n;
+          try {
+            if (window.localStorage) {
+              localStorage.setItem('adProducts', String(n));
+            }
+          } catch (e) { }
+          // reload so animation.js rebuilds with new number of products
+          window.location.reload();
+        });
+      }
+
+      // CTA text field -> .cta-text + localStorage (hide CTA when empty)
+      var ctaSpan = document.querySelector('.cta-text');
+      var ctaContainer = document.querySelector('.cta');
+      if (ctaInput && ctaSpan && ctaContainer) {
+        try {
+          var savedCta = window.localStorage && localStorage.getItem('adCtaText');
+          if (savedCta) {
+            ctaInput.value = savedCta;
+            ctaSpan.textContent = savedCta;
+          } else {
+            ctaInput.value = window.ctaText || 'Shop Now';
+            ctaSpan.textContent = window.ctaText || 'Shop Now';
+          }
+        } catch (e) {
+          ctaInput.value = window.ctaText || 'Shop Now';
+          ctaSpan.textContent = window.ctaText || 'Shop Now';
+        }
+
+        // initial visibility
+        if (!ctaSpan.textContent.trim()) {
+          ctaContainer.style.display = 'none';
+        } else {
+          ctaContainer.style.display = 'inline-block';
+        }
+
+        ctaInput.addEventListener('input', function () {
+          var value = (this.value || '');
+          var trimmed = value.trim();
+          ctaSpan.textContent = value;
+          // hide CTA container when empty (after trimming)
+          if (!trimmed) {
+            ctaContainer.style.display = 'none';
+          } else {
+            ctaContainer.style.display = 'inline-block';
+          }
+          try {
+            if (window.localStorage) {
+              localStorage.setItem('adCtaText', value);
+            }
+          } catch (e) { }
+        });
+      }
+
+      // Header image / video selection via file picker
+      var headerImg = document.querySelector('.table-img img');
+      var headerVideo = document.querySelector('.table-img .header-video');
+
+      // initialize with default/saved name from header_images for image
+      if (headerImg && window.currentHeaderImageName) {
+        headerImg.src = 'header_images/' + window.currentHeaderImageName;
+      }
+
+      if (headerButton && headerFile && headerImg && headerVideo) {
+        headerButton.addEventListener('click', function () {
+          headerFile.click();
+        });
+        headerFile.addEventListener('change', function () {
+          var file = this.files && this.files[0];
+          if (!file) return;
+          var url = URL.createObjectURL(file);
+          // show image, hide video
+          headerImg.style.display = 'block';
+          headerVideo.style.display = 'none';
+          if (!headerVideo.paused) {
+            headerVideo.pause();
+          }
+          headerImg.src = url;
+        });
+      }
+
+      if (headerVideoButton && headerVideoFile && headerImg && headerVideo) {
+        headerVideoButton.addEventListener('click', function () {
+          headerVideoFile.click();
+        });
+        headerVideoFile.addEventListener('change', function () {
+          var file = this.files && this.files[0];
+          if (!file) return;
+          var url = URL.createObjectURL(file);
+          // reset any previous handlers / state
+          headerVideo.pause();
+          headerVideo.removeAttribute('loop');
+          headerVideo.onended = null;
+
+          // show video, hide image
+          headerImg.style.display = 'none';
+          headerVideo.style.display = 'block';
+          headerVideo.src = url;
+          headerVideo.currentTime = 0;
+
+          // when metadata is loaded, decide looping behavior
+          headerVideo.onloadedmetadata = function () {
+            var dur = headerVideo.duration || 0;
+            if (dur > 15) {
+              // play once, no loop
+              headerVideo.loop = false;
+              headerVideo.onended = null;
+            } else {
+              // play at most twice
+              headerVideo.loop = false;
+              var plays = 1; // first play about to start
+              headerVideo.onended = function () {
+                if (plays < 2) {
+                  plays += 1;
+                  headerVideo.currentTime = 0;
+                  headerVideo.play().catch(function(){});
+                } else {
+                  headerVideo.onended = null;
+                }
+              };
+            }
+            headerVideo.play().catch(function(){});
+          };
+        });
+      }
+    });
+  </script>
+
+  <!-- GSAP from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="animation.js"></script>
+</body>
+</html>
