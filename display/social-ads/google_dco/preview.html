@@ -140,7 +140,7 @@
         <select id="header-video-select"></select>
         <button id="header-video-button" type="button">Upload…</button>
         <input id="header-video-file" type="file" accept="video/*" style="display:none" />
-        <button id="download-zip-button" type="button" style="background:#1a56db;color:#fff;border-color:#1a56db;font-weight:600;">⬇ Download ZIP</button>
+        <button id="download-zip-btn" type="button" style="margin-left:12px;background:#111827;color:#fff;border-color:#111827;font-weight:600;">⬇ Download ZIP</button>
       </div>
     </div>
   </div>
@@ -428,101 +428,51 @@
           withAdDocs(doc => applyHeaderMedia(doc));
         };
       }
-      // ── Download ZIP for Google Studio ────────────────────────
-      document.getElementById('download-zip-button').onclick = async function () {
-        const btn = this;
-        btn.disabled = true;
-        btn.textContent = '⏳ Building…';
-        try {
-          const zip = new JSZip();
 
-          // Google Studio animation.js template (replaces CSV fetch)
-          function buildStudioAnimationJs(originalJs) {
-            const studioInit = `// Google Studio DCO – dynamic content via Enabler
-function loadDynamicContent() {
-  var feed = dynamicContent.Feed_Name;
-  var count = Math.min(window.products || 3, feed.length);
-  var selectedItems = [];
-  for (var i = 0; i < count; i++) {
-    var row = feed[i];
-    selectedItems.push({
-      image3:  row.productImage  ? row.productImage.trim()  : '',
-      data8:   row.Headline      ? row.Headline.trim()      : '',
-      price16: row.Description   ? row.Description.trim()  : '',
-      price4:  row.price         ? row.price.trim()        : '',
-      url:     row.URL           ? row.URL.trim()          : ''
-    });
-  }
-  window.selectedItems = selectedItems;
-  window.ctaText = (feed[0] && feed[0].CTA_Text) ? feed[0].CTA_Text.trim() : (window.ctaText || 'Shop Now');
-  buildCarousel(selectedItems);
-}
+      // ── Download ZIP ──────────────────────────────────────────
+      const downloadZipBtn = document.getElementById('download-zip-btn');
+      if (downloadZipBtn) {
+        downloadZipBtn.onclick = async () => {
+          downloadZipBtn.disabled = true;
+          downloadZipBtn.textContent = '⏳ Zipping…';
+          try {
+            const masterZip = new JSZip();
+            const adFiles = ['index.html', 'style.css', 'animation.js', 'arrow.svg', 'ikea.svg',
+                             'fonts/Noto IKEA Latin Bold.woff2', 'fonts/Noto IKEA Latin Regular.woff2'];
 
-`;
-            // Extract everything after the IIFE wrapper opening and before the closing
-            // Replace the async IIFE with buildCarousel function + loadDynamicContent
-            let js = originalJs;
-            // Remove the outer async IIFE wrapper: (async function loadFeedAndImages(){ try{ ... } catch(err){...} })();
-            js = js.replace(/^\(async function loadFeedAndImages\(\)\{[\s\S]*?try\{[\s\S]*?const csvPath[\s\S]*?const raw = await fetch[\s\S]*?window\.feed = feedArr;[\s\S]*?const images = feedArr[\s\S]*?window\.images = images;[\s\S]*?function getRandomItems[\s\S]*?\}[\s\S]*?const requested[\s\S]*?const count[\s\S]*?const selectedItems = getRandomItems[\s\S]*?window\.selectedItems = selectedItems;[\s\S]*?console\.log[^;]*;/, '');
-            // Wrap remaining carousel build code in buildCarousel function
-            js = js.replace(/^[\s\S]*?(\/\/ build carousel)/, 'function buildCarousel(selectedItems) {\n  // build carousel');
-            js = js.replace(/\/\/ start autoplay once built\s*\n\s*startAuto\(\);[\s\S]*?\}\s*\}\s*catch[\s\S]*?\}\s*\}\s*\)\(\);\s*$/, '  // start autoplay once built\n  startAuto();\n}');
-            return studioInit + js;
+            for (const size of adSizes) {
+              const folder = masterZip.folder(size);
+              for (const filePath of adFiles) {
+                const url = `ads/${size}/${filePath}`;
+                try {
+                  const res = await fetch(url);
+                  if (!res.ok) continue;
+                  const isText = filePath.endsWith('.html') || filePath.endsWith('.css') || filePath.endsWith('.js') || filePath.endsWith('.svg');
+                  const data = isText ? await res.text() : await res.arrayBuffer();
+                  // ensure fonts sub-folder exists inside the ad folder
+                  if (filePath.startsWith('fonts/')) {
+                    folder.folder('fonts').file(filePath.replace('fonts/', ''), data);
+                  } else {
+                    folder.file(filePath, data);
+                  }
+                } catch (e) { /* skip missing files */ }
+              }
+            }
+
+            const blob = await masterZip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'google-dco-ads.zip';
+            a.click();
+            URL.revokeObjectURL(a.href);
+          } catch (err) {
+            alert('ZIP generation failed: ' + err.message);
+          } finally {
+            downloadZipBtn.disabled = false;
+            downloadZipBtn.textContent = '⬇ Download ZIP';
           }
-
-          // Google Studio index.html transformer
-          function buildStudioIndexHtml(originalHtml) {
-            // Remove localStorage/window init script block
-            let html = originalHtml.replace(/<script>[\s\S]*?window\.products[\s\S]*?<\/script>/, '');
-            // Replace GSAP + animation.js scripts with Enabler + init
-            html = html.replace(
-              /<script src="https:\/\/cdnjs[^"]+gsap[^"]+"><\/script>\s*<script src="animation\.js"><\/script>/,
-              `<script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>\n  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>\n  <script src="animation.js"></script>\n  <script>\n    window.onload = function () {\n      if (Enabler.isInitialized()) { enablerInitHandler(); }\n      else { Enabler.addEventListener(studio.events.StudioEvent.INIT, enablerInitHandler); }\n    };\n    function enablerInitHandler() {\n      if (Enabler.isPageLoaded()) { showAd(); }\n      else { Enabler.addEventListener(studio.events.StudioEvent.VISIBLE, showAd); }\n    }\n    function showAd() { loadDynamicContent(); }\n  </script>`
-            );
-            return html;
-          }
-
-          for (const size of adSizes) {
-            const folder = zip.folder(size);
-            const base = `ads/${size}/`;
-
-            // Files to copy as-is
-            const assets = ['style.css', 'ikea.svg', 'arrow.svg',
-              'fonts/Noto IKEA Latin Bold.woff2',
-              'fonts/Noto IKEA Latin Regular.woff2'];
-
-            await Promise.all(assets.map(async f => {
-              try {
-                const r = await fetch(base + f);
-                if (!r.ok) return;
-                const blob = await r.blob();
-                folder.file(f, blob);
-              } catch(e) { /* skip missing */ }
-            }));
-
-            // Transform index.html
-            const htmlRes = await fetch(base + 'index.html');
-            const htmlText = await htmlRes.text();
-            folder.file('index.html', buildStudioIndexHtml(htmlText));
-
-            // Transform animation.js
-            const jsRes = await fetch(base + 'animation.js');
-            const jsText = await jsRes.text();
-            folder.file('animation.js', buildStudioAnimationJs(jsText));
-          }
-
-          const blob = await zip.generateAsync({ type: 'blob' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = 'ads-google-studio.zip';
-          a.click();
-        } catch(e) {
-          alert('ZIP export failed: ' + e.message);
-        } finally {
-          btn.disabled = false;
-          btn.textContent = '⬇ Download ZIP';
-        }
-      };
+        };
+      }
     });
   </script>
 </body>

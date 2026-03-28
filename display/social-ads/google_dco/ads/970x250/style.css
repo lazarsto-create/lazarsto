@@ -1,0 +1,214 @@
+@font-face {
+    font-family: 'Noto IKEA Latin';
+    font-weight: 400;
+    src: url('fonts/Noto IKEA Latin Regular.woff2') format('woff2');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Noto IKEA Latin';
+    font-weight: 700;
+    src: url('fonts/Noto IKEA Latin Bold.woff2') format('woff2');
+    font-display: swap;
+}
+
+html,body{
+    height:100%;
+    margin:0;
+    background:#f3f4f6;
+}
+
+#ad{
+    width:970px;
+    height:250px;
+    overflow:hidden;
+    position:relative;
+    font-family:'Noto IKEA Latin',Arial,Helvetica,sans-serif;
+    border:1px solid #1456a2;
+    background:#ffffff;
+    box-sizing: border-box;
+}
+#ad-clickarea{
+    position:absolute;
+    top:0;
+    left:0;
+    width:970px;
+    height:250px;
+    z-index:10;
+    cursor:pointer;
+}
+.bg{
+    position:absolute;
+    inset:0;
+    background:transparent
+}
+
+.logo{
+    position:absolute;
+    top:0;
+    left:0;
+    width:250px;
+    height:50px;
+    background-color:#1456a2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:5;
+}
+.logo::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:970px;
+    height:50px;
+    background-color:#1456a2;
+    z-index:-1;
+}
+.logo img{
+    height:100%;
+    width:auto;
+    display:block;
+}
+
+.table-img{
+    position:absolute;
+    top:50px;
+    left:0;
+    width:250px;
+    height:200px;
+    overflow:hidden;
+    z-index:4;
+}
+.table-img img,
+.table-img .header-video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.media{
+    position:absolute;
+    left:calc(250px + 130px);
+    top:55%;
+    transform:translateY(-50%);
+    width:300px;
+    height:220px;
+    z-index:15;
+    overflow:hidden;
+}
+.carousel{
+    height:100%;
+    position:relative;
+    display: flex;
+    align-items: center;
+}
+.slide{
+    position:absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    width:300px;
+    height:150px;
+    background-size:150px 150px;
+    background-position:right center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+}
+.slide-text-container{
+    width: 140px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.slide-text{
+    font-family:'Noto IKEA Latin Bold',Arial,sans-serif;
+    font-size:14px;
+    font-weight:700;
+    color:#000;
+    word-wrap:break-word;
+    white-space:normal;
+}
+.slide-description{
+    font-size: 12px;
+    color: #333;
+    word-wrap: break-word;
+    white-space: normal;
+    margin-top: 5px;
+}
+.slide-price{ 
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 5px;}
+.slide-price:after {
+  content: "RSD";
+  vertical-align: super;
+  font-size: 12px;
+  margin-left: 0.2em;
+}
+
+.nav{
+    position:absolute;
+    top: 55%;
+    transform:translateY(-50%);
+    width:30px;
+    height:30px;
+    cursor:pointer;
+    z-index: 50;
+}
+.nav img{width:100%;height:100%;display:block;}
+.nav.left{left:calc(250px + 80px)}
+.nav.right{right:230px}
+.nav.left img{transform:rotate(180deg);}
+
+.pagination{
+    position:absolute;
+    bottom:10px;
+    left: calc(345px + (720px - 250px) * 0.39);
+    transform:translateX(-50%);
+    display:flex;
+    gap:6px;
+    z-index:50;
+    pointer-events:none;
+}
+.bullet{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    border:1px solid #1456a2;
+    background-color:#ffffff;
+    cursor:pointer;
+    transition:background-color 0.3s ease;
+    pointer-events:auto;
+}
+.bullet.active {
+  background-color: #fbdc0f;
+}
+
+.cta{
+    position:absolute;
+    top: 85%;
+    transform: translateY(-50%);
+    right: 20px;
+    background-color:#1456a2;
+    border-radius:3px;
+    padding:8px 15px;
+    cursor:pointer;
+    z-index:60;
+    display:inline-block;
+    box-sizing:border-box;
+}
+.cta-text{
+    font-family:'Noto IKEA Latin Bold',Arial,sans-serif;
+    font-size:18px;
+    font-weight:700;
+    color:#fff;
+    letter-spacing:0.5px;
+    display:block;
+    text-align:center;
+    white-space:nowrap;
+    transition: color 0.2s ease;
+}
+.cta:hover .cta-text{
+    color:#fbdc0f;
+}
