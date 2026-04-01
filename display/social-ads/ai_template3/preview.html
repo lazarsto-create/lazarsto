@@ -132,20 +132,16 @@
         </select>
         <label for="cta-input">CTA:</label>
         <input id="cta-input" type="text" placeholder="Shop Now" />
-        <label for="header-image-select">Header image:</label>
-        <select id="header-image-select"></select>
-        <button id="header-button" type="button">Upload…</button>
+        <label for="header-file">Header image:</label>
+        <button id="header-button" type="button">Choose image…</button>
         <input id="header-file" type="file" accept="image/*" style="display:none" />
-        <label for="header-video-select">Header video:</label>
-        <select id="header-video-select"></select>
-        <button id="header-video-button" type="button">Upload…</button>
+        <label for="header-video-file">Header video:</label>
+        <button id="header-video-button" type="button">Choose video…</button>
         <input id="header-video-file" type="file" accept="video/*" style="display:none" />
-        <button id="download-zip-button" type="button" style="background:#1a56db;color:#fff;border-color:#1a56db;font-weight:600;">⬇ Download ZIP</button>
       </div>
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async function () {
 
@@ -265,16 +261,7 @@
           video.style.display = 'block';
           img.style.display   = 'none';
           video.currentTime = 0;
-          video.onloadedmetadata = () => {
-            const plays = Math.floor(30 / video.duration);
-            let count = 0;
-            video.loop = false;
-            video.onended = plays > 1 ? () => {
-              count++;
-              if (count < plays) { video.currentTime = 0; video.play().catch(() => {}); }
-            } : null;
-            video.play().catch(() => {});
-          };
+          video.onloadedmetadata = () => video.play().catch(() => {});
         }
       }
 
@@ -355,31 +342,6 @@
         applyCta();
       }
 
-      const headerImageSelect = document.getElementById('header-image-select');
-      if (headerImageSelect) {
-        try {
-          const res = await fetch('header_images/list.json');
-          if (res.ok) {
-            const imgs = await res.json();
-            const none = document.createElement('option');
-            none.value = ''; none.textContent = '— none —';
-            headerImageSelect.appendChild(none);
-            imgs.forEach(file => {
-              const opt = document.createElement('option');
-              opt.value = `header_images/${file}`;
-              opt.textContent = file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-              headerImageSelect.appendChild(opt);
-            });
-          }
-        } catch(e) { console.warn('Could not load header_images/list.json', e); }
-        headerImageSelect.onchange = () => {
-          if (!headerImageSelect.value) return;
-          headerMediaUrl  = new URL(headerImageSelect.value, window.location.href).href;
-          headerMediaType = 'image';
-          withAdDocs(doc => applyHeaderMedia(doc));
-        };
-      }
-
       if (headerButton && headerFile) {
         headerButton.onclick = () => headerFile.click();
         headerFile.onchange = () => {
@@ -387,32 +349,6 @@
           if (!file) return;
           headerMediaUrl  = URL.createObjectURL(file);
           headerMediaType = 'image';
-          headerImageSelect.value = '';
-          withAdDocs(doc => applyHeaderMedia(doc));
-        };
-      }
-
-      const headerVideoSelect = document.getElementById('header-video-select');
-      if (headerVideoSelect) {
-        try {
-          const res = await fetch('header_video/list.json');
-          if (res.ok) {
-            const vids = await res.json();
-            const none = document.createElement('option');
-            none.value = ''; none.textContent = '— none —';
-            headerVideoSelect.appendChild(none);
-            vids.forEach(file => {
-              const opt = document.createElement('option');
-              opt.value = `header_video/${file}`;
-              opt.textContent = file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-              headerVideoSelect.appendChild(opt);
-            });
-          }
-        } catch(e) { console.warn('Could not load header_video/list.json', e); }
-        headerVideoSelect.onchange = () => {
-          if (!headerVideoSelect.value) return;
-          headerMediaUrl  = new URL(headerVideoSelect.value, window.location.href).href;
-          headerMediaType = 'video';
           withAdDocs(doc => applyHeaderMedia(doc));
         };
       }
@@ -424,105 +360,9 @@
           if (!file) return;
           headerMediaUrl  = URL.createObjectURL(file);
           headerMediaType = 'video';
-          if (headerVideoSelect) headerVideoSelect.value = '';
           withAdDocs(doc => applyHeaderMedia(doc));
         };
       }
-      // ── Download ZIP for Google Studio ────────────────────────
-      document.getElementById('download-zip-button').onclick = async function () {
-        const btn = this;
-        btn.disabled = true;
-        btn.textContent = '⏳ Building…';
-        try {
-          const zip = new JSZip();
-
-          // Google Studio animation.js template (replaces CSV fetch)
-          function buildStudioAnimationJs(originalJs) {
-            const studioInit = `// Google Studio DCO – dynamic content via Enabler
-function loadDynamicContent() {
-  var feed = dynamicContent.Feed_Name;
-  var count = Math.min(window.products || 3, feed.length);
-  var selectedItems = [];
-  for (var i = 0; i < count; i++) {
-    var row = feed[i];
-    selectedItems.push({
-      image3:  row.productImage  ? row.productImage.trim()  : '',
-      data8:   row.Headline      ? row.Headline.trim()      : '',
-      price16: row.Description   ? row.Description.trim()  : '',
-      price4:  row.price         ? row.price.trim()        : '',
-      url:     row.URL           ? row.URL.trim()          : ''
-    });
-  }
-  window.selectedItems = selectedItems;
-  window.ctaText = (feed[0] && feed[0].CTA_Text) ? feed[0].CTA_Text.trim() : (window.ctaText || 'Shop Now');
-  buildCarousel(selectedItems);
-}
-
-`;
-            // Extract everything after the IIFE wrapper opening and before the closing
-            // Replace the async IIFE with buildCarousel function + loadDynamicContent
-            let js = originalJs;
-            // Remove the outer async IIFE wrapper: (async function loadFeedAndImages(){ try{ ... } catch(err){...} })();
-            js = js.replace(/^\(async function loadFeedAndImages\(\)\{[\s\S]*?try\{[\s\S]*?const csvPath[\s\S]*?const raw = await fetch[\s\S]*?window\.feed = feedArr;[\s\S]*?const images = feedArr[\s\S]*?window\.images = images;[\s\S]*?function getRandomItems[\s\S]*?\}[\s\S]*?const requested[\s\S]*?const count[\s\S]*?const selectedItems = getRandomItems[\s\S]*?window\.selectedItems = selectedItems;[\s\S]*?console\.log[^;]*;/, '');
-            // Wrap remaining carousel build code in buildCarousel function
-            js = js.replace(/^[\s\S]*?(\/\/ build carousel)/, 'function buildCarousel(selectedItems) {\n  // build carousel');
-            js = js.replace(/\/\/ start autoplay once built\s*\n\s*startAuto\(\);[\s\S]*?\}\s*\}\s*catch[\s\S]*?\}\s*\}\s*\)\(\);\s*$/, '  // start autoplay once built\n  startAuto();\n}');
-            return studioInit + js;
-          }
-
-          // Google Studio index.html transformer
-          function buildStudioIndexHtml(originalHtml) {
-            // Remove localStorage/window init script block
-            let html = originalHtml.replace(/<script>[\s\S]*?window\.products[\s\S]*?<\/script>/, '');
-            // Replace GSAP + animation.js scripts with Enabler + init
-            html = html.replace(
-              /<script src="https:\/\/cdnjs[^"]+gsap[^"]+"><\/script>\s*<script src="animation\.js"><\/script>/,
-              `<script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>\n  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>\n  <script src="animation.js"></script>\n  <script>\n    window.onload = function () {\n      if (Enabler.isInitialized()) { enablerInitHandler(); }\n      else { Enabler.addEventListener(studio.events.StudioEvent.INIT, enablerInitHandler); }\n    };\n    function enablerInitHandler() {\n      if (Enabler.isPageLoaded()) { showAd(); }\n      else { Enabler.addEventListener(studio.events.StudioEvent.VISIBLE, showAd); }\n    }\n    function showAd() { loadDynamicContent(); }\n  </script>`
-            );
-            return html;
-          }
-
-          for (const size of adSizes) {
-            const folder = zip.folder(size);
-            const base = `ads/${size}/`;
-
-            // Files to copy as-is
-            const assets = ['style.css', 'ikea.svg', 'arrow.svg',
-              'fonts/Noto IKEA Latin Bold.woff2',
-              'fonts/Noto IKEA Latin Regular.woff2'];
-
-            await Promise.all(assets.map(async f => {
-              try {
-                const r = await fetch(base + f);
-                if (!r.ok) return;
-                const blob = await r.blob();
-                folder.file(f, blob);
-              } catch(e) { /* skip missing */ }
-            }));
-
-            // Transform index.html
-            const htmlRes = await fetch(base + 'index.html');
-            const htmlText = await htmlRes.text();
-            folder.file('index.html', buildStudioIndexHtml(htmlText));
-
-            // Transform animation.js
-            const jsRes = await fetch(base + 'animation.js');
-            const jsText = await jsRes.text();
-            folder.file('animation.js', buildStudioAnimationJs(jsText));
-          }
-
-          const blob = await zip.generateAsync({ type: 'blob' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = 'ads-google-studio.zip';
-          a.click();
-        } catch(e) {
-          alert('ZIP export failed: ' + e.message);
-        } finally {
-          btn.disabled = false;
-          btn.textContent = '⬇ Download ZIP';
-        }
-      };
     });
   </script>
 </body>

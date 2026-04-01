@@ -140,6 +140,8 @@
         <select id="header-video-select"></select>
         <button id="header-video-button" type="button">Upload…</button>
         <input id="header-video-file" type="file" accept="video/*" style="display:none" />
+        <label for="profile-id-input" style="margin-left:8px;">Profile ID:</label>
+        <input id="profile-id-input" type="text" placeholder="10960105" style="font-size:12px;padding:3px 6px;border-radius:4px;border:1px solid #d1d5db;width:90px;" />
         <button id="download-zip-btn" type="button" style="margin-left:12px;background:#111827;color:#fff;border-color:#111827;font-weight:600;">⬇ Download ZIP</button>
       </div>
     </div>
@@ -429,40 +431,170 @@
         };
       }
 
-      // ── Download ZIP ──────────────────────────────────────────
+      // ── Helpers: transform files for Google Studio DCO ────────
+
+      function transformIndexHtmlForStudio(html, adW, adH, profileId) {
+        let r = html;
+
+        // 1. Remove localStorage init block — Studio doesn't use it
+        r = r.replace(/<script>\s*\/\/\s*default values[\s\S]*?<\/script>/,
+          '<script>\n  window.ctaText = "Shop Now";\n<' + '/script>');
+
+        // 2. Add required ad.size meta tag
+        r = r.replace(/(<meta charset="utf-8"[^>]*>)/i,
+          '$1\n  <meta name="ad.size" content="width=' + adW + ',height=' + adH + '">');
+
+        // 3. Build Enabler.js script tag + setProfileId block (closing tag split to avoid parser issues)
+        const enablerTag  = '<script src="https://s0.2mdn.net/ads/studio/Enabler.js"><' + '/script>';
+        const profileTag  = '<script>Enabler.setProfileId(' + profileId + ');<' + '/script>';
+        r = r.replace(/(<head[^>]*>)/i, '$1\n  ' + enablerTag + '\n  ' + profileTag);
+
+        // 4. Replace GSAP CDN with locally bundled file
+        r = r.replace('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', 'gsap.min.js');
+
+        return r;
+      }
+
+      function transformAnimationJsForStudio(src) {
+        // Extract only the carousel/UI code — everything after selectedItems is built
+        const MARKER = 'window.selectedItems = selectedItems;';
+        const markerIdx = src.indexOf(MARKER);
+        if (markerIdx === -1) return src;
+
+        const afterMarker = src.substring(markerIdx + MARKER.length);
+        const autoIdx = afterMarker.lastIndexOf('startAuto();');
+        if (autoIdx === -1) return src;
+        let carouselCode = afterMarker.substring(0, autoIdx + 'startAuto();'.length);
+
+        // Replace click handlers: window.open -> Enabler.exitOverride (for dynamic DCO URLs)
+        carouselCode = carouselCode.replace(
+          /window\.open\s*\(\s*url\s*,\s*'_blank'\s*\)/g,
+          "Enabler.exitOverride('Background Exit', url)"
+        );
+        // Set href to '#' — actual navigation handled by Enabler.exitOverride
+        carouselCode = carouselCode.replace(/adClickArea\.href\s*=\s*item\.url\s*;/g, "adClickArea.href = '#';");
+        carouselCode = carouselCode.replace(/adClickArea\.href\s*=\s*url\s*;/g,       "adClickArea.href = '#';");
+
+        // Studio dynamicContent structure (from Google Studio generated code):
+        //   dynamicContent.feedName[rowIndex].URL.Url        <- URL is an object with .Url
+        //   dynamicContent.feedName[rowIndex].productImage.Url
+        //   dynamicContent.feedName[rowIndex].Headline       <- plain string
+        //   dynamicContent.feedName[rowIndex].Description
+        //   dynamicContent.feedName[rowIndex].price
+        //
+        // Feed array name (e.g. "ikeaFoodcontainers_Sheet1") is auto-detected at runtime.
+
+        const newSrc = [
+          '(function () {',
+          '  function init() {',
+          '    try {',
+          '      var dc = dynamicContent;',
+          '      // Auto-detect feed array (first array property in dynamicContent)',
+          '      var feedKey = Object.keys(dc).find(function(k) { return Array.isArray(dc[k]); });',
+          '      var rows = feedKey ? dc[feedKey] : [];',
+          '      var allItems = [];',
+          '      for (var i = 0; i < rows.length; i++) {',
+          '        var row = rows[i];',
+          '        var img = row.productImage && row.productImage.Url ? row.productImage.Url : "";',
+          '        if (!img) continue;',
+          '        allItems.push({',
+          '          image3:  img,',
+          '          data8:   row.Headline    || "",',
+          '          price16: row.Description || "",',
+          '          price4:  row.price       || "",',
+          '          url:     row.URL && row.URL.Url ? row.URL.Url : ""',
+          '        });',
+          '      }',
+          '      var images = allItems;',
+          '      window.images = images;',
+          '      function getRandomItems(arr, n) {',
+          '        var out = [], copy = arr.slice(), c = Math.min(n, copy.length);',
+          '        for (var j = 0; j < c; j++) out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);',
+          '        return out;',
+          '      }',
+          '      var selectedItems = getRandomItems(images, Math.max(1, Math.min(5, images.length)));',
+          '      window.selectedItems = selectedItems;',
+          carouselCode,
+          '    } catch (err) { console.warn("Ad init error", err); }',
+          '  }',
+          '  if (Enabler.isInitialized()) {',
+          '    init();',
+          '  } else {',
+          '    Enabler.addEventListener(studio.events.StudioEvent.INIT, init);',
+          '  }',
+          '})();'
+        ].join('\n');
+
+        return newSrc;
+      }
+
+      // ── Download ZIP (Google Studio DCO ready) ────────────────
       const downloadZipBtn = document.getElementById('download-zip-btn');
       if (downloadZipBtn) {
         downloadZipBtn.onclick = async () => {
           downloadZipBtn.disabled = true;
           downloadZipBtn.textContent = '⏳ Zipping…';
           try {
+            const profileId = (document.getElementById('profile-id-input').value || '').trim() || '0';
+
+            // Bundle GSAP locally — Studio may block external CDNs
+            let gsapJs = null;
+            try {
+              const gr = await fetch('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js');
+              if (gr.ok) gsapJs = await gr.text();
+            } catch (e) { console.warn('GSAP bundle fetch failed', e); }
+
+            // Minimal 1×1 white PNG — Studio requires a backup.png fallback
+            const backupB64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwADhQGAWjR9awAAAABJRU5ErkJggg==';
+
+            // Master ZIP contains one inner ZIP per ad size (upload each to Studio separately)
             const masterZip = new JSZip();
             const adFiles = ['index.html', 'style.css', 'animation.js', 'arrow.svg', 'ikea.svg',
                              'fonts/Noto IKEA Latin Bold.woff2', 'fonts/Noto IKEA Latin Regular.woff2'];
 
             for (const size of adSizes) {
-              const folder = masterZip.folder(size);
+              const [adW, adH] = size.split('x').map(Number);
+              const sizeZip = new JSZip(); // separate ZIP per size for Studio upload
+
               for (const filePath of adFiles) {
-                const url = `ads/${size}/${filePath}`;
                 try {
-                  const res = await fetch(url);
+                  const res = await fetch(`ads/${size}/${filePath}`);
                   if (!res.ok) continue;
-                  const isText = filePath.endsWith('.html') || filePath.endsWith('.css') || filePath.endsWith('.js') || filePath.endsWith('.svg');
-                  const data = isText ? await res.text() : await res.arrayBuffer();
-                  // ensure fonts sub-folder exists inside the ad folder
-                  if (filePath.startsWith('fonts/')) {
-                    folder.folder('fonts').file(filePath.replace('fonts/', ''), data);
+
+                  if (filePath === 'index.html') {
+                    sizeZip.file('index.html',
+                      transformIndexHtmlForStudio(await res.text(), adW, adH, profileId));
+                  } else if (filePath === 'animation.js') {
+                    sizeZip.file('animation.js',
+                      transformAnimationJsForStudio(await res.text()));
                   } else {
-                    folder.file(filePath, data);
+                    const isBinary = filePath.endsWith('.woff2');
+                    const data = isBinary ? await res.arrayBuffer() : await res.text();
+                    if (filePath.startsWith('fonts/')) {
+                      sizeZip.folder('fonts').file(filePath.replace('fonts/', ''), data);
+                    } else {
+                      sizeZip.file(filePath, data);
+                    }
                   }
                 } catch (e) { /* skip missing files */ }
               }
+
+              if (gsapJs) sizeZip.file('gsap.min.js', gsapJs);
+              sizeZip.file('backup.png', backupB64, { base64: true });
+
+              // Add inner ZIP to master (named by size)
+              const sizeBlob = await sizeZip.generateAsync({
+                type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+              });
+              masterZip.file(`${size}.zip`, sizeBlob);
             }
 
-            const blob = await masterZip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+            const blob = await masterZip.generateAsync({
+              type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+            });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'google-dco-ads.zip';
+            a.download = 'google-studio-dco-ads.zip';
             a.click();
             URL.revokeObjectURL(a.href);
           } catch (err) {
