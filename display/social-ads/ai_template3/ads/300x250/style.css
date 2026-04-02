@@ -203,7 +203,9 @@ html,body{
     font-weight:400;
     font-size:10px;
     color:#000;
-    white-space:normal;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
     pointer-events:none;
     z-index:6;
     box-sizing:content-box;
@@ -224,7 +226,7 @@ html,body{
     font-size:14px;
 }
 .price4::after {
-    content: "RSD";
+    content: attr(data-currency);
     vertical-align: super;
     font-size: 7px;
     margin-left: 0.2em;

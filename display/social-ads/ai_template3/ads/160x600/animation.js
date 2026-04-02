@@ -44,8 +44,9 @@
       image3:  (r['productImage'] ? r['productImage'].trim() : null),
       data8:   (r['Headline']     ? r['Headline'].trim()     : ''),
       price16: (r['Description']  ? r['Description'].trim()  : ''),
-      price4:  (r['price']        ? r['price'].trim()        : ''),
-      url:     (r['URL']          ? r['URL'].trim()          : '')
+      price4:    (r['price'] ? r['price'].trim() : ''),
+      currency:  (r['price'] && r['price'].includes('€')) ? '' : (r['currency'] && r['currency'].trim() ? r['currency'].trim() : 'RSD'),
+      url:       (r['URL'] ? r['URL'].trim() : '')
     })).filter(item => item.image3 && typeof item.image3 === 'string');
     window.images = images;
 
@@ -88,6 +89,7 @@
       const price4Field = document.createElement('div');
       price4Field.className = 'price4';
       price4Field.textContent = item.price4 || '';
+      price4Field.dataset.currency = item.currency;
       slide.appendChild(price4Field);
 
       const textField = document.createElement('div');

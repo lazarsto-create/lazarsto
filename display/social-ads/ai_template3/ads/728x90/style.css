@@ -120,7 +120,7 @@ html,body{
     margin-top: 2px;
 }
 .slide-price:after {
-  content: "RSD";
+  content: attr(data-currency);
   vertical-align: super;
   font-size: 10px;
   margin-left: 0.2em;

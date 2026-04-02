@@ -62,6 +62,7 @@
       data8: (r['Headline'] ? r['Headline'].trim() : ''),
       price16: (r['Description'] ? r['Description'].trim() : ''),
       price4: (r['price'] ? r['price'].trim() : ''),
+      currency: (r['price'] && r['price'].includes('€')) ? '' : (r['currency'] && r['currency'].trim() ? r['currency'].trim() : 'RSD'),
       url: (r['URL'] ? r['URL'].trim() : '')
     })).filter(item => item.image3 && typeof item.image3 === 'string');
     window.images = images;
@@ -119,6 +120,7 @@
       const price = document.createElement('div');
       price.className = 'slide-price';
       price.innerHTML = item.price4;
+      price.dataset.currency = item.currency;
       textContainer.appendChild(price);
       
       slide.appendChild(textContainer);
