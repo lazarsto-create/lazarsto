@@ -370,12 +370,29 @@
         return csvLabels[key] || key.replace(/[-_]/g, ' ');
       }
 
+      // ── fetch helper: try PHP first, fall back to list.json ──────
+      async function fetchList(dir) {
+        // Try dynamic PHP endpoint first (local Apache)
+        try {
+          const r = await fetch(`filelist.php?dir=${dir}`);
+          if (r.ok) {
+            const text = await r.text();
+            // PHP may return HTML 404 page — detect by first char
+            if (text.trimStart().startsWith('[') || text.trimStart().startsWith('"')) {
+              return JSON.parse(text);
+            }
+          }
+        } catch (_) {}
+        // Fall back to static list.json (GitHub Pages / any static host)
+        const r2 = await fetch(`${dir}/list.json`);
+        if (!r2.ok) throw new Error(`HTTP ${r2.status} loading ${dir}/list.json`);
+        return r2.json();
+      }
+
       // ── load ad list ──────────────────────────────────────────────
       let adSizes = [];
       try {
-        const res = await fetch('filelist.php?dir=ads');
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        adSizes = await res.json();
+        adSizes = await fetchList('ads');
       } catch (e) {
         shell.insertAdjacentHTML('beforeend',
           `<p style="color:red;padding:16px">Could not load ad list: ${e.message}</p>`);
@@ -542,17 +559,14 @@
 
       // ── CSV select ────────────────────────────────────────────────
       try {
-        const res = await fetch('filelist.php?dir=csv');
-        if (res.ok) {
-          const files = await res.json();
-          files.forEach(file => {
-            const opt = document.createElement('option');
-            opt.value = `csv/${file}`;
-            opt.textContent = csvLabel(file);
-            csvSelect.appendChild(opt);
-          });
-        }
-      } catch (e) { console.warn('filelist.php?dir=csv', e); }
+        const files = await fetchList('csv');
+        files.forEach(file => {
+          const opt = document.createElement('option');
+          opt.value = `csv/${file}`;
+          opt.textContent = csvLabel(file);
+          csvSelect.appendChild(opt);
+        });
+      } catch (e) { console.warn('csv list', e); }
       const savedCsv = localStorage.getItem('adCsvPath') || (csvSelect.options[0]?.value ?? '');
       if (savedCsv) csvSelect.value = savedCsv;
       csvSelect.onchange = () => { localStorage.setItem('adCsvPath', csvSelect.value); reloadAds(); };
@@ -576,20 +590,17 @@
 
       // ── Header image select ───────────────────────────────────────
       try {
-        const res = await fetch('filelist.php?dir=header_images');
-        if (res.ok) {
-          const files = await res.json();
-          const none = document.createElement('option');
-          none.value = ''; none.textContent = '— none —';
-          headerImageSelect.appendChild(none);
-          files.forEach(file => {
-            const opt = document.createElement('option');
-            opt.value = file;
-            opt.textContent = file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-            headerImageSelect.appendChild(opt);
-          });
-        }
-      } catch (e) { console.warn('filelist.php?dir=header_images', e); }
+        const files = await fetchList('header_images');
+        const none = document.createElement('option');
+        none.value = ''; none.textContent = '— none —';
+        headerImageSelect.appendChild(none);
+        files.forEach(file => {
+          const opt = document.createElement('option');
+          opt.value = file;
+          opt.textContent = file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+          headerImageSelect.appendChild(opt);
+        });
+      } catch (e) { console.warn('header_images list', e); }
       headerImageSelect.value = localStorage.getItem('adHeaderImageName') || '';
       headerImageSelect.onchange = () => {
         localStorage.setItem('adHeaderImageName', headerImageSelect.value);
@@ -599,20 +610,17 @@
 
       // ── Header video select ───────────────────────────────────────
       try {
-        const res = await fetch('filelist.php?dir=header_video');
-        if (res.ok) {
-          const files = await res.json();
-          const none = document.createElement('option');
-          none.value = ''; none.textContent = '— none —';
-          headerVideoSelect.appendChild(none);
-          files.forEach(file => {
-            const opt = document.createElement('option');
-            opt.value = file;
-            opt.textContent = file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-            headerVideoSelect.appendChild(opt);
-          });
-        }
-      } catch (e) { console.warn('filelist.php?dir=header_video', e); }
+        const files = await fetchList('header_video');
+        const none = document.createElement('option');
+        none.value = ''; none.textContent = '— none —';
+        headerVideoSelect.appendChild(none);
+        files.forEach(file => {
+          const opt = document.createElement('option');
+          opt.value = file;
+          opt.textContent = file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+          headerVideoSelect.appendChild(opt);
+        });
+      } catch (e) { console.warn('header_video list', e); }
       headerVideoSelect.value = localStorage.getItem('adHeaderVideoName') || '';
       headerVideoSelect.onchange = () => {
         localStorage.setItem('adHeaderVideoName', headerVideoSelect.value);
