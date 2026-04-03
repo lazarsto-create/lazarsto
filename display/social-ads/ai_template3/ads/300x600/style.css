@@ -105,6 +105,7 @@ html,body{
     border:1px solid #1456a2;
     background:#ffffff;
     box-sizing: border-box;
+    cursor: pointer;
 }
 #ad-clickarea{
     position:absolute;
@@ -230,7 +231,7 @@ html,body{
 /* Pagination bullets styling */
 .pagination{
     position:absolute;
-    bottom:70px;
+    bottom:65px;
     left:50%;
     transform:translateX(-50%);
     display:flex;

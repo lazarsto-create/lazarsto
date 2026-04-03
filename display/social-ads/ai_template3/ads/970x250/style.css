@@ -26,6 +26,7 @@ html,body{
     border:1px solid #1456a2;
     background:#ffffff;
     box-sizing: border-box;
+    cursor: pointer;
 }
 #ad-clickarea{
     position:absolute;
@@ -167,22 +168,38 @@ html,body{
     left: calc(345px + (720px - 250px) * 0.39);
     transform:translateX(-50%);
     display:flex;
-    gap:6px;
+    gap:2px;
     z-index:50;
     pointer-events:none;
 }
 .bullet{
-    width:8px;
-    height:8px;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    cursor:pointer;
+    pointer-events:auto;
+    position:relative;
+    background:transparent;
+    border:none;
+    box-sizing:border-box;
+    flex-shrink:0;
+}
+.bullet::before{
+    content:'';
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:10px;
+    height:10px;
     border-radius:50%;
     border:1px solid #1456a2;
     background-color:#ffffff;
-    cursor:pointer;
     transition:background-color 0.3s ease;
-    pointer-events:auto;
+    box-sizing:border-box;
 }
-.bullet.active {
-  background-color: #fbdc0f;
+.bullet.active::before{
+    background-color:#fbdc0f;
 }
 
 .cta{
